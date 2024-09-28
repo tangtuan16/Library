@@ -24,17 +24,28 @@
 
         <activity
             android:name="com.example.Views.Activitys.MapsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_maps" />
+            android:exported="false" />
+        <activity
+            android:name="com.example.Views.Activitys.AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.Views.Activitys.BookBorrowedActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.Views.Activitys.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.Views.Activitys.LibraryInforActivity"
+            android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

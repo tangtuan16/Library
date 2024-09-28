@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Library</string>
+    <string name="app_name">Library</string>
     <string name="home">Trang chủ</string>
     <string name="library">Thư viện</string>
     <string name="account">Cá nhân</string>
