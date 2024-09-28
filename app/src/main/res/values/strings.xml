@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Library</string>
+    <string name="home">Trang chủ</string>
+    <string name="library">Thư viện</string>
+    <string name="account">Cá nhân</string>
+    <string name="more">Thêm</string>
+    <string name="mymap_api_key">AIzaSyBiV-PGYdm2hgC38MqOPzAIhygaX1SleAg</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
