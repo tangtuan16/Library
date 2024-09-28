@@ -6,31 +6,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.Contracts.MainContract;
+import com.example.Contracts.OnClickContracts;
 import com.example.btl_libary.R;
 
 import java.util.List;
 
 public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.ViewHolder> {
-    private List<String> options;
-    private Context context;
+    private final List<String> options;
+    private final Context context;
+    private OnClickContracts.OnItemClickListener listener;
 
     public MoreAdapter(Context context, List<String> options) {
         this.context = context;
         this.options = options;
     }
 
+    public void setOnItemClickListener(OnClickContracts.OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.more_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String option = options.get(position);
         holder.optionTextView.setText(option);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+              listener.onItemClick((View) v,position);
+            }
+        });
     }
 
     @Override
@@ -38,10 +52,10 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.ViewHolder> {
         return options.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView optionTextView;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public final TextView optionTextView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             optionTextView = itemView.findViewById(R.id.optionTextView);
         }
