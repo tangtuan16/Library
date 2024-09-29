@@ -5,9 +5,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -32,6 +34,7 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
     private AutoCompleteTextView edtDesc;
     private String edtTitleStr, edtAuthorStr, edtDescStr;
     private LinearLayout linearLayout;
+    private ImageView hide;
 
     @Override
 
@@ -47,11 +50,12 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
         autoCompleteTextView.setAdapter(adapter);
 
         linearLayout = findViewById(R.id.linearSearch);
+        rcvSearchResuilt = findViewById(R.id.rcvSearchResuilt);
+        hide = findViewById(R.id.imgHide);
         edtTitle = findViewById(R.id.edtTitle);
         edtAuthor = findViewById(R.id.edtAuthor);
         edtDesc = findViewById(R.id.edtDesc);
         btnSearch = findViewById(R.id.btnSearch);
-        rcvSearchResuilt = findViewById(R.id.rcvSearchResuilt);
 
         BookRepository bookRepository = new BookRepository(this);
         btnSearch.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +66,25 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
                 edtDescStr = edtDesc.getText().toString().trim();
                 presenter.loadSearchBook(edtTitleStr, edtAuthorStr, edtDescStr);
                 presenter.NotifySearch(edtTitleStr, edtAuthorStr, edtDescStr);
+            }
+        });
+        hide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (linearLayout.isShown()) {
+                    hideLinearSearch();
+                } else {
+                    showLinearSearch();
+                }
+            }
+        });
+        rcvSearchResuilt.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && linearLayout.isShown()) {
+                    hideLinearSearch();
+                }
             }
         });
     }
@@ -83,6 +106,20 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
     @Override
     public void showError(String mess) {
         Toast.makeText(this, mess, Toast.LENGTH_SHORT).show();
+    }
+
+    public void hideLinearSearch() {
+        linearLayout.animate()
+                .alpha(0.0f)
+                .setDuration(200)
+                .withEndAction(() -> linearLayout.setVisibility(View.GONE));
+    }
+
+    public void showLinearSearch() {
+        linearLayout.setVisibility(View.VISIBLE);
+        linearLayout.animate()
+                .alpha(1.0f)
+                .setDuration(200);
     }
 
 

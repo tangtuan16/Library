@@ -4,14 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:fontFamily="@font/quicksand"
-        android:gravity="center"
-        android:text="TÌM KIẾM SÁCH"
-        android:textSize="26sp" />
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/quicksand"
+            android:gravity="center"
+            android:text="TÌM KIẾM SÁCH"
+            android:textSize="28sp" />
+
+        <ImageView
+            android:id="@+id/imgHide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/list" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearSearch"
@@ -64,16 +79,16 @@
                 android:paddingLeft="18dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Tìm kiếm" />
+
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="Tìm kiếm" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvSearchResuilt"
