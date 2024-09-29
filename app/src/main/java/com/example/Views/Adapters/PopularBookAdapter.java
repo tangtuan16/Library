@@ -14,22 +14,22 @@ import com.example.btl_libary.R;
 
 import java.util.List;
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
+public class PopularBookAdapter extends RecyclerView.Adapter<PopularBookAdapter.BookHolder> {
     private List<Book> list;
 
-    public BookAdapter(List<Book> list) {
+    public PopularBookAdapter(List<Book> list) {
         this.list = list;
     }
 
     @NonNull
     @Override
-    public BookHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_item, parent, false);
-        return new BookHolder(view);
+    public PopularBookAdapter.BookHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.popularbook_item, parent, false);
+        return new PopularBookAdapter.BookHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PopularBookAdapter.BookHolder holder, int position) {
         Book book = list.get(position);
         holder.imgAvt.setImageResource(book.getAvt());
         holder.txtTitle.setText(book.getTitle());
@@ -39,7 +39,10 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
 
     @Override
     public int getItemCount() {
-        return list != null ? list.size() : 0;
+        if (list != null) {
+            return list.size();
+        } else
+            return 0;
     }
 
     public class BookHolder extends RecyclerView.ViewHolder {
@@ -48,7 +51,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
 
         public BookHolder(@NonNull View itemView) {
             super(itemView);
-            imgAvt = itemView.findViewById(R.id.imgAvt);
+            imgAvt = itemView.findViewById(R.id.imgAvata);
             txtTitle = itemView.findViewById(R.id.txtTitle);
             txtAuthor = itemView.findViewById(R.id.txtAuthor);
             txtCategory = itemView.findViewById(R.id.txtCategory);

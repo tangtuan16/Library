@@ -1,19 +1,29 @@
 package com.example.Contracts;
 
-import android.database.Cursor;
-
 import com.example.Models.Book;
 
 import java.util.List;
 
 public interface BookContract {
     interface View {
-        void displayBook(List<Book> list);
+        interface HomeView {
+            void displayBook(List<Book> list);
 
-        void showSuccess(String mess);
+            void showSuccess(String mess);
 
-        void showError(String mess);
+            void showError(String mess);
 
+            void displayAuthor(List<String> authorBooks);
+
+        }
+
+        interface LibraryView {
+            void displayBook(List<Book> list);
+
+            void showSuccess(String mess);
+
+            void showError(String mess);
+        }
     }
 
     interface Presenter {
