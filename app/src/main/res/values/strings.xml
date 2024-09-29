@@ -5,6 +5,7 @@
     <string name="account">Cá nhân</string>
     <string name="more">Thêm</string>
     <string name="mymap_api_key">AIzaSyBiV-PGYdm2hgC38MqOPzAIhygaX1SleAg</string>
+    <string name="weather_api_key">dc2db71cba3442bba46114051242909</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string-array name="literature_genres">
         <item>Tiểu thuyết</item>
