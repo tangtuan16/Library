@@ -20,6 +20,7 @@ public class BookPresenter implements BookContract.Presenter {
         this.view = view;
     }
 
+
     @Override
     public void loadBook() {
         List<Book> books = repository.getAllBooks();
@@ -53,19 +54,11 @@ public class BookPresenter implements BookContract.Presenter {
         }
     }
 
-    public void searchBooks(String selection, String[] selectionArgs) {
-        cursor = repository.searchBooks(selection, selectionArgs);
-        if (cursor != null) {
-            view.showBooks(cursor);
-        } else {
-            view.showError("Sách không tồn tại !");
-        }
-    }
 
     public void getAllBooks() {
         cursor = (Cursor) repository.getAllBooks();
         if (cursor != null) {
-            view.showBooks(cursor);
+           view.showSuccess("Thành công !");
         } else {
             view.showError("Không có dữ liệu !");
         }

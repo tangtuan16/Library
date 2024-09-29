@@ -14,7 +14,6 @@ public interface BookContract {
 
         void showError(String mess);
 
-        void showBooks(Cursor cursor);
     }
 
     interface Presenter {

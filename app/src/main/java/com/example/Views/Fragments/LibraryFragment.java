@@ -90,8 +90,4 @@ public class LibraryFragment extends Fragment implements BookContract.View {
         Toast.makeText(getContext(), mess, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showBooks(Cursor cursor) {
-
-    }
 }

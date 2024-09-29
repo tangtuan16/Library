@@ -6,4 +6,14 @@
     <string name="more">Thêm</string>
     <string name="mymap_api_key">AIzaSyBiV-PGYdm2hgC38MqOPzAIhygaX1SleAg</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string-array name="literature_genres">
+        <item>Tiểu thuyết</item>
+        <item>Thơ</item>
+        <item>Truyện ngắn</item>
+        <item>Tiểu luận</item>
+        <item>Kịch</item>
+        <item>Hồi ký</item>
+        <item>Truyện tranh</item>
+    </string-array>
+
 </resources>
