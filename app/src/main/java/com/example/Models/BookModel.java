@@ -10,11 +10,11 @@ import com.example.Untils.DBManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookModel {
+public class BookRepository {
     private DBManager dbManager;
     private SQLiteDatabase database;
 
-    public BookModel(Context context) {
+    public BookRepository(Context context) {
         this.dbManager = new DBManager(context);
     }
 
@@ -30,28 +30,7 @@ public class BookModel {
                 int avt = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
                 String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-                String desc = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-                bookList.add(new Book(id, avt, title, author, desc));
-            }
-            cursor.close();
-        }
-        dbManager.Close();
-        return bookList;
-    }
-
-    public List<Book> getPopularBooks() {
-        List<Book> bookList = new ArrayList<>();
-        dbManager.Open();
-        database = dbManager.getDatabase();
-        String sql = "SELECT * FROM books limit 6 offset 5";
-        Cursor cursor = database.rawQuery(sql, null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                int avt = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
-                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-                String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-                String desc = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                String desc = cursor.getString(cursor.getColumnIndexOrThrow("description"));
                 bookList.add(new Book(id, avt, title, author, desc));
             }
             cursor.close();
@@ -77,7 +56,7 @@ public class BookModel {
             selectionArgsList.add("%" + edtAuthorStr + "%");
         }
         if (!edtDescStr.isEmpty()) {
-            sqlBuilder.append(" AND category LIKE ?");
+            sqlBuilder.append(" AND description LIKE ?");
             selectionArgsList.add("%" + edtDescStr + "%");
         }
 
@@ -93,7 +72,7 @@ public class BookModel {
                     int avt = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
                     String bookTitle = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                     String bookAuthor = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-                    String bookDesc = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                    String bookDesc = cursor.getString(cursor.getColumnIndexOrThrow("description"));
                     bookList.add(new Book(id, avt, bookTitle, bookAuthor, bookDesc));
                 }
             } finally {
@@ -105,57 +84,15 @@ public class BookModel {
         return bookList;
     }
 
-    public List<String> getAuthorBooks() {
-        List<String> authorBooks = new ArrayList<>();
-        String[] authors = {"Nam Cao", "Nguyễn Nhật Ánh", "Xuân Diệu"};
-        for (String author : authors) {
-            authorBooks.add(author);
-        }
-//        dbManager.Open();
-//        database = dbManager.getDatabase();
-//        for (String author : authors) {
-//            String sql = "SELECT author FROM books WHERE author = ?";
-//            String[] selectionArgs = {author};
-//            Cursor cursor = database.rawQuery(sql, selectionArgs);
-//            if (cursor != null) {
-//                while (cursor.moveToNext()) {
-//                    String bookTitle = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-//                    authorBooks.add(author);
-//                }
-//                cursor.close();
-//            }
-//        }
-//        dbManager.Close();
-        return authorBooks;
-    }
 
-
-//    public List<String> getAuthorBooks(String author) {
-//        List<String> authorBooks = new ArrayList<>();
-//        dbManager.Open();
-//        database = dbManager.getDatabase();
-//        String sql = "SELECT * FROM books WHERE author = ?";
-//        String[] selectionArgs = {author};
-//        Cursor cursor = database.rawQuery(sql, selectionArgs);
-//        if (cursor != null) {
-//            while (cursor.moveToNext()) {
-//                String mAuthor = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-//                authorBooks.add(mAuthor);
-//            }
-//        }
-//        dbManager.Close();
-//        return authorBooks;
-//    }
-
-
-    public long insertBook(int avatar, String title, String author, String category) {
+    public long insertBook(int avatar, String title, String author, String desc) {
         dbManager.Open();
         database = dbManager.getDatabase();
         ContentValues values = new ContentValues();
         values.put("avatar", avatar);
         values.put("title", title);
         values.put("author", author);
-        values.put("category", category);
+        values.put("description", desc);
         long result = database.insert("books", null, values);
         dbManager.Close();
         return result;
@@ -198,7 +135,7 @@ public class BookModel {
             if (!selection.isEmpty()) {
                 selection += " AND ";
             }
-            selection += "category LIKE ?";
+            selection += "description LIKE ?";
             selectionArgs.add("%" + edtDescStr + "%");
         }
 
@@ -214,32 +151,4 @@ public class BookModel {
         return cursor;
     }
 
-    public List<Book> getBooksByAuthor(String author) {
-        List<Book> bookList = new ArrayList<>();
-        dbManager.Open();
-        SQLiteDatabase database = dbManager.getDatabase();
-
-        String sql = "SELECT * FROM books WHERE author LIKE ?";
-        String[] selectionArgs = new String[]{"%" + author + "%"};
-
-        Cursor cursor = database.rawQuery(sql, selectionArgs);
-
-        if (cursor != null) {
-            try {
-                while (cursor.moveToNext()) {
-                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                    int avt = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
-                    String bookTitle = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-                    String bookAuthor = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-                    String bookDesc = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-                    bookList.add(new Book(id, avt, bookTitle, bookAuthor, bookDesc));
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-
-        dbManager.Close();
-        return bookList;
-    }
 }

@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:ignore="ExtraText">
 
-    <EditText
-        android:id="@+id/editUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tên đăng nhập" />
+    <ImageView
+        android:id="@+id/imageViewAvatar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/defaultavatar"
+        android:scaleType="centerCrop" />
 
-    <EditText
-        android:id="@+id/editPassword"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/buttonChooseImage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Mật khẩu"
-        android:inputType="textPassword" />
+        android:text="Chọn hình ảnh" />
 
     <EditText
         android:id="@+id/editFullName"
@@ -37,14 +40,8 @@
         android:hint="Số điện thoại" />
 
     <Button
-        android:id="@+id/buttonRegister"
+        android:id="@+id/buttonSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Đăng ký" />
-
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Đã có tài khoản? Đăng nhập" />
+        android:text="Lưu thông tin" />
 </LinearLayout>

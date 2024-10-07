@@ -1,122 +1,92 @@
 package com.example.Views.Activitys;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.Untils.DBManager;
 import com.example.btl_libary.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText editName, editEmail, editPasword, editPhone;
-    Button btndangKi;
-    TextView txtDaDK;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    String userID;
+    private EditText editUsername, editPassword, editFullName, editEmail, editPhone;
+    private Button buttonRegister, buttonLogin;
+    private DBManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
-        editName = findViewById(R.id.editName);
-        editEmail = findViewById(R.id.editEmail);
-        editPasword = findViewById(R.id.editPasword);
-        editPhone = findViewById(R.id.editPhone);
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-        btndangKi = findViewById(R.id.btndangKi);
-        txtDaDK = findViewById(R.id.txtDaDK);
 
-        if(fAuth.getCurrentUser()!=null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            finish();
+        dbManager = new DBManager(this);
+        dbManager.open();
+
+        editUsername = findViewById(R.id.editUsername);
+        editPassword = findViewById(R.id.editPassword);
+        editFullName = findViewById(R.id.editFullName);
+        editEmail = findViewById(R.id.editEmail);
+        editPhone = findViewById(R.id.editPhone);
+        buttonRegister = findViewById(R.id.buttonRegister);
+        buttonLogin = findViewById(R.id.buttonLogin);
+
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerUser();
+            }
+        });
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            }
+        });
+    }
+
+    private void registerUser() {
+        String username = editUsername.getText().toString().trim();
+        String password = editPassword.getText().toString().trim();
+        String fullName = editFullName.getText().toString().trim();
+        String email = editEmail.getText().toString().trim();
+        String phone = editPhone.getText().toString().trim();
+
+        // Kiểm tra các trường nhập
+        if (username.isEmpty() || password.isEmpty() || fullName.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // Kiểm tra định dạng email
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Vui lòng nhập đúng định dạng email", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        btndangKi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = editEmail.getText().toString().trim();
-                String password = editPasword.getText().toString().trim();
-                String name = editName.getText().toString().trim();
-                String phone = editPhone.getText().toString().trim();
+        // Kiểm tra độ dài mật khẩu
+        if (password.length() < 6) {
+            Toast.makeText(this, "Mật khẩu phải có ít nhất 6 ký tự", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                if (email.isEmpty()) {
-                    editEmail.setError("Không được để trống email");
-                    editEmail.requestFocus();
-                    return;
-                }
-                if (password.isEmpty()){
-                    editPasword.setError("Không được để trống mật khẩu");
-                    editPasword.requestFocus();
-                    return;
-                }
-                if (password.length()<6){
-                    editPasword.setError("Mật khẩu phải có ít nhất 6 kí tự");
-                    editPasword.requestFocus();
-                    return;
-                }
+        // Gọi phương thức đăng ký
+        long userId = dbManager.registerUser(username, password, fullName, email, phone);
+        if (userId != -1) {
+            Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            finish();
+        } else {
+            Toast.makeText(this, "Đăng ký không thành công, vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-                //register user in Firebase
-
-                fAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(RegisterActivity.this, "Đã đăng ký", Toast.LENGTH_SHORT).show();
-                            userID = fAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = fStore.collection("users").document(userID);
-                            Map<String,Object> user = new HashMap<>();
-                            user.put("fName",name);
-                            user.put("email",email);
-                            user.put("phone",phone);
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "onSuccess: user profile is created for "+ userID);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG, "onFailure: " + e.toString());
-                                }
-                            });
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    }else{
-                            Toast.makeText(RegisterActivity.this, "Lỗi đăng kí" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-        });
-        txtDaDK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            }
-        });
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dbManager.close();
     }
 }

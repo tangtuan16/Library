@@ -17,7 +17,7 @@
 
     <Button
         android:id="@+id/btnchangePassword"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         android:onClick="logout"
@@ -45,7 +45,7 @@
 
     <Button
         android:id="@+id/btndangXuat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="152dp"
         android:onClick="logout"
@@ -108,7 +108,7 @@
 
     <Button
         android:id="@+id/btnchangeProfile"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Thay đổi thông tin"
         app:layout_constraintBottom_toTopOf="@+id/btndangXuat"
