@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.Models.User;
+
 public class DBManager {
     private SQLiteOpenHelper dbHelper;
     private SQLiteDatabase database;
@@ -20,30 +22,18 @@ public class DBManager {
 
     public static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "Library";
-        private static final int DATABASE_VERSION = 15; // Tăng version để trigger onUpgrade
+        private static final int DATABASE_VERSION = 22; // Tăng version để trigger onUpgrade
 
-        // Bảng books hiện tại
-        private static final String TABLE_BOOKS = "books";
-        private static final String TABLE_CREATE_BOOK =
-                "CREATE TABLE " + TABLE_BOOKS + " (" +
+        private static final String TABLE_CREATE_USERS =
+                "CREATE TABLE users (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "avatar INTEGER, " +
-                        "title TEXT, " +
-                        "author TEXT, " +
-                        "description TEXT, " +
-                        "firebase_uid TEXT);"; // Thêm trường firebase_uid
-
-        // Bảng user_books để theo dõi sách của từng người dùng
-        private static final String TABLE_USER_BOOKS = "user_books";
-        private static final String TABLE_CREATE_USER_BOOKS =
-                "CREATE TABLE " + TABLE_USER_BOOKS + " (" +
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "firebase_uid TEXT NOT NULL, " +
-                        "book_id INTEGER, " +
-                        "reading_status TEXT, " + // Ví dụ: 'reading', 'completed', 'want_to_read'
-                        "last_read_date DATETIME, " +
-                        "FOREIGN KEY(book_id) REFERENCES books(id), " +
-                        "UNIQUE(firebase_uid, book_id));";
+                        "username TEXT UNIQUE, " +
+                        "password TEXT, " +
+                        "fullName TEXT, " +
+                        "email TEXT, " +
+                        "phone TEXT, " +
+                        "avatar BLOB);";
+        private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, avatar INTEGER, title TEXT, author TEXT,category TEXT);";
 
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -52,19 +42,23 @@ public class DBManager {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(TABLE_CREATE_BOOK);
-            db.execSQL(TABLE_CREATE_USER_BOOKS);
+            db.execSQL(TABLE_CREATE_USERS);
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            if (oldVersion < 9) {
+            if (oldVersion < newVersion) {
                 db.execSQL("CREATE TABLE books_backup AS SELECT * FROM books;");
+                db.execSQL("CREATE TABLE users_backup AS SELECT * FROM users;");
                 db.execSQL("DROP TABLE IF EXISTS books");
-                db.execSQL("DROP TABLE IF EXISTS user_books");
+                db.execSQL("DROP TABLE IF EXISTS users");
                 onCreate(db);
-                db.execSQL("INSERT INTO books (id, avatar, title, author, description) " +
-                        "SELECT id, avatar, title, author, description FROM books_backup;");
+                db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
+                        "SELECT id, avatar, title, author, category FROM books_backup;");
+                db.execSQL("INSERT INTO users (id, username , password , fullName , email, phone, avatar) " +
+                        "SELECT id, username , password , fullName , email, phone, avatar FROM users_backup;");
                 db.execSQL("DROP TABLE IF EXISTS books_backup");
+                db.execSQL("DROP TABLE IF EXISTS users_backup");
             }
         }
     }
@@ -79,65 +73,86 @@ public class DBManager {
         }
     }
 
-    public long InsertBook(ContentValues values, String firebaseUid) {
-        values.put("firebase_uid", firebaseUid);
-        return database.insert("books", null, values);
-    }
-
-//    public int UpdateBook(ContentValues values, String whereClause, String[] whereArgs, String firebaseUid) {
-//        Cursor cursor = database.query("books",
-//                new String[]{"firebase_uid"},
-//                whereClause,
-//                whereArgs,
-//                null, null, null);
-//
-//        if (cursor.moveToFirst()) {
-//            String bookOwnerUid = cursor.getString(cursor.getColumnIndex("firebase_uid"));
-//            if (firebaseUid.equals(bookOwnerUid)) {
-//                return database.update("books", values, whereClause, whereArgs);
-//            }
-//        }
-//        cursor.close();
-//        return 0; // Trả về 0 nếu không có quyền update
-//    }
-
-//    // Phương thức xóa sách với kiểm tra quyền
-//    public int DeleteBook(String whereClause, String[] whereArgs, String firebaseUid) {
-//        // Kiểm tra quyền trước khi delete
-//        Cursor cursor = database.query("books",
-//                new String[]{"firebase_uid"},
-//                whereClause,
-//                whereArgs,
-//                null, null, null);
-//
-//        if (cursor.moveToFirst()) {
-//            String bookOwnerUid = cursor.getString(cursor.getColumnIndex("firebase_uid"));
-//            if (firebaseUid.equals(bookOwnerUid)) {
-//                return database.delete("books", whereClause, whereArgs);
-//            }
-//        }
-//        cursor.close();
-//        return 0; // Trả về 0 nếu không có quyền delete
-//    }
-
-    // Thêm sách vào thư viện người dùng
-    public long AddBookToUserLibrary(String firebaseUid, long bookId, String readingStatus) {
+    //Code e Sơn
+    public long registerUser(String username, String password, String fullName, String email, String phone) {
         ContentValues values = new ContentValues();
-        values.put("firebase_uid", firebaseUid);
-        values.put("book_id", bookId);
-        values.put("reading_status", readingStatus);
-        values.put("last_read_date", System.currentTimeMillis());
-        return database.insert("user_books", null, values);
+        values.put("username", username);
+        values.put("password", password);
+        values.put("fullName", fullName);
+        values.put("email", email);
+        values.put("phone", phone);
+        return database.insert("users", null, values);
     }
 
-    // Lấy danh sách sách của người dùng
-    public Cursor GetUserBooks(String firebaseUid) {
-        return database.rawQuery(
-                "SELECT books.*, user_books.reading_status, user_books.last_read_date " +
-                        "FROM books " +
-                        "INNER JOIN user_books ON books.id = user_books.book_id " +
-                        "WHERE user_books.firebase_uid = ?",
-                new String[]{firebaseUid}
-        );
+    public boolean loginUser(String username, String password) {
+        String query = "SELECT * FROM users WHERE username=? AND password=?";
+        Cursor cursor = database.rawQuery(query, new String[]{username, password});
+        boolean isValid = cursor.getCount() > 0;
+        cursor.close();
+        return isValid;
     }
+
+    public int updateUser(int userId, String password, String fullName, String email, String phone, byte[] avatar) {
+        ContentValues values = new ContentValues();
+        if (password != null) {
+            values.put("password", password);
+        }
+        if (fullName != null) {
+            values.put("fullName", fullName);
+        }
+        if (email != null) {
+            values.put("email", email);
+        }
+        if (phone != null) {
+            values.put("phone", phone);
+        }
+        if (avatar != null) {
+            values.put("avatar", avatar);
+        }
+        return database.update("users", values, "id=?", new String[]{String.valueOf(userId)});
+    }
+
+    public User getUserById(int userId) {
+        Cursor cursor = database.query("users", null, "id=?", new String[]{String.valueOf(userId)}, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                User user = new User(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("username")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("password")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("fullName")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("email")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("phone")),
+                        cursor.getBlob(cursor.getColumnIndexOrThrow("avatar"))
+                );
+                cursor.close();
+                return user;
+            }
+            cursor.close();
+        }
+        return null;
+    }
+
+    public User getUserByUsername(String username) {
+        Cursor cursor = database.query("users", null, "username=?", new String[]{username}, null, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                User user = new User(
+                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("username")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("password")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("fullName")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("email")),
+                        cursor.getString(cursor.getColumnIndexOrThrow("phone")),
+                        cursor.getBlob(cursor.getColumnIndexOrThrow("avatar"))
+                );
+                cursor.close();
+                return user;
+            }
+            cursor.close();
+        }
+        return null;
+    }
+
+
 }

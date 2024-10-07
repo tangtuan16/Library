@@ -1,15 +1,19 @@
 package com.example.Views.Fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,27 +27,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Contracts.BookContract;
+import com.example.Contracts.UserContract;
 import com.example.Contracts.WeatherContract;
 import com.example.Models.Book;
+import com.example.Models.User;
 import com.example.Models.Weather;
 import com.example.Presenters.BookPresenter;
+import com.example.Presenters.UserPresenter;
 import com.example.Presenters.WeatherPresenter;
 import com.example.Views.Activitys.MainActivity;
 import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.HourlyAdapter;
 import com.example.Views.Adapters.PopularBookAdapter;
 import com.example.btl_libary.R;
-import com.google.firebase.firestore.auth.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class HomeFragment extends Fragment implements WeatherContract.View, BookContract.View.HomeView {
+public class HomeFragment extends Fragment implements WeatherContract.View, BookContract.View.HomeView, UserContract.View {
     private ImageView weatherIcon, userAvatar;
     private TextView rainfall, userName;
     private RecyclerView hourlyTemperature, rcvHightLight;
     private WeatherPresenter weatherPresenter;
     private BookPresenter bookPresenter;
+    private UserPresenter userPresenter;
     private ScrollView scrollView;
     private ListView lvAuthor;
     private List<String> authors;
@@ -63,6 +70,8 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         weatherPresenter = new WeatherPresenter(this, getContext());
         bookPresenter = new BookPresenter(getContext(), this);
+        userPresenter = new UserPresenter(getContext(), this);
+        userPresenter.loadUsers();
         bookPresenter.loadPopularBooks();
         bookPresenter.loadAuthorBooks();
         weatherPresenter.loadWeather(getString(R.string.weather_api_key), getString(R.string.locatiton));
@@ -133,6 +142,18 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         authors = authorBooks;
     }
 
+    @Override
+    public void displayUser(List<User> userList) {
+        if (userList != null && !userList.isEmpty()) {
+            User user = userList.get(0);
+            if (user.getAvatar() != null) {
+                Bitmap avatarBitmap = BitmapFactory.decodeByteArray(user.getAvatar(), 0, user.getAvatar().length);
+                Log.d("CheckInfor", "avatarBitmap:  " + avatarBitmap + "    userName    " + user.getFullName());
+                userAvatar.setImageBitmap(avatarBitmap);
+            }
+            userName.setText(user.getFullName());
+        }
+    }
 
     @Override
     public void showSuccess(String mess) {
@@ -143,6 +164,29 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     public void showError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
+
+    public void showBookDetailsPopup(View anchorView, Book book) {
+        View popupView = getLayoutInflater().inflate(R.layout.popup_book_details, null);
+        final PopupWindow popupWindow = new PopupWindow(popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true);
+        TextView bookTitle = popupView.findViewById(R.id.bookTitle);
+        TextView bookAuthor = popupView.findViewById(R.id.bookAuthor);
+        TextView bookDescription = popupView.findViewById(R.id.bookDescription);
+        bookTitle.setText(book.getTitle());
+        bookAuthor.setText(book.getAuthor());
+        bookDescription.setText(book.getContent());
+        popupWindow.showAsDropDown(anchorView, 0, 0);
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
+
 }
 
 

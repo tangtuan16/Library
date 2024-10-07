@@ -1,12 +1,10 @@
 package com.example.Presenters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
 import com.example.Models.BookModel;
-import com.google.firebase.firestore.auth.User;
 
 import java.util.List;
 

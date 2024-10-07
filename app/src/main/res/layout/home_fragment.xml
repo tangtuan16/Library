@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/quicksand"
-                        android:text="Trạng thái" />
+                        android:text="Đang hoạt động" />
                 </LinearLayout>
 
                 <de.hdodenhof.circleimageview.CircleImageView

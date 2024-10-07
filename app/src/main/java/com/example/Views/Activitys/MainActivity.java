@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         if (navigationView.isShown()) {
             navigationView.animate()
                     .alpha(0.0f)
-                    .setDuration(100)
+                    .setDuration(10)
                     .withEndAction(new Runnable() {
                         @Override
                         public void run() {
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             navigationView.setVisibility(View.VISIBLE);
             navigationView.animate()
                     .alpha(1.0f)
-                    .setDuration(100);
+                    .setDuration(10);
         }
     }
 

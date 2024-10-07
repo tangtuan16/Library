@@ -48,4 +48,16 @@
         android:text="Category"
         android:textSize="10sp" />
 
+    <Button
+        android:id="@+id/btnPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_custom"
+        android:textStyle="italic"
+        android:fontFamily="@font/quicksand"
+        android:textAllCaps="false"
+        android:text="Preview" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
