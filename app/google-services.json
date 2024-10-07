@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "361075569700",
+    "project_id": "btl-libary",
+    "storage_bucket": "btl-libary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361075569700:android:116e07aa85e8e62b6d94b1",
+        "android_client_info": {
+          "package_name": "com.example.btl_libary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB16APZJVAQlEh0kg7-aoJpdj5Chem5NSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
