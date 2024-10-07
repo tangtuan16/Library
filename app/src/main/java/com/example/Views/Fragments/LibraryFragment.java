@@ -55,12 +55,6 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
         });
         if (getContext() != null) {
             presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
-            //            presenter.addBook(R.drawable.tuay, "Từ Ấy ", " Tố Hữu ", "Thơ");
-//            presenter.addBook(R.drawable.baybuocmuahe, "Bảy bước đến mùa hè", " Nguyễn Nhật Ánh ", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.chotoixinmotvedituoitho748382, "Cho tôi xin một vé đi tổi thơ", " Nguyễn Nhật Ánh ", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.kinhvanhoa, "Kính Vạn Hoa", " Nguyễn Nhật Ánh ", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.langmanrong, "Làng Mặn Rồng", "Phạm Công Thiện", "Truyện ngắn");
-//            presenter.addBook(R.drawable.nguoicongvat, "Người Cầm Vật", "Nguyễn Huy Thiệp", "Tiểu luận");
             presenter.loadBook();
         }
     }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -44,6 +45,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
+    implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("androidx.core:core:1.7.0")
+    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("org.tensorflow:tensorflow-lite:2.5.0")
 }

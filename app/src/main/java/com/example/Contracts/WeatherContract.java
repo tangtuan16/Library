@@ -21,6 +21,7 @@ public interface WeatherContract {
         void showWeather(Weather weather);
 
         void showError(String message);
+
     }
 
 }

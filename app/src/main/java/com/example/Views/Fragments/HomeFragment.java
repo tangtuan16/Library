@@ -33,20 +33,20 @@ import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.HourlyAdapter;
 import com.example.Views.Adapters.PopularBookAdapter;
 import com.example.btl_libary.R;
+import com.google.firebase.firestore.auth.User;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class HomeFragment extends Fragment implements WeatherContract.View, BookContract.View.HomeView {
-    private ImageView weatherIcon;
-    private TextView rainfall;
+    private ImageView weatherIcon, userAvatar;
+    private TextView rainfall, userName;
     private RecyclerView hourlyTemperature, rcvHightLight;
     private WeatherPresenter weatherPresenter;
     private BookPresenter bookPresenter;
     private ScrollView scrollView;
     private ListView lvAuthor;
     private List<String> authors;
-    private SearchActivity searchActivity;
 
     @Nullable
     @Override
@@ -57,6 +57,8 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         rcvHightLight = view.findViewById(R.id.rcvHightLight);
         hourlyTemperature = view.findViewById(R.id.hourlyTemperature);
         lvAuthor = view.findViewById(R.id.lvAuthorPopular);
+        userAvatar = view.findViewById(R.id.imgUser);
+        userName = view.findViewById(R.id.txtUser);
 
         hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         weatherPresenter = new WeatherPresenter(this, getContext());
@@ -141,5 +143,6 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     public void showError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
-
 }
+
+

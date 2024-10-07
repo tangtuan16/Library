@@ -37,6 +37,19 @@
         <activity
             android:name="com.example.Views.Activitys.LibraryInforActivity"
             android:exported="false" />
+
+        <activity
+            android:name="com.example.Views.Activitys.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.Views.Activitys.RegisterActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.Views.Activitys.EditProfileActivity"
+            android:exported="false" />
+
         <activity
             android:name="com.example.Views.Activitys.MainActivity"
             android:exported="true">
