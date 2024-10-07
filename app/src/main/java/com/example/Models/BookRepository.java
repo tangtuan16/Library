@@ -20,7 +20,7 @@ public class BookRepository {
 
     public List<Book> getAllBooks() {
         List<Book> bookList = new ArrayList<>();
-        dbManager.Open();
+        dbManager.open();
         database = dbManager.getDatabase();
         String sql = "SELECT * FROM books";
         Cursor cursor = database.rawQuery(sql, null);
@@ -35,13 +35,13 @@ public class BookRepository {
             }
             cursor.close();
         }
-        dbManager.Close();
+        dbManager.close();
         return bookList;
     }
 
     public List<Book> getSearchBooks(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
         List<Book> bookList = new ArrayList<>();
-        dbManager.Open();
+        dbManager.open();
         database = dbManager.getDatabase();
 
         StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM books WHERE 1=1");
@@ -80,13 +80,13 @@ public class BookRepository {
             }
         }
 
-        dbManager.Close();
+        dbManager.close();
         return bookList;
     }
 
 
     public long insertBook(int avatar, String title, String author, String desc) {
-        dbManager.Open();
+        dbManager.open();
         database = dbManager.getDatabase();
         ContentValues values = new ContentValues();
         values.put("avatar", avatar);
@@ -94,28 +94,28 @@ public class BookRepository {
         values.put("author", author);
         values.put("description", desc);
         long result = database.insert("books", null, values);
-        dbManager.Close();
+        dbManager.close();
         return result;
     }
 
     public int updateBook(ContentValues values, String selection, String[] selectionArgs) {
-        dbManager.Open();
+        dbManager.open();
         database = dbManager.getDatabase();
         int rows = database.update("books", values, selection, selectionArgs);
-        dbManager.Close();
+        dbManager.close();
         return rows;
     }
 
     public int deleteBook(String selection, String[] selectionArgs) {
-        dbManager.Open();
+        dbManager.open();
         database = dbManager.getDatabase();
         int rows = database.delete("books", selection, selectionArgs);
-        dbManager.Close();
+        dbManager.close();
         return rows;
     }
 
     public Cursor NotifySearch(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
-        dbManager.Open();
+        dbManager.open();
         database = dbManager.getDatabase();
         String selection = "";
         List<String> selectionArgs = new ArrayList<>();
