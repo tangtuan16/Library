@@ -1,9 +1,9 @@
 package com.example.Contracts;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 
 import com.example.Models.Book;
-import com.google.firebase.firestore.auth.User;
+import com.example.Models.GenreData;
 
 import java.util.List;
 
@@ -18,6 +18,11 @@ public interface BookContract {
 
             void displayAuthor(List<String> authorBooks);
 
+            void displayGenreData(List<GenreData> genreDataList);
+        }
+
+        interface BookDetailView {
+            void showBookDetail(List<Book> bookList, int bookId);
         }
 
         interface LibraryView {
@@ -30,7 +35,18 @@ public interface BookContract {
     }
 
     interface Presenter {
-        void loadBook();
+        interface HomePresenter {
+            void loadBook();
+
+            void loadPopularBooks();
+
+            List<String> loadAuthorBooks();
+
+        }
+
+        interface BookDetailPresenter {
+            void loadBookDetail(int bookId, Context context);
+        }
     }
 
     interface Model {

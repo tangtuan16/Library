@@ -188,8 +188,22 @@
                 <ListView
                     android:id="@+id/lvAuthorPopular"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp" />
+                    android:layout_height="200dp"/>
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/quicksand"
+                android:gravity="center"
+                android:text="Thống kê các thể loại bạn mượn nhiều nhất"
+                android:textSize="18sp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barChart"
+                android:layout_width="match_parent"
+                android:layout_height="500dp" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

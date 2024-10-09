@@ -4,8 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.Untils.DBManager;
+import com.example.Untils.JsonUtils;
+import com.example.Untils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +16,11 @@ import java.util.List;
 public class BookModel {
     private DBManager dbManager;
     private SQLiteDatabase database;
+    private Context context;
 
     public BookModel(Context context) {
         this.dbManager = new DBManager(context);
+        this.context = context;
     }
 
     public List<Book> getAllBooks() {
@@ -43,7 +48,7 @@ public class BookModel {
         List<Book> bookList = new ArrayList<>();
         dbManager.Open();
         database = dbManager.getDatabase();
-        String sql = "SELECT * FROM books limit 4 offset 7";
+        String sql = "SELECT * FROM books limit 4";
         Cursor cursor = database.rawQuery(sql, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -93,8 +98,8 @@ public class BookModel {
                     int avt = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
                     String bookTitle = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                     String bookAuthor = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-                    String bookDesc = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-                    bookList.add(new Book(id, avt, bookTitle, bookAuthor, bookDesc));
+                    String bookCategory = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                    bookList.add(new Book(id, avt, bookTitle, bookAuthor, bookCategory));
                 }
             } finally {
                 cursor.close();
@@ -223,5 +228,43 @@ public class BookModel {
 
         dbManager.Close();
         return bookList;
+    }
+
+
+    public List<Book> loadBookDetail(int bookId, Context context) {
+        List<Book> bookListJson = JsonUtils.readBooksFromJson(context, "books.json");
+        Log.d("CheckInfor", " Size of bookList: " + bookListJson.size());
+        if (bookListJson != null && bookId < bookListJson.size()) {
+            Book book = bookListJson.get(bookId - 1);
+            Log.d("CheckInfor", "Title: " + book.getTitle());
+            bookListJson.add(new Book(bookId, book.getAvt(), book.getTitle(), book.getAuthor(), book.getContent()));
+        } else {
+            return null;
+        }
+        return bookListJson;
+    }
+
+    public List<GenreData> getGenreData() {
+        int userId = SharedPreferencesUtil.getUserId(context);
+        List<GenreData> genreDataList = new ArrayList<>();
+//        dbManager.Open();
+//        SQLiteDatabase database = dbManager.getDatabase();
+//        String sql = "SELECT genre, SUM(borrowed_count) as total FROM BookBorrows where user_id = ? GROUP BY genre";
+//        String[] selectionArgs = new String[]{String.valueOf(userId)};
+//        Cursor cursor = database.rawQuery(sql, selectionArgs);
+//        if (cursor != null) {
+//            try {
+//                while (cursor.moveToNext()) {
+//                    String genre = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+//                    int total = cursor.getInt(cursor.getColumnIndexOrThrow("total"));
+//                    genreDataList.add(new GenreData(genre, total));
+//                }
+//                return genreDataList;
+//            } finally {
+//                cursor.close();
+//            }
+//        }
+//        dbManager.Close();
+        return genreDataList;
     }
 }
