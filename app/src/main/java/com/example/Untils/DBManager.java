@@ -119,7 +119,7 @@ public class DBManager {
 
     private static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "Library";
-        private static final int DATABASE_VERSION = 11;
+        private static final int DATABASE_VERSION = 13;
 
         private static final String TABLE_CREATE_USER =
                 "CREATE TABLE users (" +

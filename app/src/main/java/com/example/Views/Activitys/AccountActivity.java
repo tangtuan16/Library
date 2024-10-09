@@ -77,10 +77,12 @@ public class AccountActivity extends AppCompatActivity {
         buttonChangePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Thêm logic để đổi mật khẩu nếu cần
-                Toast.makeText(AccountActivity.this, "Chức năng đổi mật khẩu chưa được triển khai.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AccountActivity.this, ChangePasswordActivity.class);
+                intent.putExtra("USER_ID", userId); // Truyền userId đến ChangePasswordActivity
+                startActivity(intent);
             }
         });
+
 
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override

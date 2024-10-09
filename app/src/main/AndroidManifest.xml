@@ -17,6 +17,9 @@
         android:theme="@style/Theme.BTL_Libary"
         tools:targetApi="31">
         <activity
+            android:name="com.example.Views.Activitys.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.Views.Activitys.EditInfoActivity"
             android:exported="false" />
         <activity
