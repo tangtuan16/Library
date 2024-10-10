@@ -17,7 +17,7 @@ import com.example.btl_libary.R;
 
 import java.util.Calendar;
 
-public class BookBorrowedActivity extends AppCompatActivity {
+public class BorrowBookActivity extends AppCompatActivity {
 
     private TextView textBorrowDate, textReturnDate;
     private Book book; // Đối tượng Book
@@ -26,13 +26,14 @@ public class BookBorrowedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_borrowed);
+        setContentView(R.layout.activity_borrow_book);
 
         // Khởi tạo DBManager
         dbManager = new DBManager(this);
 
         // Nhận đối tượng Book từ Intent
         book = getIntent().getParcelableExtra("book");
+        book=new Book(1,R.drawable.tuay,"Từ Ấy","To Huu","Thơ");
 
         // Khởi tạo các thành phần giao diện
         ImageView imageBookAvatar = findViewById(R.id.imageBookAvatar);

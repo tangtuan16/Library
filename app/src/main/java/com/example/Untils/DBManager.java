@@ -198,5 +198,16 @@ public class DBManager {
         return null;
     }
 
+    public long Insert(String table, ContentValues values) {
+        return database.insert(table, null, values);
+    }
+
+    public int Update(String table, ContentValues values, String whereClause, String[] whereArgs) {
+        return database.update(table, values, whereClause, whereArgs);
+    }
+
+    public int Delete(String table, String whereClause, String[] whereArgs) {
+        return database.delete(table, whereClause, whereArgs);
+    }
 
 }

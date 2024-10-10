@@ -126,7 +126,7 @@
         </CheckBox>
 
         <Button
-
+            android:id="@+id/btnBorrow"
             android:layout_width="100dp"
             android:layout_height="60dp"
             android:breakStrategy="high_quality"
