@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/imgAvata"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_corners"
+        android:padding="1dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/no_image" />
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/quicksand"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="Title"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtAuthor"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Author"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txtCategory"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Category"
+        android:textSize="12sp" />
+
+    <Button
+        android:layout_margin="5dp"
+        android:id="@+id/btnPreview"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_custom"
+        android:textStyle="italic"
+        android:fontFamily="@font/quicksand"
+        android:textAllCaps="false"
+        android:text="Preview" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

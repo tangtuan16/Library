@@ -9,8 +9,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.Untils.DBManager;
 import com.example.Models.User;
+import com.example.Models.UserModel;
+import com.example.Untils.DBManager;
 import com.example.btl_libary.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -24,8 +25,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         dbManager = new DBManager(this);
-        dbManager.open();
-
+        dbManager.Open();
         editUsername = findViewById(R.id.editUsername);
         editPassword = findViewById(R.id.editPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
@@ -82,6 +82,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        dbManager.close();
+        dbManager.Close();
     }
 }

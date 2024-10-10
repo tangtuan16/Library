@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Hiển thị avatar sách -->
+    <ImageView
+        android:id="@+id/imageBookAvatar"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="Book Avatar"/>
+
+    <!-- Hiển thị tiêu đề sách -->
+    <TextView
+        android:id="@+id/textBookTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Title: Book Title"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Hiển thị tác giả sách -->
+    <TextView
+        android:id="@+id/textBookAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Author: Book Author"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Hiển thị mô tả sách -->
+    <TextView
+        android:id="@+id/textBookDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description: Book Description"
+        android:textSize="14sp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Chọn ngày gửi -->
+    <TextView
+        android:id="@+id/textBorrowDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Borrow Date"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/buttonSelectBorrowDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Borrow Date"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Chọn ngày trả -->
+    <TextView
+        android:id="@+id/textReturnDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Return Date"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/buttonSelectReturnDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Return Date"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Nút mượn sách -->
+    <Button
+        android:id="@+id/buttonBorrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Borrow Book"
+        android:background="@color/black"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>

@@ -1,23 +1,57 @@
 package com.example.Contracts;
 
-import android.database.Cursor;
+import android.content.Context;
 
 import com.example.Models.Book;
+import com.example.Models.GenreData;
 
 import java.util.List;
 
 public interface BookContract {
     interface View {
-        void displayBook(List<Book> list);
+        interface HomeView {
+            void displayBook(List<Book> list);
 
-        void showSuccess(String mess);
+            void showSuccess(String mess);
 
-        void showError(String mess);
+            void showError(String mess);
 
+            void displayAuthor(List<String> authorBooks);
+
+            void displayGenreData(List<GenreData> genreDataList);
+        }
+
+        interface BookDetailView {
+            void showBookDetail(List<Book> bookList, int bookId);
+        }
+
+        interface LibraryView {
+            void displayBook(List<Book> list);
+
+            void showSuccess(String mess);
+
+            void showError(String mess);
+        }
+        //detail book cua khoi
+        interface DetailBookView {
+            void displayBook(List<Book> list);
+
+        }
     }
 
     interface Presenter {
-        void loadBook();
+        interface HomePresenter {
+            void loadBook();
+
+            void loadPopularBooks();
+
+            List<String> loadAuthorBooks();
+
+        }
+
+        interface BookDetailPresenter {
+            void loadBookDetail(int bookId, Context context);
+        }
     }
 
     interface Model {

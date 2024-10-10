@@ -2,45 +2,31 @@ package com.example.Presenters;
 
 import android.content.Context;
 
-import com.example.Contracts.WeatherService;
-import com.example.Contracts.WeatherView;
-import com.example.Models.WeatherResponse;
+import com.example.Contracts.WeatherContract;
+import com.example.Models.Weather;
+import com.example.Models.WeatherModel;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+public class WeatherPresenter implements WeatherContract.Presenter {
 
-public class WeatherPresenter {
-    private WeatherView view;
-    private WeatherService service;
+    private WeatherContract.View view;
+    private WeatherContract.Model model;
 
-    public WeatherPresenter(Context context, WeatherView view) {
+    public WeatherPresenter(WeatherContract.View view, Context context) {
         this.view = view;
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.weatherapi.com/v1/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(WeatherService.class);
+        this.model = new WeatherModel(context);
     }
 
-    public void getWeather(String city, String apiKey) {
-        Call<WeatherResponse> call = service.getCurrentWeather(apiKey, city);
-        call.enqueue(new Callback<WeatherResponse>() {
+    @Override
+    public void loadWeather(String apiKey, String location) {
+        model.getWeather(apiKey, location, new WeatherContract.Model.WeatherCallback() {
             @Override
-            public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                if (response.isSuccessful()) {
-                    WeatherResponse weather = response.body();
-                    view.showWeather(weather.getCurrent().getTempC() + "°C, " + weather.getCurrent().getCondition().getText());
-                } else {
-                    view.showError("Failed to load 1");
-                }
+            public void onSuccess(Weather weather) {
+                view.showWeather(weather);
             }
 
             @Override
-            public void onFailure(Call<WeatherResponse> call, Throwable t) {
-                view.showError("Failed to load 2");
+            public void onFailure(Throwable t) {
+                view.showError(t.getMessage());
             }
         });
     }

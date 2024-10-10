@@ -36,19 +36,27 @@ android {
     }
 }
 
+
+
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.play.services.maps)
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
+    implementation ("com.squareup.picasso:picasso:2.8")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("androidx.core:core:1.7.0")
+    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("org.tensorflow:tensorflow-lite:2.5.0")
+    implementation ("com.google.code.gson:gson:2.8.8")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

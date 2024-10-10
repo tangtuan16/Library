@@ -28,8 +28,6 @@ public class LibraryInforActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
 }

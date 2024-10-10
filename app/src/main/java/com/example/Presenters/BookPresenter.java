@@ -1,66 +1,73 @@
 package com.example.Presenters;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
-import com.example.Models.BookRepository;
+import com.example.Models.BookModel;
+import com.example.Models.GenreData;
+import com.example.Untils.JsonUtils;
 
 import java.util.List;
 
-public class BookPresenter implements BookContract.Presenter {
-    private BookContract.View view;
-    private BookRepository repository;
-    private Cursor cursor;
+public class BookPresenter implements BookContract.Presenter.HomePresenter {
+    private BookContract.View.HomeView homeView;
+    private BookContract.View.LibraryView libraryView;
+    private BookContract.View.DetailBookView DetailBookView;
+    private BookModel repository;
 
-    public BookPresenter(Context context, BookContract.View view) {
-        this.repository = new BookRepository(context);
-        this.view = view;
+    public BookPresenter(Context context, BookContract.View.HomeView view) {
+        this.homeView = view;
+        this.repository = new BookModel(context);
+    }
+
+    public BookPresenter(Context context, BookContract.View.LibraryView libraryView) {
+        this.repository = new BookModel(context);
+        this.libraryView = libraryView;
+    }
+    public BookPresenter(Context context, BookContract.View.DetailBookView DetailBookView) {
+        this.repository = new BookModel(context);
+        this.DetailBookView = DetailBookView;
     }
 
 
     @Override
     public void loadBook() {
-        List<Book> books = repository.getAllBooks();
-        view.displayBook(books);
+        List<Book> books = repository.getAllBooks();//lay data
+        libraryView.displayBook(books);// tra data ve man hien thi
     }
 
-    public void addBook(int avatar, String title, String author, String desc) {
-        long id = repository.insertBook(avatar, title, author, desc);
+    public void loadPopularBooks() {
+        List<Book> popularBooks = repository.getPopularBooks();
+        homeView.displayBook(popularBooks);
+    }
+
+    public List<String> loadAuthorBooks() {
+        List<String> authorBooks = repository.getAuthorBooks();
+        homeView.displayAuthor(authorBooks);
+        return authorBooks;
+    }
+
+    public void loadGenreData() {
+        List<GenreData> genreDataList = repository.getGenreData();
+        homeView.displayGenreData(genreDataList);
+    }
+
+
+
+    public void addBook(int avatar, String title, String author, String category) {
+        long id = repository.insertBook(avatar, title, author, category);
         if (id > 0) {
-            view.showSuccess("Thêm thành công !");
+            libraryView.showSuccess("Thêm thành công !");
         } else {
-            view.showError("Thêm thất bại !");
+            libraryView.showError("Thêm thất bại !");
         }
     }
-
-    public void updateBook(ContentValues values, String selection, String[] selectionArgs) {
-        int rows = repository.updateBook(values, selection, selectionArgs);
-        if (rows > 0) {
-            view.showSuccess("Cập nhật thành công !");
-        } else {
-            view.showError("Cập nhật thất bại !");
+    //detail book cua khoi
+        public void loadDetailBook(int id) {
+            List<Book> DetailBook = repository.getDetailBook(id);
+            DetailBookView.displayBook(DetailBook);
         }
-    }
-
-    public void deleteBook(String selection, String[] selectionArgs) {
-        int rows = repository.deleteBook(selection, selectionArgs);
-        if (rows > 0) {
-            view.showSuccess("Xóa thành công !");
-        } else {
-            view.showError("Xóa thất bại !");
-        }
-    }
 
 
-    public void getAllBooks() {
-        cursor = (Cursor) repository.getAllBooks();
-        if (cursor != null) {
-           view.showSuccess("Thành công !");
-        } else {
-            view.showError("Không có dữ liệu !");
-        }
-    }
 }

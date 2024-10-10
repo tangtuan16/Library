@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.Contracts.MainContract;
 import com.example.Presenters.MainPresenter;
 import com.example.btl_libary.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,7 +21,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainContract.View {
     private Map<Integer, Class<? extends Fragment>> fragmentMap = new HashMap<>();
     private BottomNavigationView navigationView;
     private MainPresenter mainPresenter = new MainPresenter();
@@ -56,11 +57,12 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setSelectedItemId(R.id.navigation_home);
     }
 
+    @Override
     public void hideBottomNavigationView() {
         if (navigationView.isShown()) {
             navigationView.animate()
                     .alpha(0.0f)
-                    .setDuration(1000)
+                    .setDuration(10)
                     .withEndAction(new Runnable() {
                         @Override
                         public void run() {
@@ -70,13 +72,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     public void showBottomNavigationView() {
         if (!navigationView.isShown()) {
             navigationView.setAlpha(0.0f);
             navigationView.setVisibility(View.VISIBLE);
             navigationView.animate()
                     .alpha(1.0f)
-                    .setDuration(1000);
+                    .setDuration(10);
         }
     }
 

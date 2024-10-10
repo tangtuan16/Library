@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,12 +28,12 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-
         dbManager = new DBManager(this);
-        dbManager.open();
+        dbManager.Open();
 
         // Lấy userId từ SharedPreferences
         userId = getSharedPreferences("USER_PREF", MODE_PRIVATE).getInt("USER_ID", -1);
+        Log.d("CheckID", "userId: " + userId);
         if (userId == -1) {
             Toast.makeText(this, "Có lỗi xảy ra, vui lòng thử lại.", Toast.LENGTH_SHORT).show();
             finish(); // Kết thúc activity nếu userId không hợp lệ
@@ -41,13 +42,13 @@ public class AccountActivity extends AppCompatActivity {
 
         User user = dbManager.getUserById(userId);
 
-        imageViewAvatar = findViewById(R.id.imageViewAvatar);
-        textFullName = findViewById(R.id.textFullName);
-        textEmail = findViewById(R.id.textEmail);
-        textPhone = findViewById(R.id.textPhone);
-        buttonEditInfo = findViewById(R.id.buttonEditInfo);
-        buttonChangePassword = findViewById(R.id.buttonChangePassword);
-        buttonLogout = findViewById(R.id.buttonLogout);
+        imageViewAvatar = findViewById(R.id.profileImage);
+        textFullName = findViewById(R.id.profileName);
+        textEmail = findViewById(R.id.profileEmail);
+        textPhone = findViewById(R.id.profilePhone);
+        buttonEditInfo = findViewById(R.id.btnchangeProfile);
+        buttonChangePassword = findViewById(R.id.btnchangePassword);
+        buttonLogout = findViewById(R.id.btndangXuat);
 
         if (user != null) {
             textFullName.setText(user.getFullName());
@@ -97,7 +98,7 @@ public class AccountActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        dbManager.close();
+        dbManager.Close();
     }
 }
 

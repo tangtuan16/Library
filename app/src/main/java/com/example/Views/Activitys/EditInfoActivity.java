@@ -36,7 +36,7 @@ public class EditInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_info);
 
         dbManager = new DBManager(this);
-        dbManager.open();
+        dbManager.Open();
 
         userId = getIntent().getIntExtra("USER_ID", -1);
         if (userId == -1) {
@@ -136,6 +136,6 @@ public class EditInfoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        dbManager.close();
+        dbManager.Close();
     }
 }

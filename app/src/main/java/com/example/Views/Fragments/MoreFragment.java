@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Contracts.OnClickContracts;
 import com.example.Views.Activitys.AccountActivity;
-import com.example.Views.Activitys.BookBorrowedActivity;
+import com.example.Views.Activitys.BorrowBookActivity;
 import com.example.Views.Activitys.LibraryInforActivity;
-import com.example.Views.Activitys.MapsActivity;
 import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.MoreAdapter;
 import com.example.btl_libary.R;
@@ -56,7 +55,7 @@ public class MoreFragment extends Fragment {
                         startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(getContext(), BookBorrowedActivity.class);
+                        intent = new Intent(getContext(), BorrowBookActivity.class);
                         startActivity(intent);
                         break;
                     case 3:

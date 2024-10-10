@@ -1,6 +1,5 @@
 package com.example.Views.Fragments;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
-import com.example.Models.BookRepository;
+import com.example.Models.BookModel;
 import com.example.Presenters.BookPresenter;
 import com.example.Views.Activitys.MainActivity;
 import com.example.Views.Adapters.BookAdapter;
@@ -24,9 +23,10 @@ import com.example.btl_libary.R;
 
 import java.util.List;
 
-public class LibraryFragment extends Fragment implements BookContract.View {
+public class LibraryFragment extends Fragment implements BookContract.View.LibraryView {
     private RecyclerView rvBooks;
     private BookPresenter presenter;
+
 
     @Nullable
     @Override
@@ -55,9 +55,8 @@ public class LibraryFragment extends Fragment implements BookContract.View {
             }
         });
         if (getContext() != null) {
-            presenter = new BookPresenter(getContext(), this);
-            BookRepository bookRepository = new BookRepository(getContext());
-            bookRepository.getAllBooks();
+            presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
+
             presenter.loadBook();
         }
     }

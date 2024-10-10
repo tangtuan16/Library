@@ -34,6 +34,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.Views.Activitys.BookDetailActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -46,7 +49,7 @@
             android:name="com.example.Views.Activitys.AccountActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.Views.Activitys.BookBorrowedActivity"
+            android:name="com.example.Views.Activitys.BorrowBookActivity"
             android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.SearchActivity"
@@ -56,12 +59,7 @@
             android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
     </application>
 
