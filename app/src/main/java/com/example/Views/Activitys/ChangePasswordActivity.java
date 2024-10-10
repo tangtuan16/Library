@@ -26,7 +26,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         // Khởi tạo DBManager
         dbManager = new DBManager(this);
-        dbManager.open();
+        dbManager.Open();
 
         // Lấy userId từ Intent
         userId = getIntent().getIntExtra("USER_ID", -1);
@@ -95,6 +95,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        dbManager.close();
+        dbManager.Close();
     }
 }
