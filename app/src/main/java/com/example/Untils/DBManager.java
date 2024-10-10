@@ -22,7 +22,7 @@ public class DBManager {
 
     public static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "Library";
-        private static final int DATABASE_VERSION = 23;
+        private static final int DATABASE_VERSION = 24;
 
         private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -82,15 +82,28 @@ public class DBManager {
             if (oldVersion < newVersion) {
                 db.execSQL("CREATE TABLE books_backup AS SELECT * FROM books;");
                 db.execSQL("CREATE TABLE users_backup AS SELECT * FROM users;");
+                db.execSQL("CREATE TABLE bookborrow_backup AS SELECT * FROM bookborrow;");
+                db.execSQL("CREATE TABLE favorites_books_backup AS SELECT * FROM favorites_books;");
+
                 db.execSQL("DROP TABLE IF EXISTS books");
                 db.execSQL("DROP TABLE IF EXISTS users");
+                db.execSQL("DROP TABLE IF EXISTS bookborrow");
+                db.execSQL("DROP TABLE IF EXISTS favorites_books");
+
                 onCreate(db);
                 db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
                         "SELECT id, avatar, title, author, category FROM books_backup;");
                 db.execSQL("INSERT INTO users (id, username , password , fullName , email, phone, avatar) " +
                         "SELECT id, username , password , fullName , email, phone, avatar FROM users_backup;");
+                db.execSQL("INSERT INTO bookborrow (borrowing_ID, user_ID, book_ID, category, book_Total, date_Borrow, date_Payment) " +
+                        "SELECT borrowing_ID, user_ID, book_ID, category, book_Total, date_Borrow, date_Payment FROM  bookborrow_backup;");
+                db.execSQL("INSERT INTO favorites_books (Favorite_id, user_ID, book_ID, favorite) " +
+                        "SELECT Favorite_id, user_ID, book_ID, favorite FROM favorites_books_backup;");
+
                 db.execSQL("DROP TABLE IF EXISTS books_backup");
                 db.execSQL("DROP TABLE IF EXISTS users_backup");
+                db.execSQL("DROP TABLE IF EXISTS bookborrow_backup");
+                db.execSQL("DROP TABLE IF EXISTS favorites_books_backup");
             }
         }
     }

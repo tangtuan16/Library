@@ -266,24 +266,25 @@ public class BookModel {
     public List<GenreData> getGenreData() {
         int userId = SharedPreferencesUtil.getUserId(context);
         List<GenreData> genreDataList = new ArrayList<>();
-//        dbManager.Open();
-//        SQLiteDatabase database = dbManager.getDatabase();
-//        String sql = "SELECT genre, SUM(borrowed_count) as total FROM bookborrow where user_id = ? GROUP BY genre";
-//        String[] selectionArgs = new String[]{String.valueOf(userId)};
-//        Cursor cursor = database.rawQuery(sql, selectionArgs);
-//        if (cursor != null) {
-//            try {
-//                while (cursor.moveToNext()) {
-//                    String genre = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-//                    int total = cursor.getInt(cursor.getColumnIndexOrThrow("total"));
-//                    genreDataList.add(new GenreData(genre, total));
-//                }
-//                return genreDataList;
-//            } finally {
-//                cursor.close();
-//            }
-//        }
-//        dbManager.Close();
+        dbManager.Open();
+        SQLiteDatabase database = dbManager.getDatabase();
+        String sql = "SELECT category, SUM(book_Total) as total FROM bookborrow where user_ID = ? GROUP BY category";
+        String[] selectionArgs = new String[]{String.valueOf(userId)};
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
+        if (cursor != null) {
+            try {
+                while (cursor.moveToNext()) {
+                    String genre = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                    int total = cursor.getInt(cursor.getColumnIndexOrThrow("total"));
+                    genreDataList.add(new GenreData(genre, total));
+                    Log.d("CheckInfor", "UserID=  " + userId + " ,Genre: " + genre + ", Total: " + total);
+                }
+                return genreDataList;
+            } finally {
+                cursor.close();
+            }
+        }
+        dbManager.Close();
         return genreDataList;
     }
 }
