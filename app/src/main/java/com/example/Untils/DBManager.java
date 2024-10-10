@@ -22,7 +22,7 @@ public class DBManager {
 
     public static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "Library";
-        private static final int DATABASE_VERSION = 24;
+        private static final int DATABASE_VERSION = 25;
 
         private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -91,8 +91,8 @@ public class DBManager {
                 db.execSQL("DROP TABLE IF EXISTS favorites_books");
 
                 onCreate(db);
-                db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
-                        "SELECT id, avatar, title, author, category FROM books_backup;");
+//                db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
+//                        "SELECT id, avatar, title, author, category FROM books_backup;");
                 db.execSQL("INSERT INTO users (id, username , password , fullName , email, phone, avatar) " +
                         "SELECT id, username , password , fullName , email, phone, avatar FROM users_backup;");
                 db.execSQL("INSERT INTO bookborrow (borrowing_ID, user_ID, book_ID, category, book_Total, date_Borrow, date_Payment) " +
