@@ -11,6 +11,7 @@ import java.util.List;
 public class BookPresenter implements BookContract.Presenter {
     private BookContract.View.HomeView homeView;
     private BookContract.View.LibraryView libraryView;
+    private BookContract.View.DetailBookView DetailBookView;
     private BookModel repository;
 
     public BookPresenter(Context context, BookContract.View.HomeView view) {
@@ -21,6 +22,10 @@ public class BookPresenter implements BookContract.Presenter {
     public BookPresenter(Context context, BookContract.View.LibraryView libraryView) {
         this.repository = new BookModel(context);
         this.libraryView = libraryView;
+    }
+    public BookPresenter(Context context, BookContract.View.DetailBookView DetailBookView) {
+        this.repository = new BookModel(context);
+        this.DetailBookView = DetailBookView;
     }
 
     @Override
@@ -40,6 +45,7 @@ public class BookPresenter implements BookContract.Presenter {
         return authorBooks;
     }
 
+
     public void addBook(int avatar, String title, String author, String category) {
         long id = repository.insertBook(avatar, title, author, category);
         if (id > 0) {
@@ -48,4 +54,11 @@ public class BookPresenter implements BookContract.Presenter {
             libraryView.showError("Thêm thất bại !");
         }
     }
+    //detail book cua khoi
+        public void loadDetailBook(int id) {
+            List<Book> DetailBook = repository.getDetailBook(id);
+            DetailBookView.displayBook(DetailBook);
+        }
+
+
 }
