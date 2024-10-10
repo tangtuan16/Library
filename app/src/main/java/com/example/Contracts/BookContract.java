@@ -32,6 +32,11 @@ public interface BookContract {
 
             void showError(String mess);
         }
+        //detail book cua khoi
+        interface DetailBookView {
+            void displayBook(List<Book> list);
+
+        }
     }
 
     interface Presenter {

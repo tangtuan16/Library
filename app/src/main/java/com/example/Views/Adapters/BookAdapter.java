@@ -1,6 +1,7 @@
 package com.example.Views.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Models.Book;
+import com.example.Views.Activitys.BookDetailActivity;
 import com.example.Views.Fragments.HomeFragment;
 import com.example.btl_libary.R;
 
@@ -59,6 +61,24 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
             txtTitle = itemView.findViewById(R.id.txtTitle);
             txtAuthor = itemView.findViewById(R.id.txtAuthor);
             txtCategory = itemView.findViewById(R.id.txtCategory);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Book clickedBook = list.get(position);
+                        int bookId = clickedBook.getId(); // Get the book ID
+                        // Create an Intent to start the target activity
+                        Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
+                        intent.putExtra("id_book", bookId); // Pass the book ID as an extra
+                        v.getContext().startActivity(intent); // Start the activity
+                    }
+
+
+                }
+            });
+
+
         }
+
     }
 }

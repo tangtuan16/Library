@@ -64,6 +64,25 @@ public class BookModel {
         dbManager.Close();
         return bookList;
     }
+    public List<Book> getDetailBook(int id) {
+        List<Book> bookList = new ArrayList<>();
+        dbManager.Open();
+        database = dbManager.getDatabase();
+        String sql = "SELECT * FROM books Where id ="+id;
+        Cursor cursor = database.rawQuery(sql, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                int avt = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
+                String desc = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                bookList.add(new Book(id, avt, title, author, desc));
+            }
+            cursor.close();
+        }
+        dbManager.Close();
+        return bookList;
+    }
 
     public List<Book> getSearchBooks(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
         List<Book> bookList = new ArrayList<>();

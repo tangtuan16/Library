@@ -27,6 +27,7 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
     private RecyclerView rvBooks;
     private BookPresenter presenter;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
