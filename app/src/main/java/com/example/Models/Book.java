@@ -44,7 +44,7 @@ public class Book implements Parcelable {
         dest.writeInt(avt);
         dest.writeString(title);
         dest.writeString(author);
-        dest.writeString(desc);
+        dest.writeString(category);
     }
 
     protected Book(Parcel in) {
@@ -52,7 +52,7 @@ public class Book implements Parcelable {
         avt = in.readInt();
         title = in.readString();
         author = in.readString();
-        desc = in.readString();
+        category = in.readString();
     }
 
     public static final Creator<Book> CREATOR = new Creator<Book>() {
