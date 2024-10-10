@@ -59,13 +59,12 @@ public class DBManager {
                 "    borrowing_ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    user_ID INTEGER,\n" +
                 "    book_ID INTEGER,\n" +
-                "    category TEXT,\n" +
                 "    book_Total INTEGER,\n" +
-                "    date_Borrow DATE CHECK(Date_Borrow <= CURRENT_DATE),\n" +
-                "    date_Payment DATE CHECK(Date_Payment >= Date_Borrow),\n" +
+                "    isInLibrary INTEGER DEFAULT 1 CHECK (isInLibrary IN (0, 1)),\n"+
+                "    date_Borrow TEXT ,\n" +
+                "    date_Return TEXT ,\n" +
                 "    FOREIGN KEY (user_ID) REFERENCES users(id),\n" +
-                "    FOREIGN KEY (book_ID) REFERENCES books(id),\n" +
-                "    FOREIGN KEY (category) REFERENCES books(category)\n" +
+                "    FOREIGN KEY (book_ID) REFERENCES books(id)\n" +
                 ");\n";
 
         private static final String TABLE_CREATE_FAVOURITEBOOKS = "CREATE TABLE favorites_books(\n" +
@@ -197,6 +196,26 @@ public class DBManager {
         }
         return null;
     }
+
+    public int getNumberOfBorrowedBooks(int userId,int bookId) {
+        int count = 0;
+        Cursor cursor = null;
+        try {
+            String query = "SELECT SUM(book_Total) FROM bookborrow WHERE user_ID = ? AND book_ID = ? ";
+            cursor = database.rawQuery(query, new String[]{String.valueOf(userId),String.valueOf(bookId)});
+            if (cursor.moveToFirst()) {
+                count = cursor.getInt(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return count;
+    }
+
 
     public long Insert(String table, ContentValues values) {
         return database.insert(table, null, values);
