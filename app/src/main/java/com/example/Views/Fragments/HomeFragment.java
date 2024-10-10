@@ -39,6 +39,7 @@ import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.HourlyAdapter;
 import com.example.Views.Adapters.PopularBookAdapter;
 import com.example.btl_libary.R;
+import com.example.Untils.SharedPreferencesUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -76,15 +77,14 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         weatherPresenter = new WeatherPresenter(this, getContext());
         bookPresenter = new BookPresenter(getContext(), this);
-        userPresenter = new UserPresenter(getContext(), this);
-        userPresenter.loadUsers();
+        userPresenter = new UserPresenter(getContext());
+        loadUserInfo();
         bookPresenter.loadPopularBooks();
         bookPresenter.loadAuthorBooks();
         bookPresenter.loadGenreData();
         weatherPresenter.loadWeather(getString(R.string.weather_api_key), getString(R.string.locatiton));
         return view;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -113,7 +113,23 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
                 startActivity(intent);
             }
         });
+    }
 
+    private void loadUserInfo() {
+        int userId = SharedPreferencesUtil.getUserId(getContext());
+        if (userId != -1) {
+            userPresenter.getUserInfo(userId, new UserPresenter.UserInfoCallback() {
+                @Override
+                public void onUserInfoLoaded(User user) {
+                    displaySingleUser(user);
+                }
+
+                @Override
+                public void onUserInfoError(String message) {
+                    showError(message);
+                }
+            });
+        }
     }
 
     @Override
@@ -168,6 +184,12 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     public void displayUser(List<User> userList) {
         if (userList != null && !userList.isEmpty()) {
             User user = userList.get(0);
+            displaySingleUser(user);
+        }
+    }
+
+    private void displaySingleUser(User user) {
+        if (user != null) {
             if (user.getAvatar() != null) {
                 Bitmap avatarBitmap = BitmapFactory.decodeByteArray(user.getAvatar(), 0, user.getAvatar().length);
                 userAvatar.setImageBitmap(avatarBitmap);
@@ -185,7 +207,4 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     public void showError(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
-
 }
-
-

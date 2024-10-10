@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,18 +14,16 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.Untils.DBManager;
+import com.example.Presenters.UserPresenter;
 import com.example.Models.User;
 import com.example.btl_libary.R;
 
-import java.io.ByteArrayOutputStream;
-
-public class EditInfoActivity extends AppCompatActivity {
+public class EditInfoActivity extends AppCompatActivity implements UserPresenter.UserInfoCallback, UserPresenter.UpdateUserCallback {
     private static final int PICK_IMAGE_REQUEST = 1;
     private EditText editFullName, editEmail, editPhone;
     private ImageView imageViewAvatar;
     private Button buttonSave, buttonChooseImage;
-    private DBManager dbManager;
+    private UserPresenter userPresenter;
     private int userId;
     private Bitmap avatarBitmap;
 
@@ -35,48 +32,43 @@ public class EditInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
 
-        dbManager = new DBManager(this);
-        dbManager.Open();
+        initViews();
+        initPresenter();
+        loadUserData();
+        setupListeners();
+    }
 
-        userId = getIntent().getIntExtra("USER_ID", -1);
-        if (userId == -1) {
-            Toast.makeText(this, "Có lỗi xảy ra, vui lòng thử lại.", Toast.LENGTH_SHORT).show();
-            finish(); // Kết thúc activity nếu userId không hợp lệ
-            return;
-        }
-
-        User user = dbManager.getUserById(userId);
+    private void initViews() {
         editFullName = findViewById(R.id.editFullName);
         editEmail = findViewById(R.id.editEmail);
         editPhone = findViewById(R.id.editPhone);
         imageViewAvatar = findViewById(R.id.imageViewAvatar);
         buttonSave = findViewById(R.id.buttonSave);
         buttonChooseImage = findViewById(R.id.buttonChooseImage);
+    }
 
-        if (user != null) {
-            editFullName.setText(user.getFullName());
-            editEmail.setText(user.getEmail());
-            editPhone.setText(user.getPhone());
+    private void initPresenter() {
+        userPresenter = new UserPresenter(this);
+        userId = getIntent().getIntExtra("USER_ID", -1);
 
-            // Hiển thị avatar nếu có
-            if (user.getAvatar() != null) {
-                avatarBitmap = BitmapFactory.decodeByteArray(user.getAvatar(), 0, user.getAvatar().length);
-                imageViewAvatar.setImageBitmap(avatarBitmap);
-            }
+        if (userId == -1) {
+            Toast.makeText(this, "Có lỗi xảy ra, vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+            finish();
         }
+    }
 
-        buttonChooseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
+    private void loadUserData() {
+        userPresenter.getUserInfo(userId, this);
+    }
 
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateUserInfo();
-            }
+    private void setupListeners() {
+        buttonChooseImage.setOnClickListener(v -> openFileChooser());
+
+        buttonSave.setOnClickListener(v -> {
+            String fullName = editFullName.getText().toString().trim();
+            String email = editEmail.getText().toString().trim();
+            String phone = editPhone.getText().toString().trim();
+            userPresenter.updateUserInfo(userId, fullName, email, phone, avatarBitmap, this);
         });
     }
 
@@ -100,42 +92,32 @@ public class EditInfoActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUserInfo() {
-        String fullName = editFullName.getText().toString().trim();
-        String email = editEmail.getText().toString().trim();
-        String phone = editPhone.getText().toString().trim();
+    @Override
+    public void onUserInfoLoaded(User user) {
+        editFullName.setText(user.getFullName());
+        editEmail.setText(user.getEmail());
+        editPhone.setText(user.getPhone());
 
-        if (fullName.isEmpty() || email.isEmpty() || phone.isEmpty()) {
-            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        byte[] avatar = null;
-        if (avatarBitmap != null) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            avatarBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            avatar = stream.toByteArray();
-        }
-
-        int rowsUpdated = dbManager.updateUser(userId, null, fullName, email, phone, avatar);
-        if (rowsUpdated > 0) {
-            Toast.makeText(this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-            finish(); // Quay lại activity trước đó
-        } else {
-            Toast.makeText(this, "Cập nhật không thành công, vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+        if (user.getAvatar() != null) {
+            avatarBitmap = BitmapFactory.decodeByteArray(user.getAvatar(), 0, user.getAvatar().length);
+            imageViewAvatar.setImageBitmap(avatarBitmap);
         }
     }
 
     @Override
-    public void onBackPressed() {
-        // Quay lại mà không cần làm gì thêm, thông tin sẽ được tự động cập nhật trong AccountActivity
-        super.onBackPressed();
+    public void onUserInfoError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
+    @Override
+    public void onUpdateSuccess() {
+        Toast.makeText(this, "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dbManager.Close();
+    public void onUpdateFailure(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
