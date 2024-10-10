@@ -5,22 +5,26 @@ import android.database.Cursor;
 
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
-import com.example.Models.BookRepository;
-import com.example.Untils.DBManager;
+import com.example.Models.BookModel;
 
 import java.util.List;
 
 public class SearchBookPresenter {
-    private BookContract.View view;
-    private BookRepository repository;
+    private BookContract.View.LibraryView view;
+    private BookModel repository;
 
-    public SearchBookPresenter(Context context, BookContract.View view) {
-        this.repository = new BookRepository(context);
-        this.view = view;
+    public SearchBookPresenter(Context context, BookContract.View.LibraryView view) {
+        this.repository = new BookModel(context);
+        this.view = (BookContract.View.LibraryView) view;
     }
 
     public void loadSearchBook(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
         List<Book> books = repository.getSearchBooks(edtTitleStr, edtAuthorStr, edtDescStr);
+        view.displayBook(books);
+    }
+
+    public void searchBooksByAuthor(String author) {
+        List<Book> books = repository.getBooksByAuthor(author);
         view.displayBook(books);
     }
 

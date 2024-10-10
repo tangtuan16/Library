@@ -7,14 +7,15 @@ import androidx.annotation.NonNull;
 
 public class Book implements Parcelable {
     private int id, avt;
-    private String title, author, desc;
+    private String title, author, category;
+    private String content;
 
-    public Book(int id, int avt, String title, String author, String desc) {
+    public Book(int id, int avt, String title, String author, String category) {
         this.id = id;
         this.avt = avt;
         this.title = title;
         this.author = author;
-        this.desc = desc;
+        this.category = category;
     }
 
     public String getAuthor() {
@@ -26,7 +27,7 @@ public class Book implements Parcelable {
     }
 
     public String getDesc() {
-        return desc;
+        return category;
     }
 
     public int getId() {
@@ -69,5 +70,13 @@ public class Book implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
