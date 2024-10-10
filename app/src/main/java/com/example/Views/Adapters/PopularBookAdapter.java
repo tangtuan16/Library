@@ -10,22 +10,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Models.Book;
-import com.example.Views.Fragments.HomeFragment;
+import com.example.Presenters.BookPreviewPresenter;
+import com.example.Views.Popup.BookDetailPopup;
 import com.example.btl_libary.R;
 
 import java.util.List;
 
 public class PopularBookAdapter extends RecyclerView.Adapter<PopularBookAdapter.BookHolder> {
     private List<Book> list;
+    private Context context;
 
-    public PopularBookAdapter(List<Book> list) {
+    public PopularBookAdapter(List<Book> list, Context context) {
         this.list = list;
+        this.context = context;
     }
 
     @NonNull
@@ -45,16 +45,10 @@ public class PopularBookAdapter extends RecyclerView.Adapter<PopularBookAdapter.
         holder.btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("CheckIn4", "Click on button");
-                Context context = holder.itemView.getContext();
-                if (context instanceof FragmentActivity) {
-                    FragmentActivity activity = (FragmentActivity) context;
-                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                    Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
-                    if (fragment instanceof HomeFragment) {
-                        ((HomeFragment) fragment).showBookDetailsPopup(v, book);
-                    }
-                }
+                BookDetailPopup popup = new BookDetailPopup(v.getContext());
+                BookPreviewPresenter presenter = new BookPreviewPresenter(popup, v.getContext(), null);
+                presenter.loadBookDetail(book.getId(), context);
+                Log.d("CheckInfor", "id= " + book.getId());
             }
         });
     }
