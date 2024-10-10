@@ -249,7 +249,7 @@ public class BookModel {
         List<GenreData> genreDataList = new ArrayList<>();
 //        dbManager.Open();
 //        SQLiteDatabase database = dbManager.getDatabase();
-//        String sql = "SELECT genre, SUM(borrowed_count) as total FROM BookBorrows where user_id = ? GROUP BY genre";
+//        String sql = "SELECT genre, SUM(borrowed_count) as total FROM bookborrow where user_id = ? GROUP BY genre";
 //        String[] selectionArgs = new String[]{String.valueOf(userId)};
 //        Cursor cursor = database.rawQuery(sql, selectionArgs);
 //        if (cursor != null) {

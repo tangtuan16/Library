@@ -24,18 +24,6 @@ public class DBManager {
         private static final String DATABASE_NAME = "Library";
         private static final int DATABASE_VERSION = 23;
 
-//        private static final String TABLE_CREATE_USERS =
-//                "CREATE TABLE users (" +
-//                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                        "username TEXT UNIQUE, " +
-//                        "password TEXT, " +
-//                        "fullName TEXT, " +
-//                        "email TEXT, " +
-//                        "phone TEXT, " +
-//                        "avatar BLOB);";
-//        private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, avatar INTEGER, title TEXT, author TEXT,category TEXT);";
-
-
         private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    avatar INTEGER,\n" +
