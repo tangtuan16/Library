@@ -22,6 +22,7 @@ public class DBManager {
         private static final String DATABASE_NAME = "Library";
         private static final int DATABASE_VERSION = 7;
         private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, avatar INTEGER, title TEXT, author TEXT,description TEXT);";
+        private static final String TABLE_CREATE_BORROWBOOK = "CREATE TABLE borrowbook (userid INTEGER , bookid INTEGER, borrowdate TEXT, returndate TEXT);";
 
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -30,6 +31,7 @@ public class DBManager {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(TABLE_CREATE_BOOK);
+            db.execSQL(TABLE_CREATE_BORROWBOOK);
         }
 
         @Override

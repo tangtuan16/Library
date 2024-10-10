@@ -29,7 +29,7 @@
             android:name="com.example.Views.Activitys.AccountActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.Views.Activitys.BookBorrowedActivity"
+            android:name="com.example.Views.Activitys.MainActivity"
             android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.SearchActivity"
@@ -38,7 +38,7 @@
             android:name="com.example.Views.Activitys.LibraryInforActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.Views.Activitys.MainActivity"
+            android:name="com.example.Views.Activitys.BookBorrowedActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
