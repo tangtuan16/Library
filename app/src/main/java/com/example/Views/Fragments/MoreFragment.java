@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.Contracts.OnClickContracts;
 import com.example.Views.Activitys.AccountActivity;
 import com.example.Views.Activitys.BorrowBookActivity;
+import com.example.Views.Activitys.BorrowedBooksActivity;
 import com.example.Views.Activitys.LibraryInforActivity;
 import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.MoreAdapter;
@@ -55,7 +56,7 @@ public class MoreFragment extends Fragment {
                         startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(getContext(), BorrowBookActivity.class);
+                        intent = new Intent(getContext(), BorrowedBooksActivity.class);
                         startActivity(intent);
                         break;
                     case 3:

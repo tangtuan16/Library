@@ -43,7 +43,7 @@ public class BorrowBookActivity extends AppCompatActivity {
         dbManager.Open();
 
         borrowedCount = dbManager.getNumberOfBorrowedBooks(1,getIntent().getIntExtra("id_book", 0));
-
+        dbManager.Close();
 
         // Khởi tạo các thành phần giao diện
         descriptionQuantityToBorrow = findViewById(R.id.descriptionQuantityToBorrow);

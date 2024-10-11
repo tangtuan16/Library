@@ -6,7 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.Models.BorrowedBook;
 import com.example.Models.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DBManager {
     private SQLiteOpenHelper dbHelper;
@@ -216,6 +220,58 @@ public class DBManager {
         return count;
     }
 
+    public List<BorrowedBook> GetAllBorrowedBooks() {
+        List<BorrowedBook> borrowedBooksList = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+
+            String query = "SELECT bb.book_ID, b.avatar, b.title, b.author, b.category,bb.book_Total, " +
+                    "bb.date_Borrow, bb.date_Return, bb.isInLibrary " +
+                    "FROM bookborrow bb " +
+                    "JOIN books b ON bb.book_ID = b.id " +
+                    "WHERE bb.user_ID = 1";
+
+            cursor = database.rawQuery(query, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("book_ID"));
+                    int avatar = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
+                    String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                    String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
+                    String category = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                    int bookTotal = cursor.getInt(cursor.getColumnIndexOrThrow("book_Total"));
+                    String borrowedDate = cursor.getString(cursor.getColumnIndexOrThrow("date_Borrow"));
+                    String returnDate = cursor.getString(cursor.getColumnIndexOrThrow("date_Return"));
+                    int isInLibrary = cursor.getInt(cursor.getColumnIndexOrThrow("isInLibrary"));
+                    String position = isInLibrary == 1 ? "Thư viện" : "Chỗ bạn";
+
+                    // Tạo đối tượng BorrowedBook và thêm vào danh sách
+                    BorrowedBook borrowedBook = new BorrowedBook(
+                            id,
+                            avatar,
+                            title,
+                            author,
+                            category,
+                            bookTotal,
+                            borrowedDate,
+                            returnDate,
+                            position
+                    );
+                    borrowedBooksList.add(borrowedBook);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Xử lý lỗi nếu có
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close(); // Đảm bảo Cursor được đóng sau khi sử dụng
+            }
+        }
+        return borrowedBooksList;
+
+    }
+
 
     public long Insert(String table, ContentValues values) {
         return database.insert(table, null, values);
@@ -228,5 +284,6 @@ public class DBManager {
     public int Delete(String table, String whereClause, String[] whereArgs) {
         return database.delete(table, whereClause, whereArgs);
     }
+
 
 }
