@@ -49,6 +49,7 @@ public class UserModel {
         return userList;
     }
 
+
     public long registerUser(String username, String password, String fullName, String email, String phone) {
         dbManager.Open();
         database = dbManager.getDatabase();

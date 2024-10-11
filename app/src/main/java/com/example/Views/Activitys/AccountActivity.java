@@ -72,8 +72,10 @@ public class AccountActivity extends AppCompatActivity implements UserPresenter.
         });
 
         buttonLogout.setOnClickListener(v -> {
-            SharedPreferencesUtil.clearUserId(AccountActivity.this);
-            startActivity(new Intent(AccountActivity.this, LoginActivity.class));
+            SharedPreferencesUtil.clearUserLoginState(AccountActivity.this);
+            Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         });
     }

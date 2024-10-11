@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Presenters.UserPresenter;
 import com.example.Models.User;
+import com.example.Untils.SharedPreferencesUtil;
 import com.example.btl_libary.R;
 
 public class LoginActivity extends AppCompatActivity implements UserPresenter.LoginCallback {
@@ -20,6 +21,13 @@ public class LoginActivity extends AppCompatActivity implements UserPresenter.Lo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check if user is already logged in
+        if (SharedPreferencesUtil.isLoggedIn(this)) {
+            startMainActivity();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         initViews();
@@ -60,17 +68,18 @@ public class LoginActivity extends AppCompatActivity implements UserPresenter.Lo
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    private void startMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public void onLoginSuccess(User user) {
-        // Lưu userId vào SharedPreferences
-        getSharedPreferences("USER_PREF", MODE_PRIVATE)
-                .edit()
-                .putInt("USER_ID", user.getId())
-                .apply();
-
+        SharedPreferencesUtil.saveUserLoginState(this, user.getId());
         showToast("Đăng nhập thành công!");
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+        startMainActivity();
     }
 
     @Override
