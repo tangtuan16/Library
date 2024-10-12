@@ -36,6 +36,10 @@ public class BookPresenter implements BookContract.Presenter.HomePresenter {
         List<Book> books = repository.getAllBooks();//lay data
         libraryView.displayBook(books);// tra data ve man hien thi
     }
+    public void loadGridBook() {
+        List<Book> books = repository.getAllBooks();//lay data
+        libraryView.displayGridBook(books);// tra data ve man hien thi
+    }
 
     public void loadPopularBooks() {
         List<Book> popularBooks = repository.getPopularBooks();

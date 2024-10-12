@@ -10,8 +10,8 @@
         android:layout_marginTop="60dp"
         android:fontFamily="sans-serif"
         android:text="Thông tin chi tiết sách"
-        android:textSize="30sp">
-    </TextView>
+        android:textSize="30sp" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,109 +32,100 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:text="Tên sách: ">
-                </TextView>
+                    android:text="Tên sách: "
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:textSize="18sp"
-                    android:text="Sach">
-                </TextView>
+                    android:text="Sach"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:text="Tên Tác Giả: ">
-                </TextView>
+
+                    android:text="Tên Tác Giả: "
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
                     android:layout_marginLeft="10dp"
-                    android:text="Tac Gia">
-                </TextView>
+                    android:text="Tac Gia"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_marginTop="30dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:text="Thể Loại: ">
-                </TextView>
+                    android:text="Thể Loại: "
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-
                     android:layout_marginLeft="10dp"
-                    android:text="The Loai">
-                </TextView>
+
+                    android:text="The Loai"
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:gravity="right">
 
             <ImageView
                 android:id="@+id/imgAvt"
                 android:layout_width="100dp"
-                android:layout_height="150dp">
-
-            </ImageView>
+                android:layout_height="150dp" />
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:gravity="right">
 
         <CheckBox
 
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/heart_shape"
-            android:checked="false"
-            android:button="@null"
             android:layout_marginEnd="10dp"
-            android:textSize="10sp">
-
-        </CheckBox>
+            android:background="@drawable/heart_shape"
+            android:button="@null"
+            android:checked="false"
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/btnBorrow"
             android:layout_width="100dp"
             android:layout_height="60dp"
+            android:layout_marginEnd="20dp"
             android:breakStrategy="high_quality"
             android:text="Đăng Ký Mượn Sách"
-            android:layout_marginEnd="20dp"
-            android:textSize="12sp">
-
-        </Button>
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

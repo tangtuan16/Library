@@ -31,6 +31,8 @@ public interface BookContract {
             void showSuccess(String mess);
 
             void showError(String mess);
+
+            void displayGridBook(List<Book> list);
         }
         //detail book cua khoi
         interface DetailBookView {

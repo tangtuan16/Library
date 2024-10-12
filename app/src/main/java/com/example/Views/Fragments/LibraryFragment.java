@@ -1,9 +1,15 @@
 package com.example.Views.Fragments;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +24,7 @@ import com.example.Models.Book;
 import com.example.Models.BookModel;
 import com.example.Presenters.BookPresenter;
 import com.example.Views.Activitys.MainActivity;
+import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.BookAdapter;
 import com.example.btl_libary.R;
 
@@ -26,19 +33,46 @@ import java.util.List;
 public class LibraryFragment extends Fragment implements BookContract.View.LibraryView {
     private RecyclerView rvBooks;
     private BookPresenter presenter;
-
+    Button btnLine;
+    Button btnGrid;
+    Button showPopupButton;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.library_fragment, container, false);
+        showPopupButton = view.findViewById(R.id.show_popup_button);
+        showPopupButton.setOnClickListener(v -> showSearchPopup());
+
+
+
         return view;
     }
-
+//    private void showSearchPopup() {
+//        Dialog searchDialog = new Dialog(this.getContext());
+//        searchDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        searchDialog.setContentView(R.layout.activity_popup_search);
+//
+//
+//        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+//        layoutParams.copyFrom(searchDialog.getWindow().getAttributes());
+//        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+//        searchDialog.getWindow().setAttributes(layoutParams);
+//
+//        searchDialog.show();
+//    }
+    private void showSearchPopup() {
+        Intent intent = new Intent(getContext(), SearchActivity.class);
+        startActivity(intent);
+    }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvBooks = view.findViewById(R.id.rcvBook);
+        btnLine=view.findViewById(R.id.btnLine);
+        btnGrid=view.findViewById(R.id.btnGrid);
+
         rvBooks.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -54,11 +88,23 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
                 }
             }
         });
+
         if (getContext() != null) {
             presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
-
+            RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+            rvBooks.addItemDecoration(itemDecoration);
             presenter.loadBook();
         }
+        btnLine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.loadBook();
+            }});
+        btnGrid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.loadGridBook();
+            }});
     }
 
 
@@ -66,8 +112,12 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
     public void displayBook(List<Book> list) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         rvBooks.setLayoutManager(gridLayoutManager);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        rvBooks.addItemDecoration(itemDecoration);
+
+        rvBooks.setAdapter(new BookAdapter(list));
+    }
+    public void displayGridBook(List <Book> list){
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        rvBooks.setLayoutManager(gridLayoutManager);
         rvBooks.setAdapter(new BookAdapter(list));
     }
 

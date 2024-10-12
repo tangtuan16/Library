@@ -118,6 +118,11 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
         Toast.makeText(this, mess, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void displayGridBook(List<Book> books) {
+
+    }
+
     public void hideLinearSearch() {
         linearLayout.animate().alpha(0.0f).setDuration(200).withEndAction(() -> linearLayout.setVisibility(View.GONE));
     }
