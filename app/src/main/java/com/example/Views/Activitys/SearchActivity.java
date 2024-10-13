@@ -123,6 +123,11 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
 
     }
 
+    @Override
+    public void displayFavoriteBook(List<Book> newBooks) {
+
+    }
+
     public void hideLinearSearch() {
         linearLayout.animate().alpha(0.0f).setDuration(200).withEndAction(() -> linearLayout.setVisibility(View.GONE));
     }

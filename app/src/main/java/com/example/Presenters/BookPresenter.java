@@ -40,6 +40,13 @@ public class BookPresenter implements BookContract.Presenter.HomePresenter {
         List<Book> books = repository.getAllBooks();//lay data
         libraryView.displayGridBook(books);// tra data ve man hien thi
     }
+    public void loadFavoriteBooks() {
+        List<Book> newBooks = repository.getFavoriteBooks();
+        libraryView.displayFavoriteBook(newBooks);
+    }
+    public void updateFavoritesStatus(int userId, int bookId, int favorite) {
+        repository.updateFavorites(userId, bookId, favorite);
+    }
 
     public void loadPopularBooks() {
         List<Book> popularBooks = repository.getPopularBooks();
@@ -70,7 +77,13 @@ public class BookPresenter implements BookContract.Presenter.HomePresenter {
     //detail book cua khoi
         public void loadDetailBook(int id) {
             List<Book> DetailBook = repository.getDetailBook(id);
+
+
             DetailBookView.displayBook(DetailBook);
+        }
+        public int checkFavoriteStatus(int id) {
+            int fav= repository.checkIfFavorite(id);
+           return fav;
         }
 
 
