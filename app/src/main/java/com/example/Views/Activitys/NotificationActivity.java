@@ -1,5 +1,6 @@
 package com.example.Views.Activitys;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -10,8 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Contracts.NotificationContract;
+import com.example.Models.BookBorrow;
 import com.example.Models.Notification;
 import com.example.Presenters.NotificationPresenter;
+import com.example.Untils.ReturnWorkerNotification;
 import com.example.Views.Adapters.NotificationAdapter;
 import com.example.btl_libary.R;
 
@@ -29,11 +32,22 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         setContentView(R.layout.activity_notification);
         rvBooks = findViewById(R.id.rvNotification);
         notificationPresenter = new NotificationPresenter(this, (NotificationContract.View) NotificationActivity.this);
-        notificationPresenter.addNotification("Thông báo 1", "Nội dung thông báo 1", date);
-        notificationPresenter.addNotification("Thông báo 2", "Nội dung thông báo 2", date);
+        BookBorrow book = new BookBorrow(1, 1, "Sample Book", 1, "2023-01-01", "2023-01-03");
         notificationPresenter.loadNotification();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == ReturnWorkerNotification.REQUEST_CODE_POST_NOTIFICATIONS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                BookBorrow book = new BookBorrow(1, 1, "Sample Book", 1, "2023-01-01", "2023-01-03");
+                ReturnWorkerNotification.createNotification(this, book);
+            } else {
+                Toast.makeText(this, "Permission denied to post notifications", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     @Override
     public void showNotification(List<Notification> notificationList) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1);

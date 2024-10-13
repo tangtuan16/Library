@@ -285,6 +285,7 @@ public class BookModel {
             }
         }
         dbManager.Close();
-        return genreDataList;
+        //return genreDataList;
+        return null;
     }
 }

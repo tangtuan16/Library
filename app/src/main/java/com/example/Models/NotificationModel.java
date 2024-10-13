@@ -28,7 +28,6 @@ public class NotificationModel {
         dbManager.Open();
         database = dbManager.getDatabase();
         int user_ID = SharedPreferencesUtil.getUserId(context);
-        List<Notification> notificationList = new ArrayList<>();
         ContentValues values = new ContentValues();
         values.put("user_id", user_ID);
         values.put("title", title);
@@ -51,7 +50,7 @@ public class NotificationModel {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
-                long dateInMillis = cursor.getLong(cursor.getColumnIndexOrThrow("date"));
+                long dateInMillis = cursor.getLong(cursor.getColumnIndexOrThrow("notification_time"));
                 Date date = new Date(dateInMillis);
                 notificationList.add(new Notification(id, title, content, date));
             }
@@ -64,8 +63,9 @@ public class NotificationModel {
     public void deleteNotification(int id) {
         dbManager.Open();
         database = dbManager.getDatabase();
-        String sql = "Delete from notifications where id = ?";
-        database.execSQL(sql, new Object[]{id});
+        String sql = "Delete from notifications where id = ? and user_id = ?";
+        int userId = SharedPreferencesUtil.getUserId(context);
+        database.execSQL(sql, new Object[]{id, userId});
         dbManager.Close();
     }
 

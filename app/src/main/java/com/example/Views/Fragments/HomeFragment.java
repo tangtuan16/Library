@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         userPresenter.loadUsers();
         bookPresenter.loadPopularBooks();
         bookPresenter.loadAuthorBooks();
-        bookPresenter.loadGenreData();
+     //   bookPresenter.loadGenreData();
         weatherPresenter.loadWeather(getString(R.string.weather_api_key), getString(R.string.locatiton));
         return view;
     }
