@@ -1,7 +1,10 @@
 package com.example.Views.Activitys;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class BookDetailActivity extends AppCompatActivity implements BookContract.View.DetailBookView {
     private BookPresenter bookPresenter;
+    private Button btnBorrow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +41,15 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
             //xu ly loi
             Toast.makeText(this, "ko tim thay sach", Toast.LENGTH_SHORT).show();
         }
+        btnBorrow = findViewById(R.id.btnBorrow);
+        btnBorrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), BorrowBookActivity.class);
+                intent.putExtra("id_book", bookId);
+                startActivity(intent);
+            }
+        });
 
 
     }

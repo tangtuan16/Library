@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BTL_Libary"
         tools:targetApi="31">
+        <activity
+            android:name="com.example.Views.Activitys.BorrowedBooksActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BorrowedBooksActivity"
+            android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.EditInfoActivity"
             android:exported="false" />
@@ -47,7 +52,7 @@
             android:name="com.example.Views.Activitys.AccountActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.Views.Activitys.BookBorrowedActivity"
+            android:name="com.example.Views.Activitys.BorrowBookActivity"
             android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.SearchActivity"
@@ -57,11 +62,7 @@
             android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.MainActivity"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name="com.example.Views.Activitys.NotificationActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>
