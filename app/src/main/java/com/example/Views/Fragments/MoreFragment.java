@@ -16,7 +16,7 @@ import com.example.Contracts.OnClickContracts;
 import com.example.Views.Activitys.AccountActivity;
 import com.example.Views.Activitys.BookBorrowedActivity;
 import com.example.Views.Activitys.LibraryInforActivity;
-import com.example.Views.Activitys.MapsActivity;
+import com.example.Views.Activitys.NotificationActivity;
 import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.MoreAdapter;
 import com.example.btl_libary.R;
@@ -62,6 +62,12 @@ public class MoreFragment extends Fragment {
                     case 3:
                         intent = new Intent(getContext(), LibraryInforActivity.class);
                         startActivity(intent);
+                        break;
+                    case 4:
+                        intent = new Intent(getContext(), NotificationActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 5:
                         break;
                 }
             }

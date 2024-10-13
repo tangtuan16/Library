@@ -22,7 +22,7 @@ public class DBManager {
 
     public static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "Library";
-        private static final int DATABASE_VERSION = 25;
+        private static final int DATABASE_VERSION = 30;
 
         private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
@@ -47,12 +47,14 @@ public class DBManager {
                 "    borrowing_ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    user_ID INTEGER,\n" +
                 "    book_ID INTEGER,\n" +
+                "    book_title TEXT,\n" +
                 "    category TEXT,\n" +
                 "    book_Total INTEGER,\n" +
                 "    date_Borrow DATE CHECK(Date_Borrow <= CURRENT_DATE),\n" +
                 "    date_Payment DATE CHECK(Date_Payment >= Date_Borrow),\n" +
                 "    FOREIGN KEY (user_ID) REFERENCES users(id),\n" +
                 "    FOREIGN KEY (book_ID) REFERENCES books(id),\n" +
+                "    FOREIGN KEY (book_title) REFERENCES books(title),\n" +
                 "    FOREIGN KEY (category) REFERENCES books(category)\n" +
                 ");\n";
 
@@ -65,6 +67,15 @@ public class DBManager {
                 "    FOREIGN KEY (book_ID) REFERENCES books(id)\n" +
                 ");\n";
 
+        private static final String TABLE_CREATE_NOTIFICATIONS = "CREATE TABLE notifications (\n" +
+                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    user_id INTEGER,\n" +
+                "    title TEXT NOT NULL,\n" +
+                "    content TEXT NOT NULL,\n" +
+                "    notification_time DATE NOT NULL,\n" +
+                "    status INTEGER DEFAULT 0 CHECK (status IN (0,1)) NOT NULL\n" +
+                ");\n";
+
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
@@ -75,6 +86,7 @@ public class DBManager {
             db.execSQL(TABLE_CREATE_USERS);
             db.execSQL(TABLE_CREATE_BOOKBORROW);
             db.execSQL(TABLE_CREATE_FAVOURITEBOOKS);
+            db.execSQL(TABLE_CREATE_NOTIFICATIONS);
         }
 
         @Override
@@ -89,9 +101,10 @@ public class DBManager {
                 db.execSQL("DROP TABLE IF EXISTS users");
                 db.execSQL("DROP TABLE IF EXISTS bookborrow");
                 db.execSQL("DROP TABLE IF EXISTS favorites_books");
+                db.execSQL("DROP TABLE IF EXISTS notifications");
 
                 onCreate(db);
-//                db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
+//              db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
 //                        "SELECT id, avatar, title, author, category FROM books_backup;");
                 db.execSQL("INSERT INTO users (id, username , password , fullName , email, phone, avatar) " +
                         "SELECT id, username , password , fullName , email, phone, avatar FROM users_backup;");
