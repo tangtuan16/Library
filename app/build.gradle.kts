@@ -66,4 +66,7 @@ dependencies {
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
     implementation ("com.google.guava:guava:31.0.1-android")
 
+    implementation ("com.sun.mail:android-mail:1.6.2")
+    implementation ("com.sun.mail:android-activation:1.6.2")
+
 }
