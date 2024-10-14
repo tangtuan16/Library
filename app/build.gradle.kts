@@ -63,4 +63,7 @@ dependencies {
     implementation ("org.tensorflow:tensorflow-lite:2.5.0")
     implementation ("com.google.code.gson:gson:2.8.8")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation ("androidx.work:work-runtime-ktx:2.7.1")
+    implementation ("com.google.guava:guava:31.0.1-android")
+
 }

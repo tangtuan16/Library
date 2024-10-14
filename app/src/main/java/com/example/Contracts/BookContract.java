@@ -38,6 +38,7 @@ public interface BookContract {
 
 
         }
+
         //detail book cua khoi
         interface DetailBookView {
             void displayBook(List<Book> list);
