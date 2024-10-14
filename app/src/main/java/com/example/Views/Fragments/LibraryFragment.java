@@ -52,10 +52,17 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
     ViewPager2 viewPager2;
     LinearLayout pageView;
 
-
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onResume() {
+        super.onResume();
+        presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
+        presenter.loadFavoriteBooks();
+    }
+
+
+
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.library_fragment, container, false);
         showPopupButton = view.findViewById(R.id.show_popup_button);
         showPopupButton.setOnClickListener(v -> showSearchPopup());
