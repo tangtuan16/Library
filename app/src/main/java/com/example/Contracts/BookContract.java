@@ -31,10 +31,20 @@ public interface BookContract {
             void showSuccess(String mess);
 
             void showError(String mess);
+
+            void displayGridBook(List<Book> list);
+
+            void displayFavoriteBook(List<Book> newBooks);
+
+
         }
+
         //detail book cua khoi
         interface DetailBookView {
             void displayBook(List<Book> list);
+
+        }
+        interface BorrowBookView {
 
         }
     }
@@ -51,6 +61,9 @@ public interface BookContract {
 
         interface BookDetailPresenter {
             void loadBookDetail(int bookId, Context context);
+        }
+        interface BorrowBookPresenter {
+
         }
     }
 

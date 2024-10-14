@@ -5,41 +5,31 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Hiển thị avatar sách -->
-    <ImageView
-        android:id="@+id/imageBookAvatar"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginBottom="16dp"
-        android:scaleType="centerCrop"
-        android:contentDescription="Book Avatar"/>
 
-    <!-- Hiển thị tiêu đề sách -->
+
+
     <TextView
-        android:id="@+id/textBookTitle"
+        android:id="@+id/numberOfBorrowedBooks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title: Book Title"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp"/>
-
-    <!-- Hiển thị tác giả sách -->
-    <TextView
-        android:id="@+id/textBookAuthor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Author: Book Author"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
-
-    <!-- Hiển thị mô tả sách -->
-    <TextView
-        android:id="@+id/textBookDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Description: Book Description"
+        android:text="Số lượng sách đã mượn:0/3 "
         android:textSize="14sp"
         android:layout_marginBottom="16dp"/>
+    <TextView
+        android:id="@+id/descriptionQuantityToBorrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Nhập số lượng cần mượn"
+        android:textSize="14sp"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/quantityToBorrow"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:minHeight="48dp" />
 
     <!-- Chọn ngày gửi -->
     <TextView

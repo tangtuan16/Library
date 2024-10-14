@@ -41,9 +41,14 @@ import com.example.Views.Adapters.PopularBookAdapter;
 import com.example.btl_libary.R;
 import com.example.Untils.SharedPreferencesUtil;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,6 +65,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     private ListView lvAuthor;
     private List<String> authors;
     private BarChart barChart;
+    private LineChart lineChart;
 
     @Nullable
     @Override
@@ -72,7 +78,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         lvAuthor = view.findViewById(R.id.lvAuthorPopular);
         userAvatar = view.findViewById(R.id.imgUser);
         userName = view.findViewById(R.id.txtUser);
-        barChart = view.findViewById(R.id.barChart);
+        lineChart = view.findViewById(R.id.lineChart);
 
         hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         weatherPresenter = new WeatherPresenter(this, getContext());
@@ -81,7 +87,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         loadUserInfo();
         bookPresenter.loadPopularBooks();
         bookPresenter.loadAuthorBooks();
-        bookPresenter.loadGenreData();
+     //   bookPresenter.loadGenreData();
         weatherPresenter.loadWeather(getString(R.string.weather_api_key), getString(R.string.locatiton));
         return view;
     }
@@ -168,17 +174,21 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
 
     @Override
     public void displayGenreData(List<GenreData> data) {
-        List<BarEntry> entries = new ArrayList<>();
+        List<Entry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
         for (int i = 0; i < data.size(); i++) {
             GenreData genreData = data.get(i);
-            entries.add(new BarEntry(i, genreData.getTotal()));
+            entries.add(new Entry(i, genreData.getTotal()));
+            labels.add(genreData.getGenre());
         }
-
-        BarDataSet dataSet = new BarDataSet(entries, "Genres");
-        BarData barData = new BarData(dataSet);
-        barChart.setData(barData);
-        barChart.invalidate();
+        LineDataSet dataSet = new LineDataSet(entries, "Genres");
+        LineData lineData = new LineData(dataSet);
+        lineChart.setData(lineData);
+        lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels)); // Setting labels
+        lineChart.invalidate();
     }
+
 
     @Override
     public void displayUser(List<User> userList) {
