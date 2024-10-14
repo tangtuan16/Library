@@ -18,6 +18,15 @@ public class Book implements Parcelable {
         this.category = category;
     }
 
+    public Book(int id, int avt, String title, String author, String category, String content) {
+        this.id = id;
+        this.avt = avt;
+        this.title = title;
+        this.author = author;
+        this.category = category;
+        this.content = content;
+    }
+
     public String getAuthor() {
         return author;
     }

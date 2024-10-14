@@ -64,11 +64,59 @@ public class BookModel {
         dbManager.Close();
         return bookList;
     }
+
+    //code khoi 2 cai nay
+    public List<Book> getFavoriteBooks() {
+        List<Book> bookList = new ArrayList<>();
+        dbManager.Open();
+        int userId = SharedPreferencesUtil.getUserId(context);
+        database = dbManager.getDatabase();
+        String sql = "SELECT * FROM favorites_books where favorite = 1 And user_ID=" + userId;
+        Cursor cursor = database.rawQuery(sql, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("book_ID"));
+                String selectBook = "SELECT * FROM books Where id =" + id;
+                Cursor cursorbookadd = database.rawQuery(selectBook, null);
+                if (cursorbookadd != null) {
+                    while (cursorbookadd.moveToNext()) {
+                        int avt = cursorbookadd.getInt(cursorbookadd.getColumnIndexOrThrow("avatar"));
+                        String title = cursorbookadd.getString(cursorbookadd.getColumnIndexOrThrow("title"));
+                        String author = cursorbookadd.getString(cursorbookadd.getColumnIndexOrThrow("author"));
+                        String desc = cursorbookadd.getString(cursorbookadd.getColumnIndexOrThrow("category"));
+                        String content = cursorbookadd.getString(cursorbookadd.getColumnIndexOrThrow("content"));
+                        bookList.add(new Book(id, avt, title, author, desc, content));
+                    }
+                    cursorbookadd.close();
+                }
+
+            }
+            cursor.close();
+        }
+        dbManager.Close();
+        return bookList;
+    }
+
+    public int checkIfFavorite(int bookId) {
+        dbManager.Open();
+        int userId = SharedPreferencesUtil.getUserId(context);
+        database = dbManager.getDatabase();
+        String query = "SELECT * FROM favorites_books WHERE user_ID = ? AND book_ID = ?";
+        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(bookId)});
+        int isFavorite = 0;  // Giá trị mặc định nếu không tìm thấy
+        if (cursor.moveToFirst()) {
+            isFavorite = cursor.getInt(cursor.getColumnIndexOrThrow("favorite"));
+        }
+        cursor.close();
+        return isFavorite;
+    }
+
+
     public List<Book> getDetailBook(int id) {
         List<Book> bookList = new ArrayList<>();
         dbManager.Open();
         database = dbManager.getDatabase();
-        String sql = "SELECT * FROM books Where id ="+id;
+        String sql = "SELECT * FROM books Where id =" + id;
         Cursor cursor = database.rawQuery(sql, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
@@ -76,7 +124,8 @@ public class BookModel {
                 String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
                 String desc = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-                bookList.add(new Book(id, avt, title, author, desc));
+                String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
+                bookList.add(new Book(id, avt, title, author, desc, content));
             }
             cursor.close();
         }
@@ -248,7 +297,7 @@ public class BookModel {
         dbManager.Close();
         return bookList;
     }
-
+//khoi 2 code
 
     public List<Book> loadBookDetail(int bookId, Context context) {
         List<Book> bookListJson = JsonUtils.readBooksFromJson(context, "books.json");
@@ -263,27 +312,50 @@ public class BookModel {
         return bookListJson;
     }
 
+    public void updateFavorites(int userId, int bookId, int favorite) {
+        dbManager.Open();
+        SQLiteDatabase database = dbManager.getDatabase();
+        String query = "SELECT * FROM favorites_books WHERE user_ID = ? AND book_ID = ?";
+        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(bookId)});
+
+        if (cursor.moveToFirst()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("favorite", favorite);
+            database.update("favorites_books", contentValues, "user_ID = ? AND book_ID = ?", new String[]{String.valueOf(userId), String.valueOf(bookId)});
+        } else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("user_ID", userId);
+            contentValues.put("book_ID", bookId);
+            contentValues.put("favorite", favorite);
+            database.insert("favorites_books", null, contentValues);
+        }
+        cursor.close();
+    }
+
+
     public List<GenreData> getGenreData() {
         int userId = SharedPreferencesUtil.getUserId(context);
         List<GenreData> genreDataList = new ArrayList<>();
-//        dbManager.Open();
-//        SQLiteDatabase database = dbManager.getDatabase();
-//        String sql = "SELECT genre, SUM(borrowed_count) as total FROM BookBorrows where user_id = ? GROUP BY genre";
-//        String[] selectionArgs = new String[]{String.valueOf(userId)};
-//        Cursor cursor = database.rawQuery(sql, selectionArgs);
-//        if (cursor != null) {
-//            try {
-//                while (cursor.moveToNext()) {
-//                    String genre = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-//                    int total = cursor.getInt(cursor.getColumnIndexOrThrow("total"));
-//                    genreDataList.add(new GenreData(genre, total));
-//                }
-//                return genreDataList;
-//            } finally {
-//                cursor.close();
-//            }
-//        }
-//        dbManager.Close();
-        return genreDataList;
+        dbManager.Open();
+        SQLiteDatabase database = dbManager.getDatabase();
+        String sql = "SELECT category, SUM(book_Total) as total FROM bookborrow where user_ID = ? GROUP BY category";
+        String[] selectionArgs = new String[]{String.valueOf(userId)};
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
+        if (cursor != null) {
+            try {
+                while (cursor.moveToNext()) {
+                    String genre = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                    int total = cursor.getInt(cursor.getColumnIndexOrThrow("total"));
+                    genreDataList.add(new GenreData(genre, total));
+                    Log.d("CheckInfor", "UserID=  " + userId + " ,Genre: " + genre + ", Total: " + total);
+                }
+                return genreDataList;
+            } finally {
+                cursor.close();
+            }
+        }
+        dbManager.Close();
+        //return genreDataList;
+        return null;
     }
 }

@@ -26,59 +26,53 @@ public class DBManager {
 
     public static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "Library";
-        private static final int DATABASE_VERSION = 23;
+        private static final int DATABASE_VERSION = 32;
 
-//        private static final String TABLE_CREATE_USERS =
-//                "CREATE TABLE users (" +
-//                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                        "username TEXT UNIQUE, " +
-//                        "password TEXT, " +
-//                        "fullName TEXT, " +
-//                        "email TEXT, " +
-//                        "phone TEXT, " +
-//                        "avatar BLOB);";
-//        private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (id INTEGER PRIMARY KEY AUTOINCREMENT, avatar INTEGER, title TEXT, author TEXT,category TEXT);";
+        private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "avatar INTEGER, " +
+                "title TEXT NOT NULL, " +
+                "author TEXT NOT NULL, " +
+                "category TEXT NOT NULL, " +
+                "content TEXT);";
 
 
-        private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (\n" +
-                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "    avatar INTEGER,\n" +
-                "    title TEXT NOT NULL,\n" +
-                "    author TEXT NOT NULL,\n" +
-                "    category TEXT NOT NULL,\n" +
-                "    content TEXT\n" +
-                ");\n";
+        private static final String TABLE_CREATE_USERS = "CREATE TABLE users (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "username TEXT NOT NULL, " +
+                "password TEXT NOT NULL, " +
+                "fullName TEXT NOT NULL, " +
+                "email TEXT NOT NULL, " +
+                "phone TEXT NOT NULL, " +
+                "avatar BLOB);";
 
-        private static final String TABLE_CREATE_USERS = "CREATE TABLE users (\n" +
-                "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "    username TEXT NOT NULL,\n" +
-                "    password TEXT NOT NULL,\n" +
-                "    fullName TEXT NOT NULL,\n" +
-                "    email TEXT NOT NULL,\n" +
-                "    phone TEXT NOT NULL,\n" +
-                "    avatar BLOB\n" +
-                ");\n";
 
-        private static final String TABLE_CREATE_BOOKBORROW = "CREATE TABLE bookborrow (\n" +
-                "    borrowing_ID INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "    user_ID INTEGER,\n" +
-                "    book_ID INTEGER,\n" +
-                "    book_Total INTEGER,\n" +
-                "    isInLibrary INTEGER DEFAULT 1 CHECK (isInLibrary IN (0, 1)),\n"+
-                "    date_Borrow TEXT ,\n" +
-                "    date_Return TEXT ,\n" +
-                "    FOREIGN KEY (user_ID) REFERENCES users(id),\n" +
-                "    FOREIGN KEY (book_ID) REFERENCES books(id)\n" +
-                ");\n";
+        private static final String TABLE_CREATE_BOOKBORROW = "CREATE TABLE bookborrow (" +
+                "borrowing_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_ID INTEGER, " +
+                "book_ID INTEGER, " +
+                "book_Total INTEGER, " +
+                "isInLibrary INTEGER DEFAULT 1 CHECK (isInLibrary IN (0, 1)), " +
+                "date_Borrow TEXT, " +
+                "date_Return TEXT, " +
+                "FOREIGN KEY (user_ID) REFERENCES users(id), " +
+                "FOREIGN KEY (book_ID) REFERENCES books(id));";
 
-        private static final String TABLE_CREATE_FAVOURITEBOOKS = "CREATE TABLE favorites_books(\n" +
-                "    Favorite_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "    user_ID INTEGER,\n" +
-                "    book_ID INTEGER,\n" +
-                "    favorite INTEGER CHECK (Favorite IN (0, 1)),\n" +
-                "    FOREIGN KEY (user_ID) REFERENCES users(id),\n" +
-                "    FOREIGN KEY (book_ID) REFERENCES books(id)\n" +
-                ");\n";
+        private static final String TABLE_CREATE_FAVOURITEBOOKS = "CREATE TABLE favorites_books (" +
+                "Favorite_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_ID INTEGER, " +
+                "book_ID INTEGER, " +
+                "favorite INTEGER CHECK (favorite IN (0, 1)), " +
+                "FOREIGN KEY (user_ID) REFERENCES users(id), " +
+                "FOREIGN KEY (book_ID) REFERENCES books(id));";
+
+        private static final String TABLE_CREATE_NOTIFICATIONS = "CREATE TABLE notifications (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "user_id INTEGER, " +
+                "title TEXT NOT NULL, " +
+                "content TEXT NOT NULL, " +
+                "notification_time DATE NOT NULL, " +
+                "status INTEGER DEFAULT 0 CHECK (status IN (0,1)) NOT NULL);";
 
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -90,6 +84,7 @@ public class DBManager {
             db.execSQL(TABLE_CREATE_USERS);
             db.execSQL(TABLE_CREATE_BOOKBORROW);
             db.execSQL(TABLE_CREATE_FAVOURITEBOOKS);
+            db.execSQL(TABLE_CREATE_NOTIFICATIONS);
         }
 
         @Override
@@ -99,6 +94,9 @@ public class DBManager {
                 db.execSQL("CREATE TABLE users_backup AS SELECT * FROM users;");
                 db.execSQL("DROP TABLE IF EXISTS books");
                 db.execSQL("DROP TABLE IF EXISTS users");
+                db.execSQL("DROP TABLE IF EXISTS bookborrow");
+                db.execSQL("DROP TABLE IF EXISTS favorites_books");
+                db.execSQL("DROP TABLE IF EXISTS notifications");
                 onCreate(db);
                 db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
                         "SELECT id, avatar, title, author, category FROM books_backup;");
@@ -220,6 +218,8 @@ public class DBManager {
         return count;
     }
 
+
+    //code hùng
     public List<BorrowedBook> GetAllBorrowedBooks() {
         List<BorrowedBook> borrowedBooksList = new ArrayList<>();
         Cursor cursor = null;

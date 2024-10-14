@@ -127,8 +127,6 @@ public class BorrowBookActivity extends AppCompatActivity {
             return; // Dừng hàm nếu ngày trả không hợp lệ
         }
 
-
-
         // Tạo đối tượng ContentValues để lưu trữ dữ liệu
         ContentValues values = new ContentValues();
         values.put("user_ID", userId);
