@@ -44,6 +44,9 @@ public interface BookContract {
             void displayBook(List<Book> list);
 
         }
+        interface BorrowBookView {
+
+        }
     }
 
     interface Presenter {
@@ -58,6 +61,9 @@ public interface BookContract {
 
         interface BookDetailPresenter {
             void loadBookDetail(int bookId, Context context);
+        }
+        interface BorrowBookPresenter {
+
         }
     }
 
