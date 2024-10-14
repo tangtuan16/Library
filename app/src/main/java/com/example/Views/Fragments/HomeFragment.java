@@ -158,6 +158,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
 
     @Override
     public void displayGenreData(List<GenreData> data) {
+        Log.d("ListCheck", "Size of data:" + data.size());
         if (data.isEmpty()) {
             pieChart.setVisibility(View.GONE);
             tvPie.setVisibility(View.GONE);

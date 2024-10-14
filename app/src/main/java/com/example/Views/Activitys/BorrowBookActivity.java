@@ -2,8 +2,10 @@ package com.example.Views.Activitys;
 
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Models.Book;
 import com.example.Untils.DBManager; // Thêm import cho DBManager
+import com.example.Untils.SharedPreferencesUtil;
 import com.example.btl_libary.R;
 
 import java.text.ParseException;
@@ -33,11 +36,11 @@ public class BorrowBookActivity extends AppCompatActivity {
     private TextView  descriptionQuantityToBorrow;
     Button buttonBorrow;
     int borrowedCount;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrow_book);
-
         // Khởi tạo DBManager
         dbManager = new DBManager(this);
         dbManager.Open();
@@ -98,6 +101,7 @@ public class BorrowBookActivity extends AppCompatActivity {
     private void borrowBook() {
         // Lấy thông tin người dùng và ngày gửi, ngày trả
         int userId = 1; // Thay đổi thành ID người dùng thực tế
+        Log.d("ListCheck", "User ID: " + userId);
         int bookId = getIntent().getIntExtra("id_book", 0); // Lấy ID của sách
         int quantity = Integer.parseInt(quantityToBorrow.getText().toString());
         if (borrowedCount + quantity > 3) {

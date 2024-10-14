@@ -1,5 +1,6 @@
 package com.example.Views.Adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -7,15 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.example.Models.Book;
 import com.example.Views.Activitys.BookDetailActivity;
 import com.example.btl_libary.R;
-
 import java.util.List;
 
 public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookViewHolder> {
@@ -36,11 +34,13 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
+        if (!list.isEmpty()) {
         Book book = list.get(position % list.size());
         holder.imgAvt.setImageResource(book.getAvt());
 //        holder.txtTitle.setText(book.getTitle());
 //        holder.txtAuthor.setText(book.getAuthor());
 //        holder.txtCategory.setText(book.getDesc());
+        }
     }
 
     @Override
@@ -53,7 +53,6 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
         private ImageView imgAvt;
 
         public BookViewHolder(@NonNull View itemView) {
-
             super(itemView);
             imgAvt = itemView.findViewById(R.id.imgAvt);
             txtTitle = itemView.findViewById(R.id.txtTitle);
@@ -61,19 +60,23 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
             txtCategory = itemView.findViewById(R.id.txtCategory);
             itemView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    int position = getAdapterPosition() % list.size();
-                    Log.d("position", "onClick: " + position + "   Size: " + list.size());
-                    if (position != RecyclerView.NO_POSITION) {
-                        Book clickedBook = list.get(position);
-                        int bookId = clickedBook.getId(); // Lấy ID sách
-                        Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
-                        intent.putExtra("id_book", bookId); // Truyền ID sách làm extra
-                        v.getContext().startActivity(intent);
+                    if (!list.isEmpty()) {
+                        int position = getAdapterPosition() % list.size();
+                        if (position != RecyclerView.NO_POSITION) {
+                            Book clickedBook = list.get(position);
+                            int bookId = clickedBook.getId(); // Lấy ID sách
+                            Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
+                            intent.putExtra("id_book", bookId); // Truyền ID sách làm extra
+                            v.getContext().startActivity(intent);
+                        }
+                    } else {
+                        // Xử lý khi list rỗng nếu cần
+                        Log.e("BookViewHolder", "List is empty. Cannot perform action.");
                     }
                 }
             });
-        }
-    }
+
+        }}
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -84,9 +87,8 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
     }
 
     private int getMiddlePosition() {
-        int middlePosition = Integer.MAX_VALUE / 2;
-        int realPosition = middlePosition % list.size();
-        Log.d("getMiddlePosition", "MiddlePosition: " + middlePosition + "realPosition: " + realPosition);
-        return Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % list.size();
+        if(!list.isEmpty()){
+        return Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % list.size();}
+        else return 0;
     }
 }

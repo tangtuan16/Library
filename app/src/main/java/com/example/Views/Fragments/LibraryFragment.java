@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,8 @@ import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.BookAdapter;
 import com.example.Views.Adapters.BookFavAdapter;
 import com.example.btl_libary.R;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
@@ -47,46 +50,56 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
     Button btnGrid;
     Button showPopupButton;
     ViewPager2 viewPager2;
-    private Handler handler;
-
+    LinearLayout pageView;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onResume() {
+        super.onResume();
+        presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
+        presenter.loadFavoriteBooks();
+    }
+
+
+
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.library_fragment, container, false);
         showPopupButton = view.findViewById(R.id.show_popup_button);
         showPopupButton.setOnClickListener(v -> showSearchPopup());
-        int userId = SharedPreferencesUtil.getUserId(this.getContext());
+        int userId = SharedPreferencesUtil.getUserId(view.getContext());
         Log.d("idcheck", "onCreateView: " + userId);
 
         //slide show yeeu thich
         viewPager2 = view.findViewById(R.id.viewpager);
+        pageView = view.findViewById(R.id.pageView);
         presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
 
-        // To get swipe event of viewpager2
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            // This method is triggered when there is any scrolling activity for the current page
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-            }
-
-            // triggered when you select a new page
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-            }
-
-            // triggered when there is
-            // scroll state will be changed
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-            }
-        });
+ //      // To get swipe event of viewpager2
+//        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+//            @Override
+//            // This method is triggered when there is any scrolling activity for the current page
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+//            }
+//
+//            // triggered when you select a new page
+//            @Override
+//            public void onPageSelected(int position) {
+//                super.onPageSelected(position);
+//            }
+//
+//            // triggered when there is
+//            // scroll state will be changed
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//                super.onPageScrollStateChanged(state);
+//            }
+//        });
         presenter.loadFavoriteBooks();
+
         Button btnPrevious = view.findViewById(R.id.btnPrevious);
         Button btnNext = view.findViewById(R.id.btnNext);
+
         btnPrevious.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +136,7 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
         rvBooks = view.findViewById(R.id.rcvBook);
         btnLine = view.findViewById(R.id.btnLine);
         btnGrid = view.findViewById(R.id.btnGrid);
+
 
         rvBooks.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -179,54 +193,51 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
 
     @Override
     public void displayFavoriteBook(List<Book> newBooks) {
-        viewPager2.setPageTransformer(new CarouselPageTransformer());
-        viewPager2.setOffscreenPageLimit(5);
-        viewPager2.setClipToPadding(false);
-        viewPager2.setClipChildren(false);
-        RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
-        recyclerView.setPadding(300, 0, 300, 0); // Adjust padding as needed
-        recyclerView.setClipToPadding(false);
 
-        viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        viewPager2.setAdapter(new BookFavAdapter(newBooks, viewPager2));
+        if (newBooks == null || newBooks.isEmpty()) {
+            pageView.setVisibility(View.GONE);
+        } else {
+            pageView.setVisibility(View.VISIBLE);
+            viewPager2.setPageTransformer(new CarouselPageTransformer());
+            viewPager2.setOffscreenPageLimit(3);
+            viewPager2.setClipToPadding(false);
+            viewPager2.setClipChildren(false);
 
-    }
+            RecyclerView recyclerView = (RecyclerView) viewPager2.getChildAt(0);
+            recyclerView.setPadding(300, 0, 300, 0);  // Điều chỉnh padding cho phù hợp
+            recyclerView.setClipToPadding(false);
+            viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
-
-    public class CarouselPageTransformer implements ViewPager2.PageTransformer {
-        private static final float MIN_SCALE = 0.6f;
-        private static final float MIN_ALPHA = 0.5f;
-
-        public void transformPage(@NonNull View page, float position) {
-            int pageWidth = page.getWidth();
-            int pageHeight = page.getHeight();
-
-            if (position < -1) {
-                page.setAlpha(0f);
-            } else if (position <= 1) {
-                float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
-                float vertMargin = pageHeight * (1 - scaleFactor) / 2;
-                float horzMargin = pageWidth * (1 - scaleFactor) / 2;
-                if (position < 0) {
-                    page.setTranslationX(horzMargin - vertMargin / 2);
-                } else {
-                    page.setTranslationX(-horzMargin + vertMargin / 2);
-                }
-
-                page.setScaleX(scaleFactor);
-                page.setScaleY(scaleFactor);
-
-                page.setAlpha(MIN_ALPHA +
-                        (scaleFactor - MIN_SCALE) /
-                                (1 - MIN_SCALE) * (1 - MIN_ALPHA));
-            } else {
-                page.setAlpha(0f);
-            }
+            viewPager2.setAdapter(new BookFavAdapter(newBooks, viewPager2));
         }
     }
 
 
-    @Override
+    public class CarouselPageTransformer implements ViewPager2.PageTransformer {
+            private static final float MIN_SCALE = 0.55f;  // Tỷ lệ nhỏ nhất cho các trang bên cạnh
+            private static final float MIN_ALPHA = 0.5f;
+            private static final float TRANSLATION_FACTOR = 60f;  // Yếu tố dịch chuyển
+
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                if (position < -1) { // [-Infinity,-1)
+                    page.setAlpha(0f);
+                } else if (position <= 1) { // [-1,1]
+                    float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
+                    float translationX = position * -page.getWidth() / TRANSLATION_FACTOR;
+                    page.setTranslationX(translationX);
+                    page.setScaleX(scaleFactor);
+                    page.setScaleY(scaleFactor);
+                    page.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+                } else { // (1,+Infinity]
+                    page.setAlpha(0f);
+                }
+            }
+        }
+
+
+
+        @Override
     public void showSuccess(String mess) {
         Toast.makeText(getContext(), mess, Toast.LENGTH_SHORT).show();
     }

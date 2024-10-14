@@ -351,9 +351,8 @@ public class BookModel {
                     String genre = cursor.getString(cursor.getColumnIndexOrThrow("category"));
                     int total = cursor.getInt(cursor.getColumnIndexOrThrow("total_books"));
                     genreDataList.add(new GenreData(genre, total));
-                    Log.d("CheckInfor", "UserID=  " + userId + " ,Genre: " + genre + ", Total: " + total);
+                    Log.d("ListCheck", "UserID=  " + userId + " ,Genre: " + genre + ", Total: " + total);
                 }
-                return genreDataList;
             } finally {
                 cursor.close();
             }
