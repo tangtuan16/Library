@@ -13,8 +13,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.Contracts.BookContract;
 import com.example.Models.Book;
+import com.example.Presenters.BorrowPresenter;
 import com.example.Untils.DBManager; // Thêm import cho DBManager
+import com.example.Untils.SharedPreferencesUtil;
 import com.example.btl_libary.R;
 
 import java.text.ParseException;
@@ -22,28 +25,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class BorrowBookActivity extends AppCompatActivity {
+public class BorrowBookActivity extends AppCompatActivity implements BookContract.View.BorrowBookView {
 
     private TextView textBorrowDate, textReturnDate;
     private TextView numberOfBorrowedBooks;
     private EditText quantityToBorrow;
-    private DBManager dbManager; // Thêm DBManager để quản lý cơ sở dữ liệu
     private Button buttonSelectBorrowDate ;
     private Button buttonSelectReturnDate ;
     private TextView  descriptionQuantityToBorrow;
-    Button buttonBorrow;
-    int borrowedCount;
+    private Button buttonBorrow;
+    private int borrowedCount;
+    private BorrowPresenter presenter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrow_book);
 
-        // Khởi tạo DBManager
-        dbManager = new DBManager(this);
-        dbManager.Open();
+        presenter= new BorrowPresenter(this,(BookContract.View.BorrowBookView) this);
+        borrowedCount = presenter.getNumberOfBorrowedBooks(getIntent().getIntExtra("id_book", 0));
 
-        borrowedCount = dbManager.getNumberOfBorrowedBooks(1,getIntent().getIntExtra("id_book", 0));
-        dbManager.Close();
 
         // Khởi tạo các thành phần giao diện
         descriptionQuantityToBorrow = findViewById(R.id.descriptionQuantityToBorrow);
@@ -135,10 +136,10 @@ public class BorrowBookActivity extends AppCompatActivity {
         values.put("date_Borrow", borrowDateString);
         values.put("date_Return", returnDateString);
 
-        // Mở cơ sở dữ liệu
-        dbManager.Open();
-        long result = dbManager.Insert("bookborrow", values); // Thêm vào bảng borrowbook
-        dbManager.Close(); // Đóng cơ sở dữ liệu
+
+
+        long result = presenter.InsertBorrowedBook(values); // Thêm vào bảng borrowbook
+
 
         if (result != -1) {
             borrowedCount+=quantity;
