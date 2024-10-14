@@ -98,7 +98,7 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
 
     private void borrowBook() {
         // Lấy thông tin người dùng và ngày gửi, ngày trả
-        int userId = 1; // Thay đổi thành ID người dùng thực tế
+        int userId = SharedPreferencesUtil.getUserId(this); // Thay đổi thành ID người dùng thực tế
         int bookId = getIntent().getIntExtra("id_book", 0); // Lấy ID của sách
         int quantity = Integer.parseInt(quantityToBorrow.getText().toString());
         if (borrowedCount + quantity > 3) {
