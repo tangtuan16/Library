@@ -27,10 +27,10 @@
             android:name="com.example.Views.Activitys.EditInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.Views.Activitys.LoginActivity"
+            android:name="com.example.Views.Activitys.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.Views.Activitys.RegisterActivity"
+            android:name="com.example.Views.Activitys.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
