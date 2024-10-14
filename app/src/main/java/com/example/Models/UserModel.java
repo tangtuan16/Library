@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.Untils.DBManager;
 import com.example.Untils.SharedPreferencesUtil;
+import com.example.Untils.DBManager;
+import com.example.Untils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,6 @@ public class UserModel {
     private Context context;
     private DBManager dbManager;
     private SQLiteDatabase database;
-    private int userId;
 
     public UserModel(Context context) {
         this.dbManager = new DBManager(context);
@@ -24,7 +25,7 @@ public class UserModel {
     }
 
     public List<User> getAllUsers() {
-        userId = SharedPreferencesUtil.getUserId(context);
+        int userId = SharedPreferencesUtil.getUserId(context);
         Log.d("CheckID", "userIdModel: " + userId);
         List<User> userList = new ArrayList<>();
 
@@ -44,11 +45,10 @@ public class UserModel {
             cursor.close();
         }
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return userList;
     }
-
 
     public long registerUser(String username, String password, String fullName, String email, String phone) {
         dbManager.Open();
@@ -63,7 +63,7 @@ public class UserModel {
 
         long result = database.insert("users", null, values);
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return result;
     }
@@ -77,7 +77,7 @@ public class UserModel {
         boolean isValid = cursor.getCount() > 0;
         cursor.close();
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return isValid;
     }
@@ -105,7 +105,7 @@ public class UserModel {
 
         int rowsAffected = database.update("users", values, "id=?", new String[]{String.valueOf(userId)});
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return rowsAffected;
     }
@@ -131,7 +131,7 @@ public class UserModel {
             cursor.close();
         }
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return user;
     }
@@ -157,8 +157,9 @@ public class UserModel {
             cursor.close();
         }
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return user;
     }
+
 }

@@ -47,4 +47,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Đã có tài khoản? Đăng nhập" />
+
+    <EditText
+        android:id="@+id/editVerificationCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mã xác nhận"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/buttonVerify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Xác nhận"
+        android:visibility="gone" />
 </LinearLayout>

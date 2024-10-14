@@ -77,6 +77,7 @@ public class DBManager {
                 "    FOREIGN KEY (book_ID) REFERENCES books(id)\n" +
                 ");\n";
 
+
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
