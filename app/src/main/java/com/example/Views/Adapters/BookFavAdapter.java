@@ -34,11 +34,13 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
+        if (!list.isEmpty()) {
         Book book = list.get(position % list.size());
         holder.imgAvt.setImageResource(book.getAvt());
 //        holder.txtTitle.setText(book.getTitle());
 //        holder.txtAuthor.setText(book.getAuthor());
 //        holder.txtCategory.setText(book.getDesc());
+        }
     }
 
     @Override
@@ -51,7 +53,6 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
         private ImageView imgAvt;
 
         public BookViewHolder(@NonNull View itemView) {
-
             super(itemView);
             imgAvt = itemView.findViewById(R.id.imgAvt);
             txtTitle = itemView.findViewById(R.id.txtTitle);
@@ -59,18 +60,23 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
             txtCategory = itemView.findViewById(R.id.txtCategory);
             itemView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    int position = getAdapterPosition() % list.size();
-                    if (position != RecyclerView.NO_POSITION) {
-                        Book clickedBook = list.get(position);
-                        int bookId = clickedBook.getId(); // Lấy ID sách
-                        Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
-                        intent.putExtra("id_book", bookId); // Truyền ID sách làm extra
-                        v.getContext().startActivity(intent);
+                    if (!list.isEmpty()) {
+                        int position = getAdapterPosition() % list.size();
+                        if (position != RecyclerView.NO_POSITION) {
+                            Book clickedBook = list.get(position);
+                            int bookId = clickedBook.getId(); // Lấy ID sách
+                            Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
+                            intent.putExtra("id_book", bookId); // Truyền ID sách làm extra
+                            v.getContext().startActivity(intent);
+                        }
+                    } else {
+                        // Xử lý khi list rỗng nếu cần
+                        Log.e("BookViewHolder", "List is empty. Cannot perform action.");
                     }
                 }
             });
-        }
-    }
+
+        }}
 
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -81,6 +87,8 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
     }
 
     private int getMiddlePosition() {
-        return Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % list.size();
+        if(!list.isEmpty()){
+        return Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % list.size();}
+        else return 0;
     }
 }

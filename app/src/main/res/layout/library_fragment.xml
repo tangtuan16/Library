@@ -71,6 +71,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/pageView"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:orientation="horizontal">
