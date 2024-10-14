@@ -124,7 +124,6 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
         btnLine = view.findViewById(R.id.btnLine);
         btnGrid = view.findViewById(R.id.btnGrid);
 
-
         rvBooks.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -190,7 +189,6 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
 
         viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
         viewPager2.setAdapter(new BookFavAdapter(newBooks, viewPager2));
-
 
     }
 

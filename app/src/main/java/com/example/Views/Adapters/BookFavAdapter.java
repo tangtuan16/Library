@@ -1,6 +1,5 @@
 package com.example.Views.Adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
 import com.example.Models.Book;
 import com.example.Views.Activitys.BookDetailActivity;
 import com.example.btl_libary.R;
+
 import java.util.List;
 
 public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookViewHolder> {
@@ -60,6 +62,7 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
             itemView.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     int position = getAdapterPosition() % list.size();
+                    Log.d("position", "onClick: " + position + "   Size: " + list.size());
                     if (position != RecyclerView.NO_POSITION) {
                         Book clickedBook = list.get(position);
                         int bookId = clickedBook.getId(); // Lấy ID sách
@@ -81,6 +84,9 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
     }
 
     private int getMiddlePosition() {
+        int middlePosition = Integer.MAX_VALUE / 2;
+        int realPosition = middlePosition % list.size();
+        Log.d("getMiddlePosition", "MiddlePosition: " + middlePosition + "realPosition: " + realPosition);
         return Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % list.size();
     }
 }

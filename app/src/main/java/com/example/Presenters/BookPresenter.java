@@ -6,7 +6,6 @@ import com.example.Contracts.BookContract;
 import com.example.Models.Book;
 import com.example.Models.BookModel;
 import com.example.Models.GenreData;
-import com.example.Untils.JsonUtils;
 
 import java.util.List;
 
@@ -64,6 +63,11 @@ public class BookPresenter implements BookContract.Presenter.HomePresenter {
         homeView.displayGenreData(genreDataList);
     }
 
+    @Override
+    public void loadSuggessBook() {
+        List<Book> suggessBook = repository.getSuggestBooks();
+        homeView.displaySuggessBook(suggessBook);
+    }
 
 
     public void addBook(int avatar, String title, String author, String category) {

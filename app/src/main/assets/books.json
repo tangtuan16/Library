@@ -26,19 +26,19 @@
   {
     "id": 5,
     "title": "Làng Mặn Rồng",
-    "author": "Nguyễn Trí",
+    "author": "Phạm Công Thiện",
     "content": "Khám phá một ngôi làng với nhiều câu chuyện và truyền thuyết ly kỳ."
   },
   {
     "id": 6,
     "title": "Người Cầm Vật",
-    "author": "Võ Phi Hùng",
+    "author": "Nguyễn Huy Thiệp",
     "content": "Hành trình của một con người đối diện với những khó khăn và thử thách trong cuộc sống."
   },
   {
     "id": 7,
     "title": "Cát Bụi",
-    "author": "Tô Hoài",
+    "author": "Trần Đăng Khoa",
     "content": "Cuộc sống và số phận của con người giữa những biến đổi xã hội."
   },
   {
@@ -50,19 +50,19 @@
   {
     "id": 9,
     "title": "Đồng Quê",
-    "author": "Nguyễn Đình Thi",
+    "author": "Nguyễn Khuyến",
     "content": "Những hình ảnh bình dị và thanh bình của cuộc sống nông thôn Việt Nam."
   },
   {
     "id": 10,
     "title": "Đoạn Chiều Lặng",
-    "author": "Nguyễn Quang Sáng",
+    "author": "Bùi Giáng",
     "content": "Tình cảm gia đình và những kỷ niệm sâu lắng về quê hương."
   },
   {
     "id": 11,
     "title": "Chuyện Của Hằng",
-    "author": "Vũ Tú Nam",
+    "author": "Nguyễn Nhật Ánh",
     "content": "Câu chuyện về một cô gái trẻ với nhiều mộng mơ và khát vọng."
   },
   {
@@ -74,7 +74,7 @@
   {
     "id": 13,
     "title": "Chuyện Lân Thoại",
-    "author": "Nguyễn Huy Thiệp",
+    "author": "Nam Cao",
     "content": "Câu chuyện ngắn về những con người và sự kiện trong cuộc sống hàng ngày."
   },
   {
@@ -86,7 +86,7 @@
   {
     "id": 15,
     "title": "Gió Lộng",
-    "author": "Tố Hữu",
+    "author": "Nam Cao",
     "content": "Những bài thơ tràn đầy cảm xúc về cuộc sống, con người và đất nước."
   },
   {
@@ -104,31 +104,31 @@
   {
     "id": 18,
     "title": "Bóng mắt vàng",
-    "author": "Thạch Lam",
+    "author": "Nam Cao",
     "content": "Câu chuyện nhẹ nhàng về cuộc sống và tâm trạng của con người."
   },
   {
     "id": 19,
     "title": "Chuyện Xóm Cầu Mới",
-    "author": "Nhật Linh",
+    "author": "Nguyễn Quang Sáng",
     "content": "Những mảnh đời bình dị ở một ngôi xóm nhỏ ven sông."
   },
   {
     "id": 20,
     "title": "Truyện Cười Dân Gian",
-    "author": "Tập thể",
+    "author": "Vũ Trọng Phụng",
     "content": "Những câu chuyện hài hước và dí dỏm được lưu truyền trong dân gian."
   },
   {
     "id": 21,
     "title": "Giao Thừa",
-    "author": "Thạch Lam",
+    "author": "Nguyễn Ngọc Tư",
     "content": "Khoảnh khắc giao thừa với những cảm xúc và suy tư sâu sắc."
   },
   {
     "id": 22,
     "title": "Đời Vẫn Hồng",
-    "author": "Nguyễn Công Hoan",
+    "author": "Xuân Diệu",
     "content": "Câu chuyện về những khó khăn và nỗ lực vươn lên trong cuộc sống."
   }
 ]

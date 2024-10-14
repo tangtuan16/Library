@@ -19,6 +19,8 @@ public interface BookContract {
             void displayAuthor(List<String> authorBooks);
 
             void displayGenreData(List<GenreData> genreDataList);
+
+            void displaySuggessBook(List<Book> list);
         }
 
         interface BookDetailView {
@@ -53,6 +55,14 @@ public interface BookContract {
             void loadPopularBooks();
 
             List<String> loadAuthorBooks();
+
+            void loadGenreData();
+
+            void loadSuggessBook();
+
+            void loadFavoriteBooks();
+
+
 
         }
 

@@ -3,6 +3,7 @@ package com.example.Views.Fragments;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,15 +40,11 @@ import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.HourlyAdapter;
 import com.example.Views.Adapters.PopularBookAdapter;
 import com.example.btl_libary.R;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,16 +52,15 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements WeatherContract.View, BookContract.View.HomeView, UserContract.View {
     private ImageView weatherIcon, userAvatar;
-    private TextView rainfall, userName;
-    private RecyclerView hourlyTemperature, rcvHightLight;
+    private TextView rainfall, userName, tvPie, tvLike;
+    private RecyclerView hourlyTemperature, rcvHightLight, rvSuggestBook;
     private WeatherPresenter weatherPresenter;
     private BookPresenter bookPresenter;
     private UserPresenter userPresenter;
     private ScrollView scrollView;
     private ListView lvAuthor;
     private List<String> authors;
-    private BarChart barChart;
-    private LineChart lineChart;
+    private PieChart pieChart;
 
     @Nullable
     @Override
@@ -72,12 +68,15 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         weatherIcon = view.findViewById(R.id.weatherIcon);
         rainfall = view.findViewById(R.id.rainfall);
+        tvLike = view.findViewById(R.id.tvLike);
+        tvPie = view.findViewById(R.id.tvPie);
         rcvHightLight = view.findViewById(R.id.rcvHightLight);
+        rvSuggestBook = view.findViewById(R.id.rvSuggestBook);
         hourlyTemperature = view.findViewById(R.id.hourlyTemperature);
         lvAuthor = view.findViewById(R.id.lvAuthorPopular);
         userAvatar = view.findViewById(R.id.imgUser);
         userName = view.findViewById(R.id.txtUser);
-        lineChart = view.findViewById(R.id.lineChart);
+        pieChart = view.findViewById(R.id.PieChart);
 
         hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         weatherPresenter = new WeatherPresenter(this, getContext());
@@ -86,7 +85,8 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         userPresenter.loadUsers();
         bookPresenter.loadPopularBooks();
         bookPresenter.loadAuthorBooks();
-     //   bookPresenter.loadGenreData();
+        bookPresenter.loadGenreData();
+        bookPresenter.loadSuggessBook();
         weatherPresenter.loadWeather(getString(R.string.weather_api_key), getString(R.string.locatiton));
         return view;
     }
@@ -158,19 +158,40 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
 
     @Override
     public void displayGenreData(List<GenreData> data) {
-        List<Entry> entries = new ArrayList<>();
-        List<String> labels = new ArrayList<>();
-
-        for (int i = 0; i < data.size(); i++) {
-            GenreData genreData = data.get(i);
-            entries.add(new Entry(i, genreData.getTotal()));
-            labels.add(genreData.getGenre());
+        if (data.isEmpty()) {
+            pieChart.setVisibility(View.GONE);
+            tvPie.setVisibility(View.GONE);
+            tvLike.setVisibility(View.GONE);
+            return;
         }
-        LineDataSet dataSet = new LineDataSet(entries, "Genres");
-        LineData lineData = new LineData(dataSet);
-        lineChart.setData(lineData);
-        lineChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels)); // Setting labels
-        lineChart.invalidate();
+        List<PieEntry> entries = new ArrayList<>();
+        for (GenreData genreData : data) {
+            entries.add(new PieEntry(genreData.getTotal(), genreData.getGenre()));
+        }
+        PieDataSet dataSet = new PieDataSet(entries, "Thể loại");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        PieData pieData = new PieData(dataSet);
+        pieData.setHighlightEnabled(true);
+        pieData.setValueTextSize(12f);
+        pieData.setValueTextColor(Color.BLACK);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+    }
+
+    @Override
+    public void displaySuggessBook(List<Book> list) {
+        if (list.isEmpty()) {
+            rvSuggestBook.setVisibility(View.GONE);
+            tvPie.setVisibility(View.GONE);
+            tvLike.setVisibility(View.GONE);
+            return;
+        }
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        rvSuggestBook.setLayoutManager(gridLayoutManager);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        rvSuggestBook.addItemDecoration(itemDecoration);
+        rvSuggestBook.setAdapter(new PopularBookAdapter(list, getContext()));
+
     }
 
 

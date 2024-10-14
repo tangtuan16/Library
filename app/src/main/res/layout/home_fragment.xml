@@ -192,18 +192,39 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tvPie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/quicksand"
                 android:gravity="center"
                 android:text="Thống kê các thể loại bạn mượn nhiều nhất"
-                android:textSize="18sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lineChart"
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/PieChart"
                 android:layout_width="match_parent"
-                android:layout_height="500dp" />
+                android:layout_height="300dp" />
+
+            <TextView
+                android:id="@+id/tvLike"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/quicksand"
+                android:gravity="center"
+                android:text="Có thể bạn sẽ thích"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSuggestBook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="5dp" />
         </LinearLayout>
+
     </ScrollView>
 </RelativeLayout>
