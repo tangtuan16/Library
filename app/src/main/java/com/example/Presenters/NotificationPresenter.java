@@ -20,7 +20,7 @@ public class NotificationPresenter {
         this.view = view;
     }
 
-    public void addNotification(String title, String content, Date date) {
+    public void addNotification(String title, String content, String date) {
         long id = notificationModel.addDBNotification(title, content, date);
         if (id < 0) {
             view.showError("Thêm thất bại !");

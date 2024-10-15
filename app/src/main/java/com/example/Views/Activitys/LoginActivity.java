@@ -22,6 +22,8 @@ public class LoginActivity extends AppCompatActivity implements UserPresenter.Lo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         // Check if user is already logged in
         if (SharedPreferencesUtil.isLoggedIn(this)) {
             startMainActivity();

@@ -3,6 +3,7 @@ package com.example.Contracts;
 import android.content.Context;
 
 import com.example.Models.Book;
+import com.example.Models.BorrowedBook;
 import com.example.Models.GenreData;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public interface BookContract {
 
         }
         interface BorrowBookView {
-
+             void SetData(List<BorrowedBook> list);
         }
     }
 
@@ -62,9 +63,7 @@ public interface BookContract {
         interface BookDetailPresenter {
             void loadBookDetail(int bookId, Context context);
         }
-        interface BorrowBookPresenter {
 
-        }
     }
 
     interface Model {

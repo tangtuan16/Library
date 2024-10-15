@@ -44,7 +44,7 @@
         android:id="@+id/buttonSelectBorrowDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose Borrow Date"
+        android:text="Chon ngay muon"
         android:layout_marginBottom="16dp"/>
 
     <!-- Chọn ngày trả -->
@@ -60,7 +60,7 @@
         android:id="@+id/buttonSelectReturnDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose Return Date"
+        android:text="Chon ngay tra"
         android:layout_marginBottom="16dp"/>
 
     <!-- Nút mượn sách -->

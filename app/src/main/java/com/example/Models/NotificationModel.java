@@ -24,7 +24,7 @@ public class NotificationModel {
         this.dbManager = new DBManager(context);
     }
 
-    public long addDBNotification(String title, String content, Date notificationTime) {
+    public long addDBNotification(String title, String content, String notificationTime) {
         dbManager.Open();
         database = dbManager.getDatabase();
         int user_ID = SharedPreferencesUtil.getUserId(context);
@@ -32,7 +32,7 @@ public class NotificationModel {
         values.put("user_id", user_ID);
         values.put("title", title);
         values.put("content", content);
-        values.put("notification_time", notificationTime.getTime());
+        values.put("notification_time", notificationTime);
         Log.d("NotificationModel", "addDBNotification: " + title);
         long resuilt = database.insert("notifications", null, values);
         dbManager.Close();
@@ -43,16 +43,16 @@ public class NotificationModel {
         dbManager.Open();
         database = dbManager.getDatabase();
         List<Notification> notificationList = new ArrayList<>();
-        String sql = "Select * from notifications";
+        String sql = "Select * from notifications where user_id = "+ SharedPreferencesUtil.getUserId(context);
         Cursor cursor = database.rawQuery(sql, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                 String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
-                long dateInMillis = cursor.getLong(cursor.getColumnIndexOrThrow("notification_time"));
-                Date date = new Date(dateInMillis);
-                notificationList.add(new Notification(id, title, content, date));
+                String notificationTime = cursor.getString(cursor.getColumnIndexOrThrow("notification_time"));
+                int status = cursor.getInt(cursor.getColumnIndexOrThrow("status"));
+                notificationList.add(new Notification(id, title, content, notificationTime, status));
             }
             cursor.close();
             dbManager.Close();

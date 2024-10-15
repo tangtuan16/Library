@@ -71,8 +71,9 @@ public class DBManager {
                 "user_id INTEGER, " +
                 "title TEXT NOT NULL, " +
                 "content TEXT NOT NULL, " +
-                "notification_time DATE NOT NULL, " +
+                "notification_time TEXT NOT NULL, " +
                 "status INTEGER DEFAULT 0 CHECK (status IN (0,1)) NOT NULL);";
+
 
         public DatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);

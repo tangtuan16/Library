@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import com.example.Untils.DBManager;
 import com.example.Untils.SharedPreferencesUtil;
@@ -56,7 +57,7 @@ public class BorrowModel {
         Cursor cursor = null;
         try {
 
-            String query = "SELECT bb.book_ID, b.avatar, b.title, b.author, b.category,bb.book_Total, " +
+            String query = "SELECT bb.borrowing_ID,bb.book_ID, b.avatar, b.title, b.author, b.category,bb.book_Total, " +
                     "bb.date_Borrow, bb.date_Return, bb.isInLibrary " +
                     "FROM bookborrow bb " +
                     "JOIN books b ON bb.book_ID = b.id " +
@@ -66,7 +67,8 @@ public class BorrowModel {
 
             if (cursor.moveToFirst()) {
                 do {
-                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("book_ID"));
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("borrowing_ID"));
+                    int bookId = cursor.getInt(cursor.getColumnIndexOrThrow("book_ID"));
                     int avatar = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
                     String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
                     String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
@@ -75,11 +77,13 @@ public class BorrowModel {
                     String borrowedDate = cursor.getString(cursor.getColumnIndexOrThrow("date_Borrow"));
                     String returnDate = cursor.getString(cursor.getColumnIndexOrThrow("date_Return"));
                     int isInLibrary = cursor.getInt(cursor.getColumnIndexOrThrow("isInLibrary"));
+
                     String position = isInLibrary == 1 ? "Thư viện" : "Chỗ bạn";
 
                     // Tạo đối tượng BorrowedBook và thêm vào danh sách
                     BorrowedBook borrowedBook = new BorrowedBook(
                             id,
+                            bookId,
                             avatar,
                             title,
                             author,
@@ -88,7 +92,10 @@ public class BorrowModel {
                             borrowedDate,
                             returnDate,
                             position
+
+
                     );
+                    Toast.makeText(context, "ye", Toast.LENGTH_SHORT).show();
                     borrowedBooksList.add(borrowedBook);
                 } while (cursor.moveToNext());
             }
@@ -111,4 +118,15 @@ public class BorrowModel {
         return result;
 
     }
+    public void deleteBorrowedBook(int borrowing_ID) {
+        dbManager.Open();
+        database = dbManager.getDatabase();
+        String sql = "Delete from bookborrow where borrowing_ID = ? and isInLibrary = 1 and user_ID = ?";
+        int userId = SharedPreferencesUtil.getUserId(context);
+        database.execSQL(sql, new Object[]{borrowing_ID, userId});
+        dbManager.Close();
+
+
+    }
+
 }

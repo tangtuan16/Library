@@ -1,7 +1,11 @@
 package com.example.Views.Activitys;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
+import com.example.Models.BorrowedBook;
 import com.example.Presenters.BorrowPresenter;
 import com.example.Untils.DBManager; // Thêm import cho DBManager
+import com.example.Untils.NotificationReceiver;
 import com.example.Untils.SharedPreferencesUtil;
 import com.example.btl_libary.R;
 
@@ -24,6 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class BorrowBookActivity extends AppCompatActivity implements BookContract.View.BorrowBookView {
 
@@ -156,9 +163,12 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
             }
             numberOfBorrowedBooks.setText("Số lượng sách đã mượn: " + borrowedCount + "/3");
             Toast.makeText(this, "Book borrowed successfully!", Toast.LENGTH_SHORT).show();
-        } else {
+
+            // Lên lịch thông báo
+            scheduleNotifications(borrowDate, returnDate,quantity,getIntent().getStringExtra("title"));        }
+             else {
             Toast.makeText(this, "Error borrowing book.", Toast.LENGTH_SHORT).show();
-        }
+             }
     }
 
     private void showDatePickerDialog(boolean isBorrowDate) {
@@ -184,7 +194,64 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
 
         datePickerDialog.show();
     }
+    private void scheduleNotifications(Date borrowDate, Date returnDate,int quantity,String title) {
+
+        Calendar borrowCal = Calendar.getInstance();
+        borrowCal.setTime(borrowDate);
+        borrowCal.add(Calendar.DAY_OF_YEAR, -1); // Trước 1 ngày
+        borrowCal.set(Calendar.HOUR_OF_DAY, 16);// Lên lịch thông báo trước ngày muon 1 ngày vào lúc 8 PM
+        borrowCal.set(Calendar.MINUTE, 1);
+        borrowCal.set(Calendar.SECOND, 0);
+        borrowCal.set(Calendar.MILLISECOND, 0);
 
 
+        Calendar returnCal = Calendar.getInstance();
+        returnCal.setTime(returnDate);
+        returnCal.add(Calendar.DAY_OF_YEAR, -1); // Trước 1 ngày
+        returnCal.set(Calendar.HOUR_OF_DAY, 20);
+        returnCal.set(Calendar.MINUTE, 0);
+        returnCal.set(Calendar.SECOND, 0);
+        returnCal.set(Calendar.MILLISECOND, 0);
 
+        // Kiểm tra nếu thời gian lên lịch đã qua, không lên lịch
+        if (borrowCal.getTimeInMillis() > System.currentTimeMillis()) {
+            setAlarm(borrowCal, "Nhắc nhở mượn sách", "Mai la han muon "+quantity+" cuon "+title+"\n" );
+        }
+
+        if (returnCal.getTimeInMillis() > System.currentTimeMillis()) {
+            setAlarm(returnCal, "Nhắc nhở trả sách","Mai la han tra "+quantity+" cuon "+title +"\n");
+        }
+    }
+
+    private int setAlarm(Calendar calendar, String title, String message) {
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("title", title);
+        intent.putExtra("content", message);
+
+
+        // Sử dụng requestCode duy nhất để phân biệt các thông báo
+        int requestCode = (int) System.currentTimeMillis();
+        intent.putExtra("requestCode", requestCode);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            // Đặt alarm
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+        return requestCode;
+    }
+
+
+    @Override
+    public void SetData(List<BorrowedBook> list) {
+
+    }
 }
