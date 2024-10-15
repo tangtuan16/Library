@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.Untils.DBManager;
 import com.example.Untils.SharedPreferencesUtil;
+import com.example.Untils.DBManager;
+import com.example.Untils.SharedPreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class UserModel {
         }
 
         dbManager.Close();
+
         return userList;
     }
 
@@ -76,7 +79,7 @@ public class UserModel {
         boolean isValid = cursor.getCount() > 0;
         cursor.close();
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return isValid;
     }
@@ -104,7 +107,7 @@ public class UserModel {
 
         int rowsAffected = database.update("users", values, "id=?", new String[]{String.valueOf(userId)});
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return rowsAffected;
     }
@@ -130,7 +133,7 @@ public class UserModel {
             cursor.close();
         }
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return user;
     }
@@ -156,7 +159,7 @@ public class UserModel {
             cursor.close();
         }
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return user;
     }
