@@ -76,6 +76,7 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), BorrowBookActivity.class);
                 intent.putExtra("id_book", bookId);
+                intent.putExtra("title", getIntent().getStringExtra("title"));
                 startActivity(intent);
             }
         });

@@ -41,6 +41,7 @@ android {
 
 
 dependencies {
+    implementation ("androidx.work:work-runtime:2.7.1")
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("com.google.android.material:material:1.3.0")
     implementation(libs.appcompat)
@@ -65,5 +66,8 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
     implementation ("com.google.guava:guava:31.0.1-android")
+
+    implementation ("com.sun.mail:android-mail:1.6.2")
+    implementation ("com.sun.mail:android-activation:1.6.2")
 
 }

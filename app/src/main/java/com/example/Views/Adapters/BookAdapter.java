@@ -63,6 +63,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
                         // Create an Intent to start the target activity
                         Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
                         intent.putExtra("id_book", bookId); // Pass the book ID as an extra
+                        intent.putExtra("title", txtTitle.getText().toString());
                         v.getContext().startActivity(intent); // Start the activity
                     }
 

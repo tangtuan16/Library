@@ -1,11 +1,13 @@
 package com.example.Views.Activitys;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,8 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.Contracts.BookContract;
 import com.example.Models.Book;
+import com.example.Models.BorrowedBook;
+import com.example.Presenters.BorrowPresenter;
 import com.example.Untils.DBManager; // Thêm import cho DBManager
+import com.example.Untils.NotificationReceiver;
 import com.example.Untils.SharedPreferencesUtil;
 import com.example.btl_libary.R;
 
@@ -24,29 +30,28 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class BorrowBookActivity extends AppCompatActivity {
+public class BorrowBookActivity extends AppCompatActivity implements BookContract.View.BorrowBookView {
 
     private TextView textBorrowDate, textReturnDate;
     private TextView numberOfBorrowedBooks;
     private EditText quantityToBorrow;
-    private DBManager dbManager; // Thêm DBManager để quản lý cơ sở dữ liệu
     private Button buttonSelectBorrowDate ;
     private Button buttonSelectReturnDate ;
     private TextView  descriptionQuantityToBorrow;
-    Button buttonBorrow;
-    int borrowedCount;
+    private Button buttonBorrow;
+    private int borrowedCount;
+    private BorrowPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrow_book);
-        // Khởi tạo DBManager
-        dbManager = new DBManager(this);
-        dbManager.Open();
 
-        borrowedCount = dbManager.getNumberOfBorrowedBooks(1,getIntent().getIntExtra("id_book", 0));
-        dbManager.Close();
+        presenter= new BorrowPresenter(this,(BookContract.View.BorrowBookView) this);
+        borrowedCount = presenter.getNumberOfBorrowedBooks(getIntent().getIntExtra("id_book", 0));
+
 
         // Khởi tạo các thành phần giao diện
         descriptionQuantityToBorrow = findViewById(R.id.descriptionQuantityToBorrow);
@@ -100,8 +105,7 @@ public class BorrowBookActivity extends AppCompatActivity {
 
     private void borrowBook() {
         // Lấy thông tin người dùng và ngày gửi, ngày trả
-        int userId = 1; // Thay đổi thành ID người dùng thực tế
-        Log.d("ListCheck", "User ID: " + userId);
+        int userId = SharedPreferencesUtil.getUserId(this); // Thay đổi thành ID người dùng thực tế
         int bookId = getIntent().getIntExtra("id_book", 0); // Lấy ID của sách
         int quantity = Integer.parseInt(quantityToBorrow.getText().toString());
         if (borrowedCount + quantity > 3) {
@@ -139,10 +143,10 @@ public class BorrowBookActivity extends AppCompatActivity {
         values.put("date_Borrow", borrowDateString);
         values.put("date_Return", returnDateString);
 
-        // Mở cơ sở dữ liệu
-        dbManager.Open();
-        long result = dbManager.Insert("bookborrow", values); // Thêm vào bảng borrowbook
-        dbManager.Close(); // Đóng cơ sở dữ liệu
+
+
+        long result = presenter.InsertBorrowedBook(values); // Thêm vào bảng borrowbook
+
 
         if (result != -1) {
             borrowedCount+=quantity;
@@ -159,9 +163,12 @@ public class BorrowBookActivity extends AppCompatActivity {
             }
             numberOfBorrowedBooks.setText("Số lượng sách đã mượn: " + borrowedCount + "/3");
             Toast.makeText(this, "Book borrowed successfully!", Toast.LENGTH_SHORT).show();
-        } else {
+
+            // Lên lịch thông báo
+            scheduleNotifications(borrowDate, returnDate,quantity,getIntent().getStringExtra("title"));        }
+             else {
             Toast.makeText(this, "Error borrowing book.", Toast.LENGTH_SHORT).show();
-        }
+             }
     }
 
     private void showDatePickerDialog(boolean isBorrowDate) {
@@ -187,7 +194,64 @@ public class BorrowBookActivity extends AppCompatActivity {
 
         datePickerDialog.show();
     }
+    private void scheduleNotifications(Date borrowDate, Date returnDate,int quantity,String title) {
+
+        Calendar borrowCal = Calendar.getInstance();
+        borrowCal.setTime(borrowDate);
+        borrowCal.add(Calendar.DAY_OF_YEAR, -1); // Trước 1 ngày
+        borrowCal.set(Calendar.HOUR_OF_DAY, 16);// Lên lịch thông báo trước ngày muon 1 ngày vào lúc 8 PM
+        borrowCal.set(Calendar.MINUTE, 1);
+        borrowCal.set(Calendar.SECOND, 0);
+        borrowCal.set(Calendar.MILLISECOND, 0);
 
 
+        Calendar returnCal = Calendar.getInstance();
+        returnCal.setTime(returnDate);
+        returnCal.add(Calendar.DAY_OF_YEAR, -1); // Trước 1 ngày
+        returnCal.set(Calendar.HOUR_OF_DAY, 20);
+        returnCal.set(Calendar.MINUTE, 0);
+        returnCal.set(Calendar.SECOND, 0);
+        returnCal.set(Calendar.MILLISECOND, 0);
 
+        // Kiểm tra nếu thời gian lên lịch đã qua, không lên lịch
+        if (borrowCal.getTimeInMillis() > System.currentTimeMillis()) {
+            setAlarm(borrowCal, "Nhắc nhở mượn sách", "Mai la han muon "+quantity+" cuon "+title+"\n" );
+        }
+
+        if (returnCal.getTimeInMillis() > System.currentTimeMillis()) {
+            setAlarm(returnCal, "Nhắc nhở trả sách","Mai la han tra "+quantity+" cuon "+title +"\n");
+        }
+    }
+
+    private int setAlarm(Calendar calendar, String title, String message) {
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        intent.putExtra("title", title);
+        intent.putExtra("content", message);
+
+
+        // Sử dụng requestCode duy nhất để phân biệt các thông báo
+        int requestCode = (int) System.currentTimeMillis();
+        intent.putExtra("requestCode", requestCode);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            // Đặt alarm
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+        return requestCode;
+    }
+
+
+    @Override
+    public void SetData(List<BorrowedBook> list) {
+
+    }
 }

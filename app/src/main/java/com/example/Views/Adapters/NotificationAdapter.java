@@ -41,7 +41,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification notification = notificationList.get(position);
         holder.title.setText(notification.getTitle());
         holder.content.setText(notification.getContent());
-        holder.date.setText(notification.getDate().toString().trim());
+        holder.time.setText(notification.getTime());
+        if(notification.getStatus()==0)
+            holder.status.setText("Chua doc");
+        else
+            holder.status.setText("Da doc");
+
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -71,13 +76,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     public class NotificationHolder extends RecyclerView.ViewHolder {
-        private TextView title, content, date;
+        private TextView title, content, time, status;
 
         public NotificationHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.tvTitle);
             content = itemView.findViewById(R.id.tvContent);
-            date = itemView.findViewById(R.id.tvDate);
+            time = itemView.findViewById(R.id.tvTime);
+            status=itemView.findViewById(R.id.tvStatus);
         }
 
     }

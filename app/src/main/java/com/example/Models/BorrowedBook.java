@@ -2,11 +2,12 @@ package com.example.Models;
 
 public class BorrowedBook {
 
-    private int id, avt,total;
+    private int id,bookid, avt,total;
     private String title, author, category,borrowedDate,returnDate,position;
 
-    public BorrowedBook(int id, int avt, String title, String author, String category,int total, String borrowedDate, String returnDate, String position) {
+    public BorrowedBook(int id,int bookid, int avt, String title, String author, String category,int total, String borrowedDate, String returnDate, String position) {
         this.id = id;
+        this.bookid=bookid;
         this.avt = avt;
         this.title = title;
         this.author = author;

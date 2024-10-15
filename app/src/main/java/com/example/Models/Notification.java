@@ -1,18 +1,19 @@
 package com.example.Models;
 
-import java.util.Date;
-
 public class Notification {
     private int id;
     private String title;
     private String content;
-    private Date date;
+    private String time;
+    private int status;
 
-    public Notification( int id, String title, String content, Date date) {
+    public Notification(int id, String title, String content, String time, int status) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.date = date;
+        this.time = time;
+        this.status = status;
+
     }
 
     public void setContent(String content) {
@@ -39,12 +40,19 @@ public class Notification {
         return title;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public Date getDate() {
-        return date;
+    public String getTime() {
+        return time;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }

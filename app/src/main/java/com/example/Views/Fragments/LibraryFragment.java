@@ -1,12 +1,20 @@
 package com.example.Views.Fragments;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -16,10 +24,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
+import com.example.Models.BookModel;
 import com.example.Presenters.BookPresenter;
 import com.example.Untils.SharedPreferencesUtil;
 import com.example.Views.Activitys.MainActivity;
@@ -27,6 +38,8 @@ import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.BookAdapter;
 import com.example.Views.Adapters.BookFavAdapter;
 import com.example.btl_libary.R;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
@@ -145,6 +158,28 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
             presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
             RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
             rvBooks.addItemDecoration(itemDecoration);
+//            presenter.addBook(R.drawable.tuay, "Từ Ấy ", " Tố Hữu ", "Thơ");
+//            presenter.addBook(R.drawable.baybuocmuahe, "Bảy bước đến mùa hè", " Nguyễn Nhật Ánh ", "Tiểu thuyết");
+//            presenter.addBook(R.drawable.chotoixinmotvedituoitho748382, "Cho tôi xin một vé đi tổi thơ", " Nguyễn Nhật Ánh ", "Tiểu thuyết");
+//            presenter.addBook(R.drawable.kinhvanhoa, "Kính Vạn Hoa", " Nguyễn Nhật Ánh ", "Tiểu thuyết");
+//            presenter.addBook(R.drawable.langmanrong, "Làng Mặn Rồng", "Phạm Công Thiện", "Truyện ngắn");
+//            presenter.addBook(R.drawable.nguoicongvat, "Người Cầm Vật", "Nguyễn Huy Thiệp", "Tiểu luận");
+//            presenter.addBook(R.drawable.catbui, "Cát Bụi", "Trần Đăng Khoa", "Hồi kí");
+//            presenter.addBook(R.drawable.chidau, "Chị Dậu", "Ngô Tất Tố", "Tiểu thuyết");
+//            presenter.addBook(R.drawable.dongque, "Đồng Quê", "Nguyễn Khuyến", "Thơ");
+//            presenter.addBook(R.drawable.doanchieulang, "Đoạn Chiều Lặng", "Bùi Giáng", "Thơ");
+//            presenter.addBook(R.drawable.chuyencuahang, "Chuyện Của Hằng", "Nguyễn Nhật Ánh", "Truyện ngắn");
+//            presenter.addBook(R.drawable.thoixavang, "Thời xa vắng", "Lê Lựu", "Hồi kí");
+//            presenter.addBook(R.drawable.chuyenlanthoai, "Chuyện Lân Thoại", "Nam Cao", "Tiểu luận");
+//            presenter.addBook(R.drawable.chipheo, " Chí Phèo", "Nam Cao ", "Tiểu thuyết");
+//            presenter.addBook(R.drawable.giolong, " Gió Lộng", " Nam Cao", "Thơ");
+//            presenter.addBook(R.drawable.cogaidentuhomqua, "Cô gái đến từ hôm qua", " Nguyễn Nhật Ánh ", "Tiểu thuyết");
+//            presenter.addBook(R.drawable.hoavangcoxanh, "Tôi thấy hoa vàng trên cỏ xanh ", " Nguyễn Nhật Ánh ", "Tiểu thuyết");
+//            presenter.addBook(R.drawable.bongmatvang, "Bóng mắt vàng", "Nam Cao", "Tiểu luận");
+//            presenter.addBook(R.drawable.chuyenxomcau, "Chuyện Xóm Cầu Mới", "Nguyễn Quang Sáng", "Tiểu thuyết");
+//            presenter.addBook(R.drawable.truyencuoi, "Truyện Cười Dân Gian", "Vũ Trọng Phụng", "Truyện ngắn");
+//            presenter.addBook(R.drawable.giaothua, "Giao Thừa", "Nguyễn Ngọc Tư", "Hồi kí");
+//            presenter.addBook(R.drawable.doivanhong, "Đời Vẫn Hồng", "Xuân Diệu", "Thơ");
             presenter.loadBook();
         }
         btnLine.setOnClickListener(new View.OnClickListener() {
@@ -237,28 +272,7 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
 
 }
 //Add data BOOKS
-//          presenter.addBook(R.drawable.tuay, "Từ Ấy ", "Tố Hữu ", "Thơ");
-//            presenter.addBook(R.drawable.baybuocmuahe, "Bảy bước đến mùa hè", "Nguyễn Nhật Ánh ", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.chotoixinmotvedituoitho748382, "Cho tôi xin một vé đi tổi thơ", "Nguyễn Nhật Ánh ", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.kinhvanhoa, "Kính Vạn Hoa", " Nguyễn Nhật Ánh", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.langmanrong, "Làng Mặn Rồng", "Phạm Công Thiện", "Truyện ngắn");
-//            presenter.addBook(R.drawable.nguoicongvat, "Người Cầm Vật", "Nguyễn Huy Thiệp", "Tiểu luận");
-//            presenter.addBook(R.drawable.catbui, "Cát Bụi", "Trần Đăng Khoa", "Hồi kí");
-//            presenter.addBook(R.drawable.chidau, "Chị Dậu", "Ngô Tất Tố", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.dongque, "Đồng Quê", "Nguyễn Khuyến", "Thơ");
-//            presenter.addBook(R.drawable.doanchieulang, "Đoạn Chiều Lặng", "Bùi Giáng", "Thơ");
-//            presenter.addBook(R.drawable.chuyencuahang, "Chuyện Của Hằng", "Nguyễn Nhật Ánh", "Truyện ngắn");
-//            presenter.addBook(R.drawable.thoixavang, "Thời xa vắng", "Lê Lựu", "Hồi kí");
-//            presenter.addBook(R.drawable.chuyenlanthoai, "Chuyện Lân Thoại", "Nam Cao", "Tiểu luận");
-//            presenter.addBook(R.drawable.chipheo, "Chí Phèo", "Nam Cao ", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.giolong, "Gió Lộng", "Nam Cao", "Thơ");
-//            presenter.addBook(R.drawable.cogaidentuhomqua, "Cô gái đến từ hôm qua", "Nguyễn Nhật Ánh ", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.hoavangcoxanh, "Tôi thấy hoa vàng trên cỏ xanh ", "Nguyễn Nhật Ánh ", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.bongmatvang, "Bóng mắt vàng", "Nam Cao", "Tiểu luận");
-//            presenter.addBook(R.drawable.chuyenxomcau, "Chuyện Xóm Cầu Mới", "Nguyễn Quang Sáng", "Tiểu thuyết");
-//            presenter.addBook(R.drawable.truyencuoi, "Truyện Cười Dân Gian", "Vũ Trọng Phụng", "Truyện ngắn");
-//            presenter.addBook(R.drawable.giaothua, "Giao Thừa", "Nguyễn Ngọc Tư", "Hồi kí");
-//            presenter.addBook(R.drawable.doivanhong, "Đời Vẫn Hồng", "Xuân Diệu", "Thơ");
+//
 //    private void showSearchPopup() {
 //        Dialog searchDialog = new Dialog(this.getContext());
 //        searchDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

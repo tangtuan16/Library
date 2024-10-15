@@ -1,5 +1,10 @@
 package com.example.Views.Activitys;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -7,10 +12,14 @@ import android.view.View;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.example.Contracts.MainContract;
 import com.example.Presenters.MainPresenter;
@@ -55,6 +64,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         });
         navigationView.setSelectedItemId(R.id.navigation_home);
+        createNotificationChannel();
+        checkNotificationPermission();
+
+
+
     }
 
     @Override
@@ -82,6 +96,30 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                     .setDuration(1000);
         }
     }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Library Notifications";
+            String description = "Channel for Library notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("YOUR_CHANNEL_ID", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+    private void checkNotificationPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Nếu quyền chưa được cấp, yêu cầu quyền
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    100);
+        } else {
+            return;
+        }
+    }
+
 
 
 }
