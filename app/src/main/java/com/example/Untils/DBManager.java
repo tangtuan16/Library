@@ -1,16 +1,8 @@
 package com.example.Untils;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.Models.BorrowedBook;
-import com.example.Models.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DBManager {
     private SQLiteOpenHelper dbHelper;
@@ -26,7 +18,7 @@ public class DBManager {
 
     public static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "Library";
-        private static final int DATABASE_VERSION = 32;
+        private static final int DATABASE_VERSION = 34;
 
         private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -118,173 +110,5 @@ public class DBManager {
             database.close();
         }
     }
-
-    //Code e Sơn
-    public long registerUser(String username, String password, String fullName, String email, String phone) {
-        ContentValues values = new ContentValues();
-        values.put("username", username);
-        values.put("password", password);
-        values.put("fullName", fullName);
-        values.put("email", email);
-        values.put("phone", phone);
-        return database.insert("users", null, values);
-    }
-
-    public boolean loginUser(String username, String password) {
-        String query = "SELECT * FROM users WHERE username=? AND password=?";
-        Cursor cursor = database.rawQuery(query, new String[]{username, password});
-        boolean isValid = cursor.getCount() > 0;
-        cursor.close();
-        return isValid;
-    }
-
-    public int updateUser(int userId, String password, String fullName, String email, String phone, byte[] avatar) {
-        ContentValues values = new ContentValues();
-        if (password != null) {
-            values.put("password", password);
-        }
-        if (fullName != null) {
-            values.put("fullName", fullName);
-        }
-        if (email != null) {
-            values.put("email", email);
-        }
-        if (phone != null) {
-            values.put("phone", phone);
-        }
-        if (avatar != null) {
-            values.put("avatar", avatar);
-        }
-        return database.update("users", values, "id=?", new String[]{String.valueOf(userId)});
-    }
-
-    public User getUserById(int userId) {
-        Cursor cursor = database.query("users", null, "id=?", new String[]{String.valueOf(userId)}, null, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                User user = new User(
-                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("username")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("password")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("fullName")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("email")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("phone")),
-                        cursor.getBlob(cursor.getColumnIndexOrThrow("avatar"))
-                );
-                cursor.close();
-                return user;
-            }
-            cursor.close();
-        }
-        return null;
-    }
-
-    public User getUserByUsername(String username) {
-        Cursor cursor = database.query("users", null, "username=?", new String[]{username}, null, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                User user = new User(
-                        cursor.getInt(cursor.getColumnIndexOrThrow("id")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("username")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("password")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("fullName")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("email")),
-                        cursor.getString(cursor.getColumnIndexOrThrow("phone")),
-                        cursor.getBlob(cursor.getColumnIndexOrThrow("avatar"))
-                );
-                cursor.close();
-                return user;
-            }
-            cursor.close();
-        }
-        return null;
-    }
-
-    public int getNumberOfBorrowedBooks(int userId,int bookId) {
-        int count = 0;
-        Cursor cursor = null;
-        try {
-            String query = "SELECT SUM(book_Total) FROM bookborrow WHERE user_ID = ? AND book_ID = ? ";
-            cursor = database.rawQuery(query, new String[]{String.valueOf(userId),String.valueOf(bookId)});
-            if (cursor.moveToFirst()) {
-                count = cursor.getInt(0);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return count;
-    }
-
-
-    //code hùng
-    public List<BorrowedBook> GetAllBorrowedBooks() {
-        List<BorrowedBook> borrowedBooksList = new ArrayList<>();
-        Cursor cursor = null;
-        try {
-
-            String query = "SELECT bb.book_ID, b.avatar, b.title, b.author, b.category,bb.book_Total, " +
-                    "bb.date_Borrow, bb.date_Return, bb.isInLibrary " +
-                    "FROM bookborrow bb " +
-                    "JOIN books b ON bb.book_ID = b.id " +
-                    "WHERE bb.user_ID = 1";
-
-            cursor = database.rawQuery(query, null);
-
-            if (cursor.moveToFirst()) {
-                do {
-                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("book_ID"));
-                    int avatar = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
-                    String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-                    String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-                    String category = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-                    int bookTotal = cursor.getInt(cursor.getColumnIndexOrThrow("book_Total"));
-                    String borrowedDate = cursor.getString(cursor.getColumnIndexOrThrow("date_Borrow"));
-                    String returnDate = cursor.getString(cursor.getColumnIndexOrThrow("date_Return"));
-                    int isInLibrary = cursor.getInt(cursor.getColumnIndexOrThrow("isInLibrary"));
-                    String position = isInLibrary == 1 ? "Thư viện" : "Chỗ bạn";
-
-                    // Tạo đối tượng BorrowedBook và thêm vào danh sách
-                    BorrowedBook borrowedBook = new BorrowedBook(
-                            id,
-                            avatar,
-                            title,
-                            author,
-                            category,
-                            bookTotal,
-                            borrowedDate,
-                            returnDate,
-                            position
-                    );
-                    borrowedBooksList.add(borrowedBook);
-                } while (cursor.moveToNext());
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Xử lý lỗi nếu có
-        } finally {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close(); // Đảm bảo Cursor được đóng sau khi sử dụng
-            }
-        }
-        return borrowedBooksList;
-
-    }
-
-
-    public long Insert(String table, ContentValues values) {
-        return database.insert(table, null, values);
-    }
-
-    public int Update(String table, ContentValues values, String whereClause, String[] whereArgs) {
-        return database.update(table, values, whereClause, whereArgs);
-    }
-
-    public int Delete(String table, String whereClause, String[] whereArgs) {
-        return database.delete(table, whereClause, whereArgs);
-    }
-
 
 }
