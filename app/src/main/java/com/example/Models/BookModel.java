@@ -333,29 +333,111 @@ public class BookModel {
     }
 
 
-    public List<GenreData> getGenreData() {
+    public List<GenreData> getPieChartData() {
         int userId = SharedPreferencesUtil.getUserId(context);
         List<GenreData> genreDataList = new ArrayList<>();
         dbManager.Open();
         SQLiteDatabase database = dbManager.getDatabase();
-        String sql = "SELECT category, SUM(book_Total) as total FROM bookborrow where user_ID = ? GROUP BY category";
+        String sql = "SELECT b.category, SUM(bb.book_Total) AS total_books\n" +
+                "FROM bookborrow bb\n" +
+                "JOIN books b ON bb.book_ID = b.id\n" +
+                "WHERE bb.user_ID = ?" +
+                "GROUP BY b.category";
         String[] selectionArgs = new String[]{String.valueOf(userId)};
         Cursor cursor = database.rawQuery(sql, selectionArgs);
         if (cursor != null) {
             try {
                 while (cursor.moveToNext()) {
                     String genre = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-                    int total = cursor.getInt(cursor.getColumnIndexOrThrow("total"));
+                    int total = cursor.getInt(cursor.getColumnIndexOrThrow("total_books"));
                     genreDataList.add(new GenreData(genre, total));
-                    Log.d("CheckInfor", "UserID=  " + userId + " ,Genre: " + genre + ", Total: " + total);
+                    Log.d("ListCheck", "UserID=  " + userId + " ,Genre: " + genre + ", Total: " + total);
                 }
-                return genreDataList;
             } finally {
                 cursor.close();
             }
         }
         dbManager.Close();
-        //return genreDataList;
+        return genreDataList;
+    }
+
+
+    public List<AuthorData> getBarChartData() {
+        int userId = SharedPreferencesUtil.getUserId(context);
+        List<AuthorData> authorDataList = new ArrayList<>();
+        dbManager.Open();
+        SQLiteDatabase database = dbManager.getDatabase();
+        String sql = "SELECT (TRIM(b.author)) AS author, SUM(COALESCE(bb.book_Total, 0)) AS total_books\n" +
+                "FROM bookborrow bb\n" +
+                "JOIN books b ON bb.book_ID = b.id\n" +
+                "WHERE bb.user_ID = ?\n" +
+                "GROUP BY LOWER(TRIM(b.author))";
+        String[] selectionArgs = new String[]{String.valueOf(userId)};
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
+                int total = cursor.getInt(cursor.getColumnIndexOrThrow("total_books"));
+                authorDataList.add(new AuthorData(author, total));
+            }
+            cursor.close();
+        }
+        dbManager.Close();
+        return authorDataList;
+    }
+
+    public List<Book> getSuggestBooks() {
+        List<Book> suggestedBooks = new ArrayList<>();
+        int userId = SharedPreferencesUtil.getUserId(context);
+        dbManager.Open();
+        database = dbManager.getDatabase();
+        // Bước 1: Truy vấn tổng số sách mượn theo từng thể loại
+        String sql = "SELECT b.category, SUM(bb.book_Total) as total " +
+                "FROM bookborrow bb " +
+                "JOIN books b ON bb.book_ID = b.id " +
+                "WHERE bb.user_ID = ? " +
+                "GROUP BY b.category " +
+                "ORDER BY total DESC";
+
+        String[] selectionArgs = new String[]{String.valueOf(userId)};
+
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
+
+        if (cursor != null) {
+            List<String> topCategories = new ArrayList<>();
+
+            // Bước 2: Chọn hai thể loại mượn nhiều nhất
+            if (cursor.moveToFirst()) {
+                int count = 0;
+                do {
+                    String category = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                    topCategories.add(category);
+                    count++;
+                } while (cursor.moveToNext() && count <= 2);
+            }
+            cursor.close();
+
+            // Bước 3: Lấy danh sách sách gợi ý theo hai thể loại đó
+            for (String category : topCategories) {
+                String bookSql = "SELECT * FROM books  WHERE category = ? LIMIT 2 ";
+                Cursor bookCursor = database.rawQuery(bookSql, new String[]{category});
+
+                if (bookCursor != null) {
+                    while (bookCursor.moveToNext()) {
+                        int id = bookCursor.getInt(bookCursor.getColumnIndexOrThrow("id"));
+                        int avt = bookCursor.getInt(bookCursor.getColumnIndexOrThrow("avatar"));
+                        String title = bookCursor.getString(bookCursor.getColumnIndexOrThrow("title"));
+                        String author = bookCursor.getString(bookCursor.getColumnIndexOrThrow("author"));
+                        String bookCategory = bookCursor.getString(bookCursor.getColumnIndexOrThrow("category"));
+                        suggestedBooks.add(new Book(id, avt, title, author, bookCategory));
+                    }
+                    bookCursor.close();
+                }
+            }
+        }
+        if (suggestedBooks != null) {
+            return suggestedBooks;
+        }
         return null;
     }
 }

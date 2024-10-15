@@ -1,24 +1,17 @@
 package com.example.Views.Adapters;
 
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Models.Book;
 import com.example.Views.Activitys.BookDetailActivity;
-import com.example.Views.Fragments.HomeFragment;
 import com.example.btl_libary.R;
 
 import java.util.List;
@@ -78,8 +71,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
 
                 }
             });
-
-
         }
 
     }

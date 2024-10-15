@@ -2,6 +2,7 @@ package com.example.Contracts;
 
 import android.content.Context;
 
+import com.example.Models.AuthorData;
 import com.example.Models.Book;
 import com.example.Models.BorrowedBook;
 import com.example.Models.GenreData;
@@ -19,7 +20,11 @@ public interface BookContract {
 
             void displayAuthor(List<String> authorBooks);
 
-            void displayGenreData(List<GenreData> genreDataList);
+            void displaySuggessBook(List<Book> list);
+
+            void showBarChart(List<AuthorData> authorData);
+
+            void showPieChart(List<GenreData> genreData);
         }
 
         interface BookDetailView {
@@ -57,6 +62,10 @@ public interface BookContract {
             void loadPopularBooks();
 
             List<String> loadAuthorBooks();
+
+            void loadSuggessBook();
+
+            void loadFavoriteBooks();
 
         }
 

@@ -5,6 +5,9 @@
     <color name="teal_200">#03DAC5</color>
     <color name="note_bg">#FFFAE6</color>
     <color name="title_color">#FF6F00</color>
+    <color name="colorPrimary">#53BDFF</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
     <color name="kindle_background">#F5F5DC</color> <!-- Beige color similar to Kindle's background -->
     <color name="kindle_text_color">#000000</color> <!-- Text color -->
 

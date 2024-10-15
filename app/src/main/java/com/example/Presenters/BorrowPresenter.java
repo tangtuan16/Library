@@ -33,7 +33,6 @@ public class BorrowPresenter implements  BookContract.Presenter {
         repository.deleteBorrowedBook(borrowing_ID);
     }
     public void LoadBorrowedBooks() {
-
         List<BorrowedBook> borrowedBooks = repository.GetAllBorrowedBooks();
         borrowView.SetData(borrowedBooks);
     }
