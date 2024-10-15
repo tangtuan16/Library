@@ -31,7 +31,8 @@
         <activity
             android:name="com.example.Views.Activitys.BorrowBookActivity"
             android:exported="false" />
-
+        <activity android:name="com.example.Views.Activitys.ReadBookActivity"
+            android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.EditInfoActivity"
             android:exported="false" />
