@@ -333,7 +333,7 @@ public class BookModel {
     }
 
 
-    public List<GenreData> getGenreData() {
+    public List<GenreData> getPieChartData() {
         int userId = SharedPreferencesUtil.getUserId(context);
         List<GenreData> genreDataList = new ArrayList<>();
         dbManager.Open();
@@ -359,6 +359,31 @@ public class BookModel {
         }
         dbManager.Close();
         return genreDataList;
+    }
+
+
+    public List<AuthorData> getBarChartData() {
+        int userId = SharedPreferencesUtil.getUserId(context);
+        List<AuthorData> authorDataList = new ArrayList<>();
+        dbManager.Open();
+        SQLiteDatabase database = dbManager.getDatabase();
+        String sql = "SELECT (TRIM(b.author)) AS author, SUM(COALESCE(bb.book_Total, 0)) AS total_books\n" +
+                "FROM bookborrow bb\n" +
+                "JOIN books b ON bb.book_ID = b.id\n" +
+                "WHERE bb.user_ID = ?\n" +
+                "GROUP BY LOWER(TRIM(b.author))";
+        String[] selectionArgs = new String[]{String.valueOf(userId)};
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
+                int total = cursor.getInt(cursor.getColumnIndexOrThrow("total_books"));
+                authorDataList.add(new AuthorData(author, total));
+            }
+            cursor.close();
+        }
+        dbManager.Close();
+        return authorDataList;
     }
 
     public List<Book> getSuggestBooks() {
@@ -415,5 +440,4 @@ public class BookModel {
         }
         return null;
     }
-
 }

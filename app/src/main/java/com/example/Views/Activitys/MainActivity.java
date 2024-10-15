@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             navigationView.setVisibility(View.VISIBLE);
             navigationView.animate()
                     .alpha(1.0f)
-                    .setDuration(10);
+                    .setDuration(1000);
         }
     }
 

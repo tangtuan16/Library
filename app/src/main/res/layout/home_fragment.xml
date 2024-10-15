@@ -193,19 +193,72 @@
 
             <TextView
                 android:id="@+id/tvPie"
+                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/quicksand"
                 android:gravity="center"
-                android:text="Thống kê các thể loại bạn mượn nhiều nhất"
+                android:text="Thống kê của bạn"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/PieChart"
+            <RadioGroup
+                android:id="@+id/chartSelector"
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <RadioButton
+                    android:id="@+id/rbPieChart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_radiobutton"
+                    android:button="@null"
+                    android:fontFamily="@font/quicksand"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="Thể loại"
+                    android:textColor="@color/radio_text_selector" />
+
+                <RadioButton
+                    android:id="@+id/rbBarChart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_radiobutton"
+                    android:button="@null"
+                    android:fontFamily="@font/quicksand"
+                    android:gravity="center"
+                    android:paddingVertical="12dp"
+                    android:text="Tác giả"
+                    android:textColor="@color/radio_text_selector" />
+            </RadioGroup>
+
+
+            <FrameLayout
+                android:id="@+id/frameChartContainer"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:padding="5dp">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/PieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:padding="10dp"
+                    android:visibility="visible" />
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:padding="10dp"
+                    android:visibility="gone" />
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/tvLike"

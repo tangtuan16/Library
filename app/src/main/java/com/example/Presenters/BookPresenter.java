@@ -58,10 +58,6 @@ public class BookPresenter implements BookContract.Presenter.HomePresenter {
         return authorBooks;
     }
 
-    public void loadGenreData() {
-        List<GenreData> genreDataList = repository.getGenreData();
-        homeView.displayGenreData(genreDataList);
-    }
 
     @Override
     public void loadSuggessBook() {

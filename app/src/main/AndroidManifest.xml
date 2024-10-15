@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/mymap_api_key" />
 
     <application
         android:allowBackup="true"
@@ -19,11 +24,9 @@
         <activity
             android:name="com.example.Views.Activitys.EditInfoActivity"
             android:exported="false" />
+
         <activity
             android:name="com.example.Views.Activitys.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.Views.Activitys.RegisterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,16 +34,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.example.Views.Activitys.RegisterActivity"
+            android:exported="false"></activity>
+
         <activity
             android:name="com.example.Views.Activitys.BookDetailActivity"
             android:exported="false" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/mymap_api_key" />
+        <activity
+            android:name="com.example.Views.Activitys.ChangePasswordActivity"
+            android:exported="false" />
 
         <activity
             android:name="com.example.Views.Activitys.MapsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.example.Views.Activitys.BorrowedBooksActivity"
             android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.AccountActivity"
@@ -58,6 +69,9 @@
             android:name="com.example.Views.Activitys.MainActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name="com.example.Views.Activitys.NotificationActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

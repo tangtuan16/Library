@@ -2,15 +2,30 @@ package com.example.Presenters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import java.io.ByteArrayOutputStream;
 
+import com.example.Contracts.UserContract;
 import com.example.Models.User;
 import com.example.Models.UserModel;
+
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 public class UserPresenter {
     private Context context;
     private UserModel userModel;
+    private UserContract.View userView;
 
+    public UserPresenter(Context context, UserContract.View userView) {
+        this.userModel = new UserModel(context);
+        this.userView = userView;
+    }
+
+    public void loadUsers() {
+        List<User> userList = userModel.getAllUsers();
+        userView.displayUser(userList);
+    }
+
+    //CODE SON
     // Callbacks for different operations
     public interface RegisterCallback {
         void onRegisterSuccess();

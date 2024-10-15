@@ -44,8 +44,7 @@ public class UserModel {
             cursor.close();
         }
 
-        dbManager.Close(); // Close the database connection
-
+        dbManager.Close();
         return userList;
     }
 
@@ -63,7 +62,7 @@ public class UserModel {
 
         long result = database.insert("users", null, values);
 
-        dbManager.Close(); // Close the database connection
+        dbManager.Close();
 
         return result;
     }
