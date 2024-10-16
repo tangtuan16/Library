@@ -72,6 +72,9 @@
             android:name="com.example.Views.Activitys.SearchActivity"
             android:exported="false" />
         <activity
+            android:name="com.example.Views.Activitys.CartActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.Views.Activitys.LibraryInforActivity"
             android:exported="false" />
         <activity

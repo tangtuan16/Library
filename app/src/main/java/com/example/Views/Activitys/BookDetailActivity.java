@@ -15,7 +15,9 @@ import androidx.annotation.Nullable;
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
 
+import com.example.Models.CartModel;
 import com.example.Presenters.BookPresenter;
+import com.example.Presenters.CartPresenter;
 import com.example.Untils.SharedPreferencesUtil;
 import com.example.btl_libary.R;
 
@@ -32,6 +34,8 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
     private Button btnBorrow;
     CheckBox checkBox;
     int bookId;
+    private CartPresenter cartPresenter;
+    private Button btnAddToCart;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +94,20 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
                 intent.putExtra("bookId", bookId);
                 intent.putExtra("author", getIntent().getStringExtra("author"));
                 startActivity(intent);
+            }
+        });
+
+        cartPresenter = new CartPresenter(this, new CartModel(this));
+        btnAddToCart = findViewById(R.id.btnAddToCart);
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean isAdded = cartPresenter.addBookToCart(userId, bookId);
+                if (!isAdded) {
+                    Toast.makeText(BookDetailActivity.this, "Sách đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(BookDetailActivity.this, "Sách đã có trong giỏ hàng", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

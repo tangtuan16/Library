@@ -65,6 +65,13 @@ public class DBManager {
                 "content TEXT NOT NULL, " +
                 "notification_time DATE NOT NULL, " +
                 "status INTEGER DEFAULT 0 CHECK (status IN (0,1)) NOT NULL);";
+        private static final String TABLE_CREATE_CART = "CREATE TABLE cart (\n" +
+                "    cart_id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "    user_id INTEGER,\n" +
+                "    book_id INTEGER,\n" +
+                "    FOREIGN KEY (user_id) REFERENCES users(id),\n" +
+                "    FOREIGN KEY (book_id) REFERENCES books(id)\n" +
+                ");\n";
 
 
         public DatabaseHelper(Context context) {
@@ -78,6 +85,7 @@ public class DBManager {
             db.execSQL(TABLE_CREATE_BOOKBORROW);
             db.execSQL(TABLE_CREATE_FAVOURITEBOOKS);
             db.execSQL(TABLE_CREATE_NOTIFICATIONS);
+            db.execSQL(TABLE_CREATE_CART);
         }
 
         @Override
