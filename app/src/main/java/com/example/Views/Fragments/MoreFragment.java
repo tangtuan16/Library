@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.Contracts.OnClickContracts;
 import com.example.Views.Activitys.AccountActivity;
 import com.example.Views.Activitys.BorrowedBooksActivity;
+import com.example.Views.Activitys.CartActivity;
 import com.example.Views.Activitys.LibraryInforActivity;
 import com.example.Views.Activitys.NotificationActivity;
 import com.example.Views.Activitys.SearchActivity;
@@ -40,7 +41,7 @@ public class MoreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView rvMore = view.findViewById(R.id.rvMore);
         rvMore.setLayoutManager(new LinearLayoutManager(getContext()));
-        options = Arrays.asList("Tài khoản cá nhân", "Tìm kiếm sách", "Sách đã mượn", "Thông tin thư viện", "Thông báo của tôi", "Về chúng tôi");
+        options = Arrays.asList("Tài khoản cá nhân", "Tìm kiếm sách","Giỏ sách chờ mượn", "Sách đã mượn", "Thông tin thư viện", "Thông báo của tôi", "Về chúng tôi");
         adapter = new MoreAdapter(getContext(), options);
         adapter.setOnItemClickListener(new OnClickContracts.OnItemClickListener() {
             @Override
@@ -55,19 +56,24 @@ public class MoreFragment extends Fragment {
                         intent = new Intent(getContext(), SearchActivity.class);
                         startActivity(intent);
                         break;
+
                     case 2:
-                        intent = new Intent(getContext(), BorrowedBooksActivity.class);
+                        intent = new Intent(getContext(), CartActivity.class);
                         startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(getContext(), LibraryInforActivity.class);
+                        intent = new Intent(getContext(), BorrowedBooksActivity.class);
                         startActivity(intent);
                         break;
                     case 4:
-                        intent = new Intent(getContext(), NotificationActivity.class);
+                        intent = new Intent(getContext(), LibraryInforActivity.class);
                         startActivity(intent);
                         break;
                     case 5:
+                        intent = new Intent(getContext(), NotificationActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 6:
                         break;
                 }
             }

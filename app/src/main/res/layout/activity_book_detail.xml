@@ -132,6 +132,14 @@
             android:textSize="10sp" />
 
         <Button
+            android:id="@+id/btnAddToCart"
+            android:layout_width="100dp"
+            android:text="Thêm giỏ"
+            android:textSize="12sp"
+
+            android:layout_height="60dp"/>
+
+        <Button
             android:id="@+id/btnBorrow"
             android:layout_width="100dp"
             android:layout_height="match_parent"
@@ -142,7 +150,9 @@
             android:text="Đăng Ký Mượn Sách"
             android:textSize="12sp" />
 
+
     </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
