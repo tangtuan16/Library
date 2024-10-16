@@ -79,6 +79,7 @@ public class CartModel implements CartContract.Model {
 
         cursor.close();
         dbManager.Close();
+        //kdjhfjsh
         return result != -1; // Trả về true nếu thêm thành công, false nếu không
     }
 }
