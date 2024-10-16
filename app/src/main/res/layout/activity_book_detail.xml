@@ -3,16 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:background="@drawable/img"
-    android:layout_height="100dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/img" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
         android:layout_marginEnd="10dp"
+        android:fontFamily="@font/bookerly"
+        android:gravity="center"
         android:text="Thông tin chi tiết sách"
         android:textSize="30sp" />
 
@@ -39,6 +41,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/bookerly"
                     android:text="Tên sách: "
                     android:textSize="18sp" />
 
@@ -47,6 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/bookerly"
                     android:text="Sach"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -60,6 +64,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/bookerly"
                     android:text="Tên Tác Giả: "
                     android:textSize="18sp" />
 
@@ -68,19 +73,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/bookerly"
                     android:text="Tac Gia"
                     android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/bookerly"
                     android:text="Thể Loại: "
                     android:textSize="18sp" />
 
@@ -89,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-
+                    android:fontFamily="@font/bookerly"
                     android:text="The Loai"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -102,9 +109,10 @@
 
             <ImageView
                 android:id="@+id/imgAvt"
+                android:baseline="@dimen/cardview_compat_inset_shadow"
                 android:layout_width="100dp"
-                android:layout_marginEnd="20dp"
-                android:layout_height="150dp" />
+                android:layout_height="150dp"
+                android:layout_marginEnd="20dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -114,12 +122,13 @@
         android:layout_height="60dp"
         android:background="@drawable/bg_gradient"
         android:gravity="right">
+
         <Button
-            android:layout_width="100dp"
-            android:text="Doc Online"
-            android:textSize="12sp"
             android:id="@+id/readbook"
-            android:layout_height="60dp"/>
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:text="Doc Online"
+            android:textSize="12sp" />
 
         <CheckBox
             android:id="@+id/checkBox"
@@ -134,10 +143,10 @@
         <Button
             android:id="@+id/btnAddToCart"
             android:layout_width="100dp"
+            android:layout_height="60dp"
             android:text="Thêm giỏ"
-            android:textSize="12sp"
 
-            android:layout_height="60dp"/>
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnBorrow"
@@ -146,8 +155,8 @@
             android:layout_marginEnd="20dp"
             android:background="@drawable/btn_custom1"
             android:breakStrategy="balanced"
-            android:textColor="@android:color/white"
             android:text="Đăng Ký Mượn Sách"
+            android:textColor="@android:color/white"
             android:textSize="12sp" />
 
 
@@ -161,7 +170,7 @@
             android:id="@+id/recyclerView_comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical" />
+            android:scrollbars="horizontal" />
 
     </ScrollView>
 

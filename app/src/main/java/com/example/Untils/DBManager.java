@@ -18,7 +18,7 @@ public class DBManager {
 
     public static class DatabaseHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "Library";
-        private static final int DATABASE_VERSION = 34;
+        private static final int DATABASE_VERSION = 35;
 
         private static final String TABLE_CREATE_BOOK = "CREATE TABLE books (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
