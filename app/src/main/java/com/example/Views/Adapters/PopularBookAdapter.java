@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Models.Book;
 import com.example.Presenters.BookPreviewPresenter;
-import com.example.Views.Popup.BookPreviewPopup;
+import com.example.Views.Popup.BookDetailPopup;
 import com.example.btl_libary.R;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class PopularBookAdapter extends RecyclerView.Adapter<PopularBookAdapter.
         holder.btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookPreviewPopup popup = new BookPreviewPopup(v.getContext());
+                BookDetailPopup popup = new BookDetailPopup(v.getContext());
                 BookPreviewPresenter presenter = new BookPreviewPresenter(popup, v.getContext(), null);
                 presenter.loadBookDetail(book.getId(), context);
                 Log.d("CheckInfor", "id= " + book.getId());

@@ -208,9 +208,9 @@ public class BookModel {
         database = dbManager.getDatabase();
         ContentValues values = new ContentValues();
         values.put("avatar", avatar);
-        values.put("title", title);
-        values.put("author", author);
-        values.put("category", category);
+        values.put("title", title.trim());
+        values.put("author", author.trim());
+        values.put("category", category.trim());
         long result = database.insert("books", null, values);
         dbManager.Close();
         return result;

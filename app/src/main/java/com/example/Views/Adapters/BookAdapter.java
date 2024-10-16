@@ -18,15 +18,23 @@ import java.util.List;
 
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
     private List<Book> list;
+    private int currentLayoutType;
 
-    public BookAdapter(List<Book> list) {
+
+    public BookAdapter(List<Book> list, int currentLayoutType) {
         this.list = list;
+        this.currentLayoutType = currentLayoutType;
     }
 
     @NonNull
     @Override
     public BookHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_item, parent, false);
+        View view;
+        if (currentLayoutType == 0) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_item, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_item_grid, parent, false);
+        }
         return new BookHolder(view);
     }
 
@@ -35,8 +43,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
         Book book = list.get(position);
         holder.imgAvt.setImageResource(book.getAvt());
         holder.txtTitle.setText(book.getTitle());
-        holder.txtAuthor.setText(book.getAuthor());
-        holder.txtCategory.setText(book.getDesc());
+        holder.txtAuthor.setText("Tác giả: " + book.getAuthor());
+        holder.txtCategory.setText("Thể loại: " + book.getDesc());
     }
 
     @Override
@@ -67,8 +75,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
                         intent.putExtra("author", txtAuthor.getText().toString());
                         v.getContext().startActivity(intent); // Start the activity
                     }
-
-
                 }
             });
         }

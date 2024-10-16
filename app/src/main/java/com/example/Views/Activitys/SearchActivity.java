@@ -105,7 +105,7 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
         rcvSearchResuilt.setLayoutManager(gridLayoutManager);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         rcvSearchResuilt.addItemDecoration(itemDecoration);
-        rcvSearchResuilt.setAdapter(new BookAdapter(list));
+        rcvSearchResuilt.setAdapter(new BookAdapter(list, 0));
     }
 
     @Override

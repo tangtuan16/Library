@@ -11,12 +11,12 @@ import com.example.btl_libary.R;
 
 import java.util.List;
 
-public class BookPreviewPopup implements BookContract.View.BookDetailView {
+public class BookDetailPopup implements BookContract.View.BookDetailView {
     private Dialog dialog;
     private TextView tvBookTitle, tvBookContent, tvBookAuthor;
     private ImageView ivBookAvt;
 
-    public BookPreviewPopup(Context context) {
+    public BookDetailPopup(Context context) {
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.popup_book_details);
         dialog.getWindow().setLayout((int) (context.getResources().getDisplayMetrics().widthPixels * 0.95),

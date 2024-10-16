@@ -3,154 +3,140 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:background="@drawable/img"
-    android:layout_height="100dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:layout_marginEnd="10dp"
-        android:text="Thông tin chi tiết sách"
-        android:textSize="30sp" />
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:background="@drawable/img" />
 
-        android:orientation="horizontal">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        android:fontFamily="@font/quicksand"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:text="Thông tin chi tiết sách"
+        android:textSize="30sp" />
 
+    <LinearLayout
+        android:layout_height="240dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tên sách: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Sach"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tên Tác Giả: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Tac Gia"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Thể Loại: "
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-
-                    android:text="The Loai"
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </LinearLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/dg_logo"
+            android:src="@drawable/logo" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
+            android:layout_height="200dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/title"
+                    android:ellipsize="end"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/quicksand"
+                    android:maxLines="2"
+                    android:text="Title"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/author"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/quicksand"
+                    android:text="Tac giả"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:id="@+id/category"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/quicksand"
+                    android:text="Category"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/imgAvt"
+                android:layout_height="140dp"
                 android:layout_width="100dp"
-                android:layout_marginEnd="20dp"
-                android:layout_height="150dp" />
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/rounded_corners"
+                android:padding="2dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/no_image" />
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="@drawable/bg_gradient"
-        android:gravity="right">
+        android:orientation="horizontal">
+
         <Button
-            android:layout_width="100dp"
-            android:text="Doc Online"
-            android:textSize="12sp"
             android:id="@+id/readbook"
-            android:layout_height="60dp"/>
+            android:layout_height="40dp"
+            android:layout_width="100dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_account"
+            android:textSize="12sp"
+            android:text="Đọc Online" />
+
+        <Button
+            android:id="@+id/btnAddToCart"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_account"
+            android:text="Thêm giỏ"
+            android:textSize="12sp" />
 
         <CheckBox
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:id="@+id/checkBox"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/heart_shape"
             android:button="@null"
             android:checked="false"
             android:textSize="10sp" />
 
         <Button
-            android:id="@+id/btnAddToCart"
-            android:layout_width="100dp"
-            android:text="Thêm giỏ"
-            android:textSize="12sp"
-
-            android:layout_height="60dp"/>
-
-        <Button
             android:id="@+id/btnBorrow"
             android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/btn_custom1"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
             android:breakStrategy="balanced"
-            android:textColor="@android:color/white"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/btn_account"
             android:text="Đăng Ký Mượn Sách"
             android:textSize="12sp" />
-
-
     </LinearLayout>
 
     <ScrollView
@@ -165,4 +151,88 @@
 
     </ScrollView>
 
-</LinearLayout>
+</LinearLayout><!--    <LinearLayout-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="2"-->
+    <!--            android:layout_marginStart="15dp"-->
+    <!--            android:orientation="vertical">-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="horizontal">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="Tác phẩm: "-->
+    <!--                    android:textSize="18sp" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/title"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginLeft="10dp"-->
+    <!--                    android:text="Title"-->
+    <!--                    android:textSize="18sp" />-->
+    <!--            </LinearLayout>-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginTop="30dp"-->
+    <!--                android:orientation="horizontal">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="Tên Tác Giả: "-->
+    <!--                    android:textSize="18sp" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/author"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginLeft="10dp"-->
+    <!--                    android:text="Tac Gia"-->
+    <!--                    android:textSize="18sp" />-->
+    <!--            </LinearLayout>-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginTop="30dp"-->
+    <!--                android:orientation="horizontal">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="Thể Loại: "-->
+    <!--                    android:textSize="18sp" />-->
+
+    <!--                <TextView-->
+    <!--                    android:id="@+id/category"-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_marginLeft="10dp"-->
+
+    <!--                    android:text="The Loai"-->
+    <!--                    android:textSize="18sp" />-->
+    <!--            </LinearLayout>-->
+    <!--        </LinearLayout>-->
+
+    <!--        <ImageView-->
+    <!--            android:layout_height="150dp"-->
+    <!--                android:id="@+id/imgAvt"-->
+    <!--                android:layout_width="100dp"-->
+    <!--                android:layout_marginEnd="20dp"-->
+    <!--            android:src="@drawable/no_image" />-->
+
+    <!--    </LinearLayout>-->

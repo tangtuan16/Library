@@ -12,27 +12,26 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:background="@drawable/library1" />
+            android:background="@drawable/tv" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="#D5CECE"
+            android:background="@drawable/bg_gradient"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="260dp"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:fontFamily="@font/quicksand"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
                     android:text="Tủ Sách Bé Yêu"
                     android:textColor="#432626"
+                    android:padding="5dp"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -79,8 +78,8 @@
             <Button
                 android:id="@+id/btnPrevious"
                 android:layout_width="30dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="start"
+                android:layout_height="100dp"
+                android:layout_gravity="start|center"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/btn_next"
                 android:text="&lt;"
@@ -89,30 +88,29 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewpager"
                 android:layout_width="0dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_gravity="fill_vertical" />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp" />
 
             <Button
                 android:id="@+id/btnNext"
                 android:layout_width="30dp"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
                 android:layout_marginEnd="10dp"
-                android:layout_gravity="end"
+                android:layout_gravity="end|center"
                 android:background="@drawable/btn_next"
                 android:text="&gt;"
                 android:textColor="#000000" />
         </LinearLayout>
-
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcvBook"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp" />
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="20dp" />
 
 </LinearLayout>

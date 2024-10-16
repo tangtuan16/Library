@@ -1,20 +1,12 @@
 package com.example.Views.Fragments;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -24,13 +16,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
-import com.example.Models.BookModel;
 import com.example.Presenters.BookPresenter;
 import com.example.Untils.SharedPreferencesUtil;
 import com.example.Views.Activitys.MainActivity;
@@ -38,8 +27,6 @@ import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.BookAdapter;
 import com.example.Views.Adapters.BookFavAdapter;
 import com.example.btl_libary.R;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.List;
 
@@ -60,9 +47,7 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
         presenter.loadFavoriteBooks();
     }
 
-
-
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.library_fragment, container, false);
         showPopupButton = view.findViewById(R.id.show_popup_button);
         showPopupButton.setOnClickListener(v -> showSearchPopup());
@@ -194,23 +179,21 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
                 presenter.loadGridBook();
             }
         });
-
-
     }
-
 
     @Override
     public void displayBook(List<Book> list) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         rvBooks.setLayoutManager(gridLayoutManager);
-
-        rvBooks.setAdapter(new BookAdapter(list));
+        rvBooks.setAdapter(new BookAdapter(list, 0));
     }
 
     public void displayGridBook(List<Book> list) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rvBooks.setLayoutManager(gridLayoutManager);
-        rvBooks.setAdapter(new BookAdapter(list));
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        rvBooks.addItemDecoration(itemDecoration);
+        rvBooks.setAdapter(new BookAdapter(list, 1));
     }
 
     @Override
