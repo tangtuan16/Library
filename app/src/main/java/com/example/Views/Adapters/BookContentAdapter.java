@@ -23,31 +23,25 @@
 
     public class BookContentAdapter extends RecyclerView.Adapter<BookContentAdapter.BookViewHolder> {
         private List<String> textChunks;
-        private float currentTextSize;
+        private float textSize;
 
 
-        public BookContentAdapter(List<String> textChunks) {
+        public BookContentAdapter(List<String> textChunks,float textSize) {
             this.textChunks = textChunks;
-            this.currentTextSize = -1; // Chưa được thiết lập
+            this.textSize = textSize;
         }
 
         public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_content, parent, false);
             return new BookViewHolder(view);
         }
-        public void updateTextSize(float newSize) {
-            this.currentTextSize = newSize;
-            notifyDataSetChanged();
-        }
+
 
         @Override
         public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
             String modifiedText = textChunks.get(position).replace(" ", "  ");
             holder.textViewContent.setText(modifiedText);
-
-            if (currentTextSize > 0) {
-                holder.textViewContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, currentTextSize);
-            }
+            holder.textViewContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 
             holder.textViewContent.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
 
