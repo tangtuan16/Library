@@ -66,7 +66,9 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
                             Book clickedBook = list.get(position);
                             int bookId = clickedBook.getId(); // Lấy ID sách
                             Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
-                            intent.putExtra("id_book", bookId); // Truyền ID sách làm extra
+                            intent.putExtra("id_book", bookId);
+                            intent.putExtra("title", clickedBook.getTitle());
+                            intent.putExtra("author", clickedBook.getAuthor());// Truyền ID sách làm extra
                             v.getContext().startActivity(intent);
                         }
                     } else {

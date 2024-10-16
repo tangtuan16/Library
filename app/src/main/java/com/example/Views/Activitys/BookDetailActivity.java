@@ -31,12 +31,13 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
     private BookPresenter bookPresenter;
     private Button btnBorrow;
     CheckBox checkBox;
+    int bookId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_detail);
-        int bookId = getIntent().getIntExtra("id_book", -1);
+        bookId = getIntent().getIntExtra("id_book", -1);
         bookPresenter = new BookPresenter(this, (BookContract.View.DetailBookView) this);
         if (bookId != -1) {
             bookPresenter.loadDetailBook(bookId);
@@ -77,6 +78,17 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
                 Intent intent = new Intent(view.getContext(), BorrowBookActivity.class);
                 intent.putExtra("id_book", bookId);
                 intent.putExtra("title", getIntent().getStringExtra("title"));
+                startActivity(intent);
+            }
+        });
+        Button readBookButton = findViewById(R.id.readbook);
+        readBookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BookDetailActivity.this, ReadBookActivity.class);
+                intent.putExtra("title", getIntent().getStringExtra("title"));
+                intent.putExtra("bookId", bookId);
+                intent.putExtra("author", getIntent().getStringExtra("author"));
                 startActivity(intent);
             }
         });

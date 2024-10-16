@@ -114,6 +114,12 @@
         android:layout_height="60dp"
         android:background="@drawable/bg_gradient"
         android:gravity="right">
+        <Button
+            android:layout_width="100dp"
+            android:text="Doc Online"
+            android:textSize="12sp"
+            android:id="@+id/readbook"
+            android:layout_height="60dp"/>
 
         <CheckBox
             android:id="@+id/checkBox"

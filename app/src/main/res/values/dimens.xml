@@ -1,0 +1,4 @@
+<resources>
+    <!-- Define your text size dimension here -->
+    <dimen name="text_size">18sp</dimen>
+</resources>
