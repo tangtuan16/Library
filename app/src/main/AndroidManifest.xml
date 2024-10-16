@@ -47,17 +47,6 @@
         <activity
             android:name="com.example.Views.Activitys.EditInfoActivity"
             android:exported="false" />
-
-        <activity
-            android:name="com.example.Views.Activitys.LoginActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
         <activity
             android:name="com.example.Views.Activitys.RegisterActivity"
             android:exported="false"></activity>
@@ -74,13 +63,7 @@
             android:name="com.example.Views.Activitys.MapsActivity"
             android:exported="false" />
         <activity
-            android:name="com.example.Views.Activitys.BorrowedBooksActivity"
-            android:exported="false" />
-        <activity
             android:name="com.example.Views.Activitys.AccountActivity"
-            android:exported="false" />
-        <activity
-            android:name="com.example.Views.Activitys.BorrowBookActivity"
             android:exported="false" />
         <activity
             android:name="com.example.Views.Activitys.SearchActivity"
