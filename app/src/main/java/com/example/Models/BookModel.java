@@ -341,8 +341,10 @@ public class BookModel {
         String sql = "SELECT b.category, SUM(bb.book_Total) AS total_books\n" +
                 "FROM bookborrow bb\n" +
                 "JOIN books b ON bb.book_ID = b.id\n" +
-                "WHERE bb.user_ID = ?" +
-                "GROUP BY b.category";
+                "WHERE bb.user_ID = ?\n" +
+                "GROUP BY b.category\n" +
+                "ORDER BY total_books DESC\n" +
+                "LIMIT 6";
         String[] selectionArgs = new String[]{String.valueOf(userId)};
         Cursor cursor = database.rawQuery(sql, selectionArgs);
         if (cursor != null) {
@@ -371,7 +373,9 @@ public class BookModel {
                 "FROM bookborrow bb\n" +
                 "JOIN books b ON bb.book_ID = b.id\n" +
                 "WHERE bb.user_ID = ?\n" +
-                "GROUP BY LOWER(TRIM(b.author))";
+                "GROUP BY LOWER(TRIM(b.author))\n" +
+                "ORDER BY total_books DESC\n" +
+                "LIMIT 5";
         String[] selectionArgs = new String[]{String.valueOf(userId)};
         Cursor cursor = database.rawQuery(sql, selectionArgs);
         if (cursor != null) {
