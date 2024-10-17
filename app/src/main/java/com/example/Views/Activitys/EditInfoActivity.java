@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -93,7 +94,7 @@ public class EditInfoActivity extends AppCompatActivity implements UserPresenter
     }
 
     @Override
-    public void onUserInfoLoaded(User user) {
+    public void onUserInfoLoaded(@NonNull User user) {
         editFullName.setText(user.getFullName());
         editEmail.setText(user.getEmail());
         editPhone.setText(user.getPhone());

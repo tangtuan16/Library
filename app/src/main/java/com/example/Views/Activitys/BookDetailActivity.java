@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -112,7 +113,7 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
     }
 
     @Override
-    public void displayBook(List<Book> list) {
+    public void displayBook(@NonNull List<Book> list) {
         Book book = list.get(0);
         TextView txtTitle = findViewById(R.id.title); // Replace with your actual TextView IDs
         TextView txtAuthor = findViewById(R.id.author);

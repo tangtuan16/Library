@@ -165,7 +165,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     }
 
     @Override
-    public void showWeather(Weather weather) {
+    public void showWeather(@NonNull Weather weather) {
         String iconUrl = "https:" + weather.getCurrent().getCondition().getIcon();
         Picasso.get().load(iconUrl).into(weatherIcon);
 
@@ -191,7 +191,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     }
 
     @Override
-    public void displayAuthor(List<String> authorBooks) {
+    public void displayAuthor(@NonNull List<String> authorBooks) {
         Log.d("ListAuthor", "Size of authorBooks: " + authorBooks.size());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, authorBooks);
         lvAuthor.setAdapter(adapter);
@@ -200,7 +200,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
 
 
     @Override
-    public void displaySuggessBook(List<Book> list) {
+    public void displaySuggessBook(@NonNull List<Book> list) {
         if (list.isEmpty()) {
             rvSuggestBook.setVisibility(View.GONE);
             tvLike.setVisibility(View.GONE);

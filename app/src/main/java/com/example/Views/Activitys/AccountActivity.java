@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Presenters.UserPresenter;
@@ -81,7 +82,7 @@ public class AccountActivity extends AppCompatActivity implements UserPresenter.
     }
 
     @Override
-    public void onUserInfoLoaded(User user) {
+    public void onUserInfoLoaded(@NonNull User user) {
         textFullName.setText(user.getFullName());
         textEmail.setText(user.getEmail());
         textPhone.setText(user.getPhone());

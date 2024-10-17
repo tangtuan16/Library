@@ -29,10 +29,8 @@ public class UserModel {
         userId = SharedPreferencesUtil.getUserId(context);
         Log.d("CheckID", "userIdModel: " + userId);
         List<User> userList = new ArrayList<>();
-
         dbManager.Open();
         database = dbManager.getDatabase();
-
         String sql = "SELECT * FROM users WHERE id = ?";
         String[] arg = new String[]{String.valueOf(userId)};
         Cursor cursor = database.rawQuery(sql, arg);

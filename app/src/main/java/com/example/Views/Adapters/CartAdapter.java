@@ -62,7 +62,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             bookImageView = itemView.findViewById(R.id.bookImageView);
         }
 
-        void bind(CartItem item, OnRemoveClickListener listener) {
+        void bind(@NonNull CartItem item, OnRemoveClickListener listener) {
 
             titleTextView.setText(item.getTitle());
             authorTextView.setText("Tác giả: " + item.getAuthor());

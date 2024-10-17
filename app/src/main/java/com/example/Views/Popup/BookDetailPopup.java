@@ -5,6 +5,8 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.Contracts.BookContract;
 import com.example.Models.Book;
 import com.example.btl_libary.R;
@@ -29,7 +31,7 @@ public class BookDetailPopup implements BookContract.View.BookDetailView {
     }
 
     @Override
-    public void showBookDetail(List<Book> bookList, int bookId) {
+    public void showBookDetail(@NonNull List<Book> bookList, int bookId) {
         tvBookTitle.setText(bookList.get(bookId - 1).getTitle());
         tvBookAuthor.setText(bookList.get(bookId - 1).getAuthor());
         tvBookContent.setText(bookList.get(bookId - 1).getContent());
