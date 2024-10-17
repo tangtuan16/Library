@@ -47,7 +47,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     static class CartViewHolder extends RecyclerView.ViewHolder {
-        TextView bookIdTextView;
         TextView authorTextView;
         TextView titleTextView;
         TextView genreTextView;
@@ -56,7 +55,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         CartViewHolder(@NonNull View itemView) {
             super(itemView);
-            bookIdTextView = itemView.findViewById(R.id.bookIdTextView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             removeButton = itemView.findViewById(R.id.removeButton);
             authorTextView =itemView.findViewById((R.id.authorTextView));
@@ -64,14 +62,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             bookImageView = itemView.findViewById(R.id.bookImageView);
         }
 
-        void bind(CartItem item, OnRemoveClickListener listener) {
+        void bind(@NonNull CartItem item, OnRemoveClickListener listener) {
 
-            titleTextView.setText("Tên: "+item.getTitle());
+            titleTextView.setText(item.getTitle());
             authorTextView.setText("Tác giả: " + item.getAuthor());
-            genreTextView.setText("Thê loại: " + item.getGenre());
+            genreTextView.setText("Thể loại: " + item.getGenre());
             bookImageView.setImageResource(item.getAvt());
-
-
             removeButton.setOnClickListener(v -> listener.onRemoveClick(item.getBookId()));
         }
 

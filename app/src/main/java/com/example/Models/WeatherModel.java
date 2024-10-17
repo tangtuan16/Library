@@ -29,7 +29,7 @@ public class WeatherModel implements WeatherContract.Model {
 
     @Override
     public void getWeather(String apiKey, String location, final WeatherContract.Model.WeatherCallback callback) {
-        List<String> desiredHours = Arrays.asList("06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18");
+        List<String> desiredHours = Arrays.asList("06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23");
 
         Call<Weather> call = apiService.getForecast(apiKey, location, 1);
         call.enqueue(new Callback<Weather>() {

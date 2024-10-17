@@ -1,6 +1,7 @@
 package com.example.Views.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Models.Book;
 import com.example.Presenters.BookPreviewPresenter;
+import com.example.Views.Activitys.BookDetailActivity;
 import com.example.Views.Popup.BookDetailPopup;
 import com.example.btl_libary.R;
 
@@ -51,7 +53,20 @@ public class PopularBookAdapter extends RecyclerView.Adapter<PopularBookAdapter.
                 Log.d("CheckInfor", "id= " + book.getId());
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int a = holder.getAdapterPosition();
+                Book clickedBook = list.get(a);
+                int bookId = clickedBook.getId();
+                Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
+                intent.putExtra("id_book", bookId);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {

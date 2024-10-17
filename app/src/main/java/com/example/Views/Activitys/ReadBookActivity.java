@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -113,7 +114,7 @@ public class ReadBookActivity extends AppCompatActivity {
         private static final float MIN_ALPHA = 0.5f;
 
         @Override
-        public void transformPage(View view, float position) {
+        public void transformPage(@NonNull View view, float position) {
             int pageWidth = view.getWidth();
 
             if (position < -1) { // [-Infinity,-1)
@@ -157,6 +158,7 @@ public class ReadBookActivity extends AppCompatActivity {
     }
 
 
+    @Nullable
     private String loadJSONFromAsset() {
         String json = null;
         try {

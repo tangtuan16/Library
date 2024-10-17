@@ -9,9 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -40,6 +41,7 @@ import com.example.Presenters.ChartPresenter;
 import com.example.Presenters.UserPresenter;
 import com.example.Presenters.WeatherPresenter;
 import com.example.Views.Activitys.MainActivity;
+import com.example.Views.Activitys.NotificationActivity;
 import com.example.Views.Activitys.SearchActivity;
 import com.example.Views.Adapters.HourlyAdapter;
 import com.example.Views.Adapters.PopularBookAdapter;
@@ -63,7 +65,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements WeatherContract.View, BookContract.View.HomeView, UserContract.View {
-    private ImageView weatherIcon, userAvatar;
+    private ImageView weatherIcon, userAvatar, imgNotification;
     private TextView rainfall, userName, tvLike;
     private RecyclerView hourlyTemperature, rcvHightLight, rvSuggestBook;
     private WeatherPresenter weatherPresenter;
@@ -75,7 +77,6 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     private List<String> authors;
     private PieChart pieChart;
     private BarChart barChart;
-    private FrameLayout frameChart;
     private RadioButton rbPieChart, rbBarChart;
 
     @Nullable
@@ -92,10 +93,10 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         userName = view.findViewById(R.id.txtUser);
         pieChart = view.findViewById(R.id.PieChart);
         barChart = view.findViewById(R.id.barChart);
-        frameChart = view.findViewById(R.id.frameChartContainer);
         rbPieChart = view.findViewById(R.id.rbPieChart);
         rbBarChart = view.findViewById(R.id.rbBarChart);
         tvLike = view.findViewById(R.id.tvLike);
+        imgNotification = view.findViewById(R.id.imgNotification);
 
         hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         weatherPresenter = new WeatherPresenter(this, getContext());
@@ -155,11 +156,16 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
                 chartPresenter.loadPieChart();
             }
         });
-
+        imgNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), NotificationActivity.class);
+            Animation shakeAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
+            imgNotification.startAnimation(shakeAnimation);
+            startActivity(intent);
+        });
     }
 
     @Override
-    public void showWeather(Weather weather) {
+    public void showWeather(@NonNull Weather weather) {
         String iconUrl = "https:" + weather.getCurrent().getCondition().getIcon();
         Picasso.get().load(iconUrl).into(weatherIcon);
 
@@ -185,7 +191,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     }
 
     @Override
-    public void displayAuthor(List<String> authorBooks) {
+    public void displayAuthor(@NonNull List<String> authorBooks) {
         Log.d("ListAuthor", "Size of authorBooks: " + authorBooks.size());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, authorBooks);
         lvAuthor.setAdapter(adapter);
@@ -194,7 +200,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
 
 
     @Override
-    public void displaySuggessBook(List<Book> list) {
+    public void displaySuggessBook(@NonNull List<Book> list) {
         if (list.isEmpty()) {
             rvSuggestBook.setVisibility(View.GONE);
             tvLike.setVisibility(View.GONE);

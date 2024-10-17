@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.Presenters.UserPresenter;
@@ -78,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements UserPresenter.Lo
     }
 
     @Override
-    public void onLoginSuccess(User user) {
+    public void onLoginSuccess(@NonNull User user) {
         SharedPreferencesUtil.saveUserLoginState(this, user.getId());
         showToast("Đăng nhập thành công!");
         startMainActivity();

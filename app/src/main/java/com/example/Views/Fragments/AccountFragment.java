@@ -34,7 +34,6 @@ public class AccountFragment extends Fragment implements UserPresenter.UserInfoC
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_account, container, false);\
         View view = inflater.inflate(R.layout.account_fragment, container, false);
         initViews(view);
         initPresenter();
@@ -48,7 +47,7 @@ public class AccountFragment extends Fragment implements UserPresenter.UserInfoC
         loadUserData();
     }
 
-    private void initViews(View view) {
+    private void initViews(@NonNull View view) {
         imageViewAvatar = view.findViewById(R.id.profileImage);
         textFullName = view.findViewById(R.id.profileName);
         textEmail = view.findViewById(R.id.profileEmail);
