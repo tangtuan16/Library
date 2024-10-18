@@ -58,28 +58,6 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
         viewPager2 = view.findViewById(R.id.viewpager);
         pageView = view.findViewById(R.id.pageView);
         presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
-
- //      // To get swipe event of viewpager2
-//        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-//            @Override
-//            // This method is triggered when there is any scrolling activity for the current page
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-//            }
-//
-//            // triggered when you select a new page
-//            @Override
-//            public void onPageSelected(int position) {
-//                super.onPageSelected(position);
-//            }
-//
-//            // triggered when there is
-//            // scroll state will be changed
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//                super.onPageScrollStateChanged(state);
-//            }
-//        });
         presenter.loadFavoriteBooks();
 
         Button btnPrevious = view.findViewById(R.id.btnPrevious);

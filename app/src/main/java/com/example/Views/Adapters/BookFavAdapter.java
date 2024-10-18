@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
 import com.example.Models.Book;
 import com.example.Views.Activitys.BookDetailActivity;
 import com.example.btl_libary.R;
+
 import java.util.List;
 
 public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookViewHolder> {
@@ -35,8 +38,8 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
         if (!list.isEmpty()) {
-        Book book = list.get(position % list.size());
-        holder.imgAvt.setImageResource(book.getAvt());
+            Book book = list.get(position % list.size());
+            holder.imgAvt.setImageResource(book.getAvt());
 //        holder.txtTitle.setText(book.getTitle());
 //        holder.txtAuthor.setText(book.getAuthor());
 //        holder.txtCategory.setText(book.getDesc());
@@ -89,8 +92,8 @@ public class BookFavAdapter extends RecyclerView.Adapter<BookFavAdapter.BookView
     }
 
     private int getMiddlePosition() {
-        if(!list.isEmpty()){
-        return Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % list.size();}
-        else return 0;
+        if (!list.isEmpty()) {
+            return Integer.MAX_VALUE / 2 - (Integer.MAX_VALUE / 2) % list.size();
+        } else return 0;
     }
 }
