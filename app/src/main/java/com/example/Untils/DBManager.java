@@ -82,7 +82,7 @@ public class DBManager {
         public void onConfigure(SQLiteDatabase db) {
             super.onConfigure(db);
             db.setPageSize(1024 * 1024);
-            db.setMaximumSize(50 * 1024 * 1024);
+            db.setMaximumSize(500 * 2048* 2048);
         }
 
         @Override
@@ -111,8 +111,8 @@ public class DBManager {
                 db.execSQL("DROP TABLE IF EXISTS notifications");
                 db.execSQL("DROP TABLE IF EXISTS cart");
                 onCreate(db);
-//                db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
-//                        "SELECT id, avatar, title, author, category FROM books_backup;");
+                db.execSQL("INSERT INTO books (id, avatar, title, author, category) " +
+                        "SELECT id, avatar, title, author, category FROM books_backup;");
                 db.execSQL("INSERT INTO users (id, username , password , fullName , email, phone, avatar) " +
                         "SELECT id, username , password , fullName , email, phone, avatar FROM users_backup;");
 

@@ -64,7 +64,6 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
         if (!showSearchBar) {
             hideLinearSearch();
         }
-        BookModel bookModel = new BookModel(this);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override

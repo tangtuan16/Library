@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.Models.Book;
 import com.example.Presenters.BookPreviewPresenter;
 import com.example.Views.Activitys.BookDetailActivity;
-import com.example.Views.Popup.BookDetailPopup;
+import com.example.Views.Popup.BookPreviewPopup;
 import com.example.btl_libary.R;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class PopularBookAdapter extends RecyclerView.Adapter<PopularBookAdapter.
         holder.btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BookDetailPopup popup = new BookDetailPopup(v.getContext());
+                BookPreviewPopup popup = new BookPreviewPopup(v.getContext());
                 BookPreviewPresenter presenter = new BookPreviewPresenter(popup, v.getContext(), null);
                 presenter.loadBookDetail(book.getId(), context);
                 Log.d("CheckInfor", "id= " + book.getId());
@@ -70,10 +70,7 @@ public class PopularBookAdapter extends RecyclerView.Adapter<PopularBookAdapter.
 
     @Override
     public int getItemCount() {
-        if (list != null) {
-            return list.size();
-        } else
-            return 0;
+      return list != null ? list.size() : 0;
     }
 
     public class BookHolder extends RecyclerView.ViewHolder {

@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.Contracts.MainContract;
 import com.example.Contracts.OnClickContracts;
 import com.example.btl_libary.R;
 
@@ -49,7 +48,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return options.size();
+        return options != null ? options.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
