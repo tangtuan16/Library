@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -78,6 +79,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     private PieChart pieChart;
     private BarChart barChart;
     private RadioButton rbPieChart, rbBarChart;
+    private ProgressBar progressBar;
 
     @Nullable
     @Override
@@ -96,6 +98,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         rbPieChart = view.findViewById(R.id.rbPieChart);
         rbBarChart = view.findViewById(R.id.rbBarChart);
         tvLike = view.findViewById(R.id.tvLike);
+        progressBar = view.findViewById(R.id.progress_bar);
         imgNotification = view.findViewById(R.id.imgNotification);
 
         hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -149,6 +152,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
                 chartPresenter.loadBarChart();
             }
         });
+
         rbPieChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +160,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
                 chartPresenter.loadPieChart();
             }
         });
+
         imgNotification.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), NotificationActivity.class);
             Animation shakeAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.shake_animation);
@@ -166,6 +171,10 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
 
     @Override
     public void showWeather(@NonNull Weather weather) {
+        progressBar.setVisibility(View.GONE);
+        rainfall.setVisibility(View.VISIBLE);
+        weatherIcon.setVisibility(View.VISIBLE);
+        imgNotification.setVisibility(View.VISIBLE);
         String iconUrl = "https:" + weather.getCurrent().getCondition().getIcon();
         Picasso.get().load(iconUrl).into(weatherIcon);
 

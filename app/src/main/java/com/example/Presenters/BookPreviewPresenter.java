@@ -22,6 +22,6 @@ public class BookPreviewPresenter implements BookContract.Presenter.BookDetailPr
     @Override
     public void loadBookDetail(int bookId, Context context) {
         List<Book> bookList = bookModel.loadBookDetail(bookId, context);
-        bookDetailView.showBookDetail(bookModel.loadBookDetail(bookId, context), bookId);
+        bookDetailView.showBookDetail(bookList, bookId);
     }
 }
