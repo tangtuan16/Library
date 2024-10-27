@@ -6,8 +6,6 @@ import com.example.Models.CartItem;
 import com.example.Models.CartModel;
 import com.example.Views.Activitys.BookDetailActivity;
 import com.example.Views.Activitys.CartActivity;
-import com.example.Views.Adapters.CartAdapter;
-
 import java.util.List;
 
 public class CartPresenter implements CartContract.Presenter {
@@ -33,6 +31,7 @@ public class CartPresenter implements CartContract.Presenter {
     public void loadCartItems(int userId) {
         List<CartItem> cartItems = model.getCartItems(userId);
         if (cartItems.isEmpty()) {
+            view.showCartItems(cartItems);
             view.showEmptyCart();
         } else {
             view.showCartItems(cartItems);
