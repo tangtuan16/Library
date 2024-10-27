@@ -33,43 +33,41 @@ public class NotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        // Lấy thông tin từ intent
+
         String title = intent.getStringExtra("title");
         String content = intent.getStringExtra("content");
         String notificationTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
         int requestCode = intent.getIntExtra("requestCode", 0);
 
-        // Tạo Intent để mở ứng dụng khi người dùng nhấn vào thông báo
+
 
         Intent notificationIntent = new Intent(context, NotificationActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context,
-                new Random().nextInt(), // Đảm bảo requestCode duy nhất
+                new Random().nextInt(),
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
         showNotification(context,title,content);
 
 
-        // Lưu thông báo vào cơ sở dữ liệu
+
         saveNotificationToDatabase(context, title, content, notificationTime);
     }
 
 
 
     private void showNotification(Context context, String title, String content) {
-        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.download); // Thay đổi với tên file của biểu tượng lớn
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "YOUR_CHANNEL_ID")
-                .setSmallIcon(R.drawable.download) // Đổi thành icon bạn muốn
+        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.download);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANEL1")
+                .setSmallIcon(R.drawable.download)
                 .setLargeIcon(largeIcon)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true); // Tự động hủy thông báo khi nhấn vào
+                .setAutoCancel(true);
 
-        // Hiển thị thông báo
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        // Sử dụng ID ngẫu nhiên để có thể hiển thị nhiều thông báo
         int notificationId = (int) System.currentTimeMillis();
         notificationManager.notify(notificationId, builder.build());
     }

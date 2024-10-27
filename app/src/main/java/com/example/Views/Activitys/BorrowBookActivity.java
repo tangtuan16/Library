@@ -82,7 +82,7 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
         buttonSelectBorrowDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(true); // true để chọn ngày gửi
+                showDatePickerDialog(true);
             }
         });
 
@@ -90,7 +90,7 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
         buttonSelectReturnDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(false); // false để chọn ngày trả
+                showDatePickerDialog(false);
             }
         });
 
@@ -98,41 +98,50 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
         buttonBorrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                borrowBook(); // Gọi phương thức để mượn sách
+                borrowBook();
             }
         });
     }
 
     private void borrowBook() {
-        // Lấy thông tin người dùng và ngày gửi, ngày trả
-        int userId = SharedPreferencesUtil.getUserId(this); // Thay đổi thành ID người dùng thực tế
-        int bookId = getIntent().getIntExtra("id_book", 0); // Lấy ID của sách
+
+        int userId = SharedPreferencesUtil.getUserId(this);
+        int bookId = getIntent().getIntExtra("id_book", 0);
         int quantity = Integer.parseInt(quantityToBorrow.getText().toString());
         if (borrowedCount + quantity > 3) {
             Toast.makeText(this, "Bạn không thể mượn quá 3 cuốn sách.", Toast.LENGTH_SHORT).show();
-            return; // Dừng hàm nếu vượt quá 3 cuốn
+            return;
         }
         String borrowDateString = textBorrowDate.getText().toString();
         String returnDateString = textReturnDate.getText().toString();
 
-        // Định dạng cho ngày
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date borrowDate;
         Date returnDate;
 
         try {
-            // Chuyển đổi chuỗi thành Date
+
             borrowDate = sdf.parse(borrowDateString);
             returnDate = sdf.parse(returnDateString);
         } catch (ParseException e) {
             Toast.makeText(this, "Ngày không hợp lệ.", Toast.LENGTH_SHORT).show();
-            return; // Dừng hàm nếu định dạng ngày không hợp lệ
+            return;
         }
 
-        // Kiểm tra nếu ngày trả phải lớn hơn ngày mượn
+
         if (returnDate.before(borrowDate)) {
             Toast.makeText(this, "Ngày trả phải lớn hơn ngày mượn.", Toast.LENGTH_SHORT).show();
-            return; // Dừng hàm nếu ngày trả không hợp lệ
+            return;
+        }
+
+        Calendar maxReturnDate = Calendar.getInstance();
+        maxReturnDate.setTime(borrowDate);
+        maxReturnDate.add(Calendar.MONTH, 1);
+
+        if (returnDate.after(maxReturnDate.getTime())) {
+            Toast.makeText(this, "Ngày trả không được cách ngày mượn quá 1 tháng.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         // Tạo đối tượng ContentValues để lưu trữ dữ liệu
@@ -199,8 +208,8 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
         Calendar borrowCal = Calendar.getInstance();
         borrowCal.setTime(borrowDate);
         borrowCal.add(Calendar.DAY_OF_YEAR, -1); // Trước 1 ngày
-        borrowCal.set(Calendar.HOUR_OF_DAY, 16);// Lên lịch thông báo trước ngày muon 1 ngày vào lúc 8 PM
-        borrowCal.set(Calendar.MINUTE, 1);
+        borrowCal.set(Calendar.HOUR_OF_DAY, 13);// Lên lịch thông báo trước ngày muon 1 ngày vào lúc 8 PM
+        borrowCal.set(Calendar.MINUTE, 35);
         borrowCal.set(Calendar.SECOND, 0);
         borrowCal.set(Calendar.MILLISECOND, 0);
 
