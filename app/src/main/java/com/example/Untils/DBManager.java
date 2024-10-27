@@ -82,7 +82,7 @@ public class DBManager {
         public void onConfigure(SQLiteDatabase db) {
             super.onConfigure(db);
             db.setPageSize(1024 * 1024);
-            db.setMaximumSize(50 * 1024 * 1024);
+            db.setMaximumSize(100 * 1024 * 1024);
         }
 
         @Override
