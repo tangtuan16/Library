@@ -39,9 +39,10 @@ public class CartPresenter implements CartContract.Presenter {
     }
     @Override
     public void removeCartItem(int userId, int bookId) {
-        if (model.deleteCartItem(userId, bookId)) {
-            loadCartItems(userId); // Tải lại giỏ hàng sau khi xóa
-        } else {
+        try {
+            model.deleteCartItem(userId, bookId);
+            loadCartItems(userId);
+        } catch (Exception e) {
             view.showError("Lỗi khi hiển thị giỏ sách");
         }
     }

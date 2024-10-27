@@ -1,5 +1,4 @@
 package com.example.Models;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -39,20 +38,18 @@ public class CartModel implements CartContract.Model {
         return cartItems;
     }
     @Override
-    public boolean deleteCartItem(int userId, int bookId) {
+    public void deleteCartItem(int userId, int bookId) {
         dbManager.Open();
         SQLiteDatabase db = dbManager.getDatabase();
-        int result = db.delete("cart", "user_id=? AND book_id=?", new String[]{String.valueOf(userId), String.valueOf(bookId)});
+        String sql = "DELETE FROM cart WHERE user_id = ? AND book_id = ?";
+        db.execSQL(sql, new Object[]{userId, bookId});
         dbManager.Close();
-        return result > 0;
     }
     public void addBookToCart(int userId, int bookId) {
         dbManager.Open();
         SQLiteDatabase db = dbManager.getDatabase();
-        ContentValues values = new ContentValues();
-        values.put("user_id", userId);
-        values.put("book_id", bookId);
-        long result = db.insert("cart", null, values);
+        String sql = "INSERT INTO cart (user_id, book_id) VALUES (?, ?)";
+        db.execSQL(sql, new Object[]{userId, bookId});
         dbManager.Close();
     }
     public boolean checkBookInCart(int userId, int bookId) {
