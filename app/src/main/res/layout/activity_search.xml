@@ -46,7 +46,7 @@
             android:layout_marginRight="30dp"
             android:hint="Tác phẩm">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/edtTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
             android:layout_marginRight="30dp"
             android:hint="Tác giả">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/edtAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,9 +79,8 @@
             <AutoCompleteTextView
                 android:id="@+id/edtDesc"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:fontFamily="@font/quicksand"
-                android:paddingLeft="18dp" />
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/quicksand" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

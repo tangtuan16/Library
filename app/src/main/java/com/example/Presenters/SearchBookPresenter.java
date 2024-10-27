@@ -17,17 +17,11 @@ public class SearchBookPresenter {
         this.repository = new BookModel(context);
         this.view = (BookContract.View.LibraryView) view;
     }
-
     public void loadSearchBook(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
+
         List<Book> books = repository.getSearchBooks(edtTitleStr, edtAuthorStr, edtDescStr);
         view.displayBook(books);
     }
-
-    public void searchBooksByAuthor(String author) {
-        List<Book> books = repository.getBooksByAuthor(author);
-        view.displayBook(books);
-    }
-
     public void NotifySearch(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
         Cursor cursor = repository.NotifySearch(edtTitleStr, edtAuthorStr, edtDescStr);
         if (cursor != null && cursor.getCount() > 0) {

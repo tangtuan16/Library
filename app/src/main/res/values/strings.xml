@@ -8,14 +8,5 @@
     <string name="weather_api_key">dc2db71cba3442bba46114051242909</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="locatiton">HaNoi</string>
-    <string-array name="literature_genres">
-        <item>Tiểu thuyết</item>
-        <item>Thơ</item>
-        <item>Truyện ngắn</item>
-        <item>Tiểu luận</item>
-        <item>Kịch</item>
-        <item>Hồi ký</item>
-        <item>Truyện tranh</item>
-    </string-array>
 
 </resources>

@@ -95,20 +95,21 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
             }
         });
 
+        //code của tùng(nút thêm vào giỏ)-start
         cartPresenter = new CartPresenter(this, new CartModel(this));
         btnAddToCart = findViewById(R.id.btnAddToCart);
         btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isAdded = cartPresenter.addBookToCart(userId, bookId);
-                if (!isAdded) {
-                    Toast.makeText(BookDetailActivity.this, "Sách đã được thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                if (cartPresenter.checkBookInCart(userId, bookId)) {
+                    Toast.makeText(getApplicationContext(), "Sách đã tồn tại trong giỏ.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(BookDetailActivity.this, "Sách đã có trong giỏ hàng", Toast.LENGTH_SHORT).show();
+                    cartPresenter.addBookToCart(userId, bookId);
+                    Toast.makeText(getApplicationContext(), "Thêm sách vào giỏ thành công.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
+        //code của tùng(nút thêm vào giỏ)-end
 
     }
 

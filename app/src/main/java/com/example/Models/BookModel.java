@@ -44,6 +44,136 @@ public class BookModel {
         return bookList;
     }
 
+    //code của tùng(liên quan phần tìm kiếm)--start
+    public List<String> getAllBookTitles() {
+        List<String> bookTitles = new ArrayList<>();
+        dbManager.Open();
+        database = dbManager.getDatabase();
+        String sql = "SELECT title FROM books";
+        Cursor cursor = database.rawQuery(sql, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                bookTitles.add(title);
+            }
+            cursor.close();
+        }
+        dbManager.Close();
+        return bookTitles;
+    }
+    public List<String> getAllAuthors() {
+        List<String> authors = new ArrayList<>();
+        dbManager.Open();
+        database = dbManager.getDatabase();
+        String sql = "SELECT DISTINCT author FROM books";
+        Cursor cursor = database.rawQuery(sql, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String author = cursor.getString(cursor.getColumnIndexOrThrow("author"));
+                authors.add(author);
+            }
+            cursor.close();
+        }
+        dbManager.Close();
+        return authors;
+    }
+    public List<String> getAllCategories() {
+        List<String> categories = new ArrayList<>();
+        dbManager.Open();
+        database = dbManager.getDatabase();
+        String sql = "SELECT DISTINCT category FROM books";
+        Cursor cursor = database.rawQuery(sql, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String category = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                categories.add(category);
+            }
+            cursor.close();
+        }
+        dbManager.Close();
+        return categories;
+    }
+    public List<Book> getSearchBooks(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
+        List<Book> bookList = new ArrayList<>();
+        dbManager.Open();
+        database = dbManager.getDatabase();
+
+        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM books WHERE 1=1");
+        List<String> selectionArgsList = new ArrayList<>();
+
+        if (!edtTitleStr.isEmpty()) {
+            sqlBuilder.append(" AND title LIKE ?");
+            selectionArgsList.add("%" + edtTitleStr + "%");
+        }
+        if (!edtAuthorStr.isEmpty()) {
+            sqlBuilder.append(" AND author LIKE ?");
+            selectionArgsList.add("%" + edtAuthorStr + "%");
+        }
+        if (!edtDescStr.isEmpty()) {
+            sqlBuilder.append(" AND category LIKE ?");
+            selectionArgsList.add("%" + edtDescStr + "%");
+        }
+
+        String sql = sqlBuilder.toString();
+        String[] selectionArgs = selectionArgsList.toArray(new String[0]);
+
+        Cursor cursor = database.rawQuery(sql, selectionArgs);
+
+        if (cursor != null) {
+            try {
+                while (cursor.moveToNext()) {
+                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                    int avt = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
+                    String bookTitle = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+                    String bookAuthor = cursor.getString(cursor.getColumnIndexOrThrow("author"));
+                    String bookCategory = cursor.getString(cursor.getColumnIndexOrThrow("category"));
+                    bookList.add(new Book(id, avt, bookTitle, bookAuthor, bookCategory));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        dbManager.Close();
+        return bookList;
+    }
+    public Cursor NotifySearch(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
+        dbManager.Open();
+        database = dbManager.getDatabase();
+        String selection = "";
+        List<String> selectionArgs = new ArrayList<>();
+
+        if (!edtTitleStr.isEmpty()) {
+            selection += "title LIKE ?";
+            selectionArgs.add("%" + edtTitleStr + "%");
+        }
+        if (!edtAuthorStr.isEmpty()) {
+            if (!selection.isEmpty()) {
+                selection += " AND ";
+            }
+            selection += "author LIKE ?";
+            selectionArgs.add("%" + edtAuthorStr + "%");
+        }
+        if (!edtDescStr.isEmpty()) {
+            if (!selection.isEmpty()) {
+                selection += " AND ";
+            }
+            selection += "category LIKE ?";
+            selectionArgs.add("%" + edtDescStr + "%");
+        }
+
+        Cursor cursor = database.query(
+                "books",
+                null,
+                selection,
+                selectionArgs.toArray(new String[0]),
+                null,
+                null,
+                null
+        );
+        return cursor;
+    }
+    //code của tùng(liên quan phần tìm kiếm)--end
+
     public List<Book> getPopularBooks() {
         List<Book> bookList = new ArrayList<>();
         dbManager.Open();
@@ -64,7 +194,6 @@ public class BookModel {
         dbManager.Close();
         return bookList;
     }
-
     //code khoi 2 cai nay
     public List<Book> getFavoriteBooks() {
         List<Book> bookList = new ArrayList<>();
@@ -133,50 +262,6 @@ public class BookModel {
         return bookList;
     }
 
-    public List<Book> getSearchBooks(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
-        List<Book> bookList = new ArrayList<>();
-        dbManager.Open();
-        database = dbManager.getDatabase();
-
-        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM books WHERE 1=1");
-        List<String> selectionArgsList = new ArrayList<>();
-
-        if (!edtTitleStr.isEmpty()) {
-            sqlBuilder.append(" AND title LIKE ?");
-            selectionArgsList.add("%" + edtTitleStr + "%");
-        }
-        if (!edtAuthorStr.isEmpty()) {
-            sqlBuilder.append(" AND author LIKE ?");
-            selectionArgsList.add("%" + edtAuthorStr + "%");
-        }
-        if (!edtDescStr.isEmpty()) {
-            sqlBuilder.append(" AND category LIKE ?");
-            selectionArgsList.add("%" + edtDescStr + "%");
-        }
-
-        String sql = sqlBuilder.toString();
-        String[] selectionArgs = selectionArgsList.toArray(new String[0]);
-
-        Cursor cursor = database.rawQuery(sql, selectionArgs);
-
-        if (cursor != null) {
-            try {
-                while (cursor.moveToNext()) {
-                    int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                    int avt = cursor.getInt(cursor.getColumnIndexOrThrow("avatar"));
-                    String bookTitle = cursor.getString(cursor.getColumnIndexOrThrow("title"));
-                    String bookAuthor = cursor.getString(cursor.getColumnIndexOrThrow("author"));
-                    String bookCategory = cursor.getString(cursor.getColumnIndexOrThrow("category"));
-                    bookList.add(new Book(id, avt, bookTitle, bookAuthor, bookCategory));
-                }
-            } finally {
-                cursor.close();
-            }
-        }
-
-        dbManager.Close();
-        return bookList;
-    }
 
     public List<String> getAuthorBooks() {
         List<String> authorBooks = new ArrayList<>();
@@ -232,42 +317,6 @@ public class BookModel {
         return rows;
     }
 
-    public Cursor NotifySearch(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
-        dbManager.Open();
-        database = dbManager.getDatabase();
-        String selection = "";
-        List<String> selectionArgs = new ArrayList<>();
-
-        if (!edtTitleStr.isEmpty()) {
-            selection += "title LIKE ?";
-            selectionArgs.add("%" + edtTitleStr + "%");
-        }
-        if (!edtAuthorStr.isEmpty()) {
-            if (!selection.isEmpty()) {
-                selection += " AND ";
-            }
-            selection += "author LIKE ?";
-            selectionArgs.add("%" + edtAuthorStr + "%");
-        }
-        if (!edtDescStr.isEmpty()) {
-            if (!selection.isEmpty()) {
-                selection += " AND ";
-            }
-            selection += "category LIKE ?";
-            selectionArgs.add("%" + edtDescStr + "%");
-        }
-
-        Cursor cursor = database.query(
-                "books",
-                null,
-                selection,
-                selectionArgs.toArray(new String[0]),
-                null,
-                null,
-                null
-        );
-        return cursor;
-    }
 
     public List<Book> getBooksByAuthor(String author) {
         List<Book> bookList = new ArrayList<>();
