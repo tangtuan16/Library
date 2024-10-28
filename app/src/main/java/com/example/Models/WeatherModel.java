@@ -1,6 +1,7 @@
 package com.example.Models;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.Contracts.WeatherApiService;
 import com.example.Contracts.WeatherContract;
@@ -35,27 +36,35 @@ public class WeatherModel implements WeatherContract.Model {
         call.enqueue(new Callback<Weather>() {
             @Override
             public void onResponse(Call<Weather> call, Response<Weather> response) {
-                if (response.isSuccessful()) {
-                    Weather weather = response.body();
-                    if (weather != null) {
-                        List<Weather.Forecast.Forecastday.Hour> filteredHours = new ArrayList<>();
-                        List<Weather.Forecast.Forecastday.Hour> allHours = weather.getForecast().getForecastday().get(0).getHour();
-
-                        for (Weather.Forecast.Forecastday.Hour hour : allHours) {
-                            String hourTime = hour.getTime().split(" ")[1].split(":")[0];
-                            if (desiredHours.contains(hourTime)) {
-                                filteredHours.add(hour);
-                            }
-                        }
-                        Weather.Forecast.Forecastday forecastday = weather.getForecast().getForecastday().get(0);
-                        forecastday.setHour(filteredHours);
-                        callback.onSuccess(weather);
-                    } else {
-                        callback.onFailure(new Throwable("Không có dữ liệu thời tiết  !"));
-                    }
-                } else {
-                    callback.onFailure(new Throwable("Phản hồi không thành công !"));
+                if (!response.isSuccessful()) {
+                    callback.onFailure(new Throwable("Phản hồi không thành công!"));
+                    return;
                 }
+
+                Weather weather = response.body();
+                if (weather == null) {
+                    callback.onFailure(new Throwable("Không có dữ liệu thời tiết!"));
+                    return;
+                }
+
+                List<Weather.Forecast.Forecastday> forecastDays = weather.getForecast().getForecastday();
+                if (forecastDays.isEmpty()) {
+                    callback.onFailure(new Throwable("Không có dữ liệu dự báo thời tiết!"));
+                    return;
+                }
+
+                List<Weather.Forecast.Forecastday.Hour> allHours = forecastDays.get(0).getHour();
+                List<Weather.Forecast.Forecastday.Hour> filteredHours = new ArrayList<>();
+
+                for (Weather.Forecast.Forecastday.Hour hour : allHours) {
+                    String hourTime = hour.getTime().split(" ")[1].split(":")[0];
+                    if (desiredHours.contains(hourTime)) {
+                        filteredHours.add(hour);
+                    }
+                }
+
+                forecastDays.get(0).setHour(filteredHours);
+                callback.onSuccess(weather);
             }
 
             @Override

@@ -390,7 +390,6 @@ public class BookModel {
 
         if (cursor != null) {
             List<String> topCategories = new ArrayList<>();
-
             // Bước 2: Chọn hai thể loại mượn nhiều nhất
             if (cursor.moveToFirst()) {
                 int count = 0;
@@ -401,7 +400,6 @@ public class BookModel {
                 } while (cursor.moveToNext() && count <= 2);
             }
             cursor.close();
-
             // Bước 3: Lấy danh sách sách gợi ý theo hai thể loại đó
             for (String category : topCategories) {
                 String bookSql = "SELECT * FROM books  WHERE category = ? LIMIT 2 ";

@@ -1,7 +1,6 @@
 package com.example.Views.Fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -67,7 +66,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment implements WeatherContract.View, BookContract.View.HomeView, UserContract.View {
     private ImageView weatherIcon, userAvatar, imgNotification;
-    private TextView rainfall, userName, tvLike;
+    private TextView rainfall, userName, tvLike, tempcurrent;
     private RecyclerView hourlyTemperature, rcvHightLight, rvSuggestBook;
     private WeatherPresenter weatherPresenter;
     private BookPresenter bookPresenter;
@@ -87,6 +86,7 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         weatherIcon = view.findViewById(R.id.weatherIcon);
         rainfall = view.findViewById(R.id.rainfall);
+        tempcurrent = view.findViewById(R.id.tempcurrent);
         rcvHightLight = view.findViewById(R.id.rcvHightLight);
         hourlyTemperature = view.findViewById(R.id.hourlyTemperature);
         rvSuggestBook = view.findViewById(R.id.rvSuggestBook);
@@ -101,7 +101,6 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         progressBar = view.findViewById(R.id.progress_bar);
         imgNotification = view.findViewById(R.id.imgNotification);
 
-        hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         weatherPresenter = new WeatherPresenter(this, getContext());
         bookPresenter = new BookPresenter(getContext(), this);
         userPresenter = new UserPresenter(getContext(), this);
@@ -175,11 +174,13 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         rainfall.setVisibility(View.VISIBLE);
         weatherIcon.setVisibility(View.VISIBLE);
         imgNotification.setVisibility(View.VISIBLE);
+        hourlyTemperature.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         String iconUrl = "https:" + weather.getCurrent().getCondition().getIcon();
         Picasso.get().load(iconUrl).into(weatherIcon);
 
         double rainfallAmount = weather.getForecast().getForecastday().get(0).getDay().getTotalprecip_mm();
         rainfall.setText("Lượng mưa: " + rainfallAmount + " mm");
+        tempcurrent.setText(weather.getCurrent().getTemp_c() + "°C");
 
         List<Weather.Forecast.Forecastday.Hour> hourlyData = weather.getForecast().getForecastday().get(0).getHour();
         if (hourlyData != null && !hourlyData.isEmpty()) {
@@ -312,12 +313,15 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
     public void displayUser(List<User> userList) {
         if (userList != null && !userList.isEmpty()) {
             User user = userList.get(0);
-            if (user.getAvatar() != null) {
-                Bitmap avatarBitmap = BitmapFactory.decodeByteArray(user.getAvatar(), 0, user.getAvatar().length);
-                userAvatar.setImageBitmap(avatarBitmap);
+            byte[] avatarData = user.getAvatar();
+
+            if (avatarData != null && avatarData.length > 0) {
+                userAvatar.setImageBitmap(BitmapFactory.decodeByteArray(avatarData, 0, avatarData.length));
             }
+
             userName.setText(user.getFullName());
         }
+
     }
 
     @Override
