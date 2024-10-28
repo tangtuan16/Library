@@ -43,7 +43,6 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
         bookPresenter = new BookPresenter(this, (BookContract.View.DetailBookView) this);
         if (bookId != -1) {
             bookPresenter.loadDetailBook(bookId);
-            Toast.makeText(this, "id" + bookId, Toast.LENGTH_SHORT).show();
 
         } else {
             //xu ly loi
@@ -64,11 +63,11 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
                 if (isChecked) {
                     bookPresenter.updateFavoritesStatus(userId, bookId, 1);
                     Toast.makeText(BookDetailActivity.this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                    Log.d("check boxx", "onCheckedChanged: 1");
+//                    Log.d("check boxx", "onCheckedChanged: 1");
                 } else {
                     bookPresenter.updateFavoritesStatus(userId, bookId, 0);
                     Toast.makeText(BookDetailActivity.this, "Đã xóa khỏi danh sách yêu thích", Toast.LENGTH_SHORT).show();
-                    Log.d("check boxx", "onCheckedChanged: 0");
+//                    Log.d("check boxx", "onCheckedChanged: 0");
                 }
             }
         });

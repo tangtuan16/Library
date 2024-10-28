@@ -26,12 +26,12 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:fontFamily="@font/quicksand"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fontFamily="@font/quicksand"
+                    android:padding="5dp"
                     android:text="Tủ Sách Bé Yêu"
                     android:textColor="#432626"
-                    android:padding="5dp"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -75,34 +75,17 @@
             android:layout_height="150dp"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnPrevious"
-                android:layout_width="30dp"
-                android:layout_height="100dp"
-                android:layout_gravity="start|center"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/btn_next"
-                android:text="&lt;"
-                android:textColor="#000000" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewpager"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="1"
                 android:padding="5dp" />
 
-            <Button
-                android:id="@+id/btnNext"
-                android:layout_width="30dp"
-                android:layout_height="100dp"
-                android:layout_marginEnd="10dp"
-                android:layout_gravity="end|center"
-                android:background="@drawable/btn_next"
-                android:text="&gt;"
-                android:textColor="#000000" />
+
         </LinearLayout>
     </LinearLayout>
 
