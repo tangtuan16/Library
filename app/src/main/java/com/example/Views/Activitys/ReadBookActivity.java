@@ -116,9 +116,9 @@ public class ReadBookActivity extends AppCompatActivity {
 
         checkBoxVisibility.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                linearLayout.setVisibility(View.GONE);
-            } else {
                 linearLayout.setVisibility(View.VISIBLE);
+            } else {
+                linearLayout.setVisibility(View.GONE);
             }
         });
         //tawng giam kich co
