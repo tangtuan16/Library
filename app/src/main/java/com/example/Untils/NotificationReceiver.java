@@ -76,7 +76,7 @@ public class NotificationReceiver extends BroadcastReceiver {
     private void saveNotificationToDatabase(Context context, String title, String content,String notificationTime) {
         DBManager dbManager=new DBManager(context);
         dbManager.Open();
-        SQLiteDatabase database= dbManager.getDatabase();
+        database= dbManager.getDatabase();
         database = dbManager.getDatabase();
         int user_ID = SharedPreferencesUtil.getUserId(context);
         ContentValues values = new ContentValues();
