@@ -94,7 +94,7 @@ public class AccountFragment extends Fragment implements UserPresenter.UserInfoC
     }
 
     @Override
-    public void onUserInfoLoaded(User user) {
+    public void onUserInfoLoaded(@NonNull User user) {
         textFullName.setText(user.getFullName());
         textEmail.setText(user.getEmail());
         textPhone.setText(user.getPhone());

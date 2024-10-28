@@ -19,6 +19,7 @@ public class CartPresenter implements CartContract.Presenter {
     }
     public CartPresenter(BookDetailActivity bookDetailActivity, CartModel model) {
         this.model = model;
+        this.context = bookDetailActivity;
     }
     public void addBookToCart(int userId, int bookId) {
 

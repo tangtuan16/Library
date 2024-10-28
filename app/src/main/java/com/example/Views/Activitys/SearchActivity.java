@@ -23,7 +23,6 @@ import com.example.Presenters.SearchBookPresenter;
 import com.example.Views.Adapters.BookAdapter;
 import com.example.btl_libary.R;
 
-
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements BookContract.View.LibraryView {
@@ -42,7 +41,7 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         presenter = new SearchBookPresenter(this, this);
-        linearLayout = findViewById(R.id.linearSearch);
+        linearLayout = findViewById(R.id.linearSearchh);
         rcvSearchResuilt = findViewById(R.id.rcvSearchResuilt);
         hide = findViewById(R.id.imgHide);
         edtTitle = findViewById(R.id.edtTitle);
@@ -65,6 +64,15 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
         edtTitle.setAdapter(adapterTitles);
         edtAuthor.setAdapter(adapterAuthors);
         edtDesc.setAdapter(adapterCategories);
+
+        //Tang Tuan
+        selectedAuthor = getIntent().getStringExtra("selectedAuthor");
+        presenter.searchBooksByAuthor(selectedAuthor);
+        showSearchBar = getIntent().getBooleanExtra("showSearchBar", true);
+        if (!showSearchBar) {
+            hideLinearSearch();
+        }
+        //
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override

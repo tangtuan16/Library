@@ -169,6 +169,12 @@ public class UserPresenter {
             return;
         }
 
+        // Check if new password is at least 6 characters long
+        if (newPassword.length() < 6) {
+            callback.onChangePasswordFailure("Mật khẩu mới phải có ít nhất 6 ký tự");
+            return;
+        }
+
         // Check if new password and confirm password match
         if (!newPassword.equals(confirmPassword)) {
             callback.onChangePasswordFailure("Mật khẩu mới không khớp");
@@ -182,6 +188,12 @@ public class UserPresenter {
             return;
         }
 
+        // Check if new password is the same as the old password
+        if (newPassword.equals(oldPassword)) {
+            callback.onChangePasswordFailure("Mật khẩu mới không được giống mật khẩu cũ");
+            return;
+        }
+
         // Attempt to update password
         int result = userModel.updateUser(userId, newPassword, null, null, null, null);
         if (result > 0) {
@@ -190,4 +202,5 @@ public class UserPresenter {
             callback.onChangePasswordFailure("Đổi mật khẩu thất bại");
         }
     }
+
 }

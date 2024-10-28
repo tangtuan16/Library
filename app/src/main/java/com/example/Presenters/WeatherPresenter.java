@@ -26,7 +26,7 @@ public class WeatherPresenter implements WeatherContract.Presenter {
 
             @Override
             public void onFailure(Throwable t) {
-                view.showError(t.getMessage());
+                view.showError("Lỗi khi tải dữ liệu thời tiết !");
             }
         });
     }

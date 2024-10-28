@@ -18,8 +18,12 @@ public class SearchBookPresenter {
         this.view = (BookContract.View.LibraryView) view;
     }
     public void loadSearchBook(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
-
         List<Book> books = repository.getSearchBooks(edtTitleStr, edtAuthorStr, edtDescStr);
+        view.displayBook(books);
+    }
+
+    public void searchBooksByAuthor(String selectedAuthor) {
+        List<Book> books = repository.getBooksByAuthor(selectedAuthor);
         view.displayBook(books);
     }
     public void NotifySearch(String edtTitleStr, String edtAuthorStr, String edtDescStr) {

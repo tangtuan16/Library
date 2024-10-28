@@ -74,6 +74,7 @@ public class BookPresenter implements BookContract.Presenter.HomePresenter {
             libraryView.showError("Thêm thất bại !");
         }
     }
+
     //detail book cua khoi
         public void loadDetailBook(int id) {
             List<Book> DetailBook = repository.getDetailBook(id);

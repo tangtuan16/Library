@@ -92,6 +92,7 @@
                 android:padding="10dp">
 
                 <LinearLayout
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -111,6 +112,13 @@
 
                 </LinearLayout>
 
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="visible" />
+
                 <ImageView
                     android:id="@+id/weatherIcon"
                     android:layout_width="40dp"
@@ -119,14 +127,35 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/no_image" />
+                    android:src="@drawable/no_image"
+                    android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/rainfall"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:text="rainfall" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tempcurrent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/quicksand"
+                        android:text="tempcurrent"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/rainfall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="rainfall"
+                        android:visibility="gone" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/imgNotification"
@@ -136,7 +165,8 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="0dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/notifications" />
+                    android:src="@drawable/notifications"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -167,7 +197,8 @@
                     android:id="@+id/rcvHightLight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_gravity="center"
+                    android:foregroundGravity="center" />
             </LinearLayout>
 
             <LinearLayout

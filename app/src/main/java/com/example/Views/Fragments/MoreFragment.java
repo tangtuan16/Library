@@ -41,7 +41,7 @@ public class MoreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView rvMore = view.findViewById(R.id.rvMore);
         rvMore.setLayoutManager(new LinearLayoutManager(getContext()));
-        options = Arrays.asList("Tài khoản cá nhân", "Tìm kiếm sách","Giỏ sách chờ mượn", "Sách đã mượn", "Thông tin thư viện", "Thông báo của tôi", "Về chúng tôi");
+        options = Arrays.asList("Tài khoản cá nhân", "Tìm kiếm sách","Giỏ sách chờ mượn", "Sách đã mượn", "Thông tin thư viện", "Thông báo của tôi");
         adapter = new MoreAdapter(getContext(), options);
         adapter.setOnItemClickListener(new OnClickContracts.OnItemClickListener() {
             @Override
@@ -56,7 +56,6 @@ public class MoreFragment extends Fragment {
                         intent = new Intent(getContext(), SearchActivity.class);
                         startActivity(intent);
                         break;
-
                     case 2:
                         intent = new Intent(getContext(), CartActivity.class);
                         startActivity(intent);
