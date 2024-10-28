@@ -40,6 +40,7 @@ public class NotificationActivity extends AppCompatActivity implements Notificat
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         rvBooks.addItemDecoration(itemDecoration);
         rvBooks.setAdapter(new NotificationAdapter(this, notificationList));
+        notificationPresenter.setNotificationStatus2True();
     }
 
     @Override

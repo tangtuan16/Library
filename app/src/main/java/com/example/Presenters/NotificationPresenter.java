@@ -35,4 +35,9 @@ public class NotificationPresenter {
     public void deleteNotification(int id) {
         notificationModel.deleteNotification(id);
     }
+
+    public void setNotificationStatus2True()
+    {
+        notificationModel.setNotificationStatus2True();
+    }
 }
