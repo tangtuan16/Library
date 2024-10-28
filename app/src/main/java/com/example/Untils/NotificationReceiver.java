@@ -48,7 +48,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
-        showNotification(context,title,content);
+        showNotification(context,title,content,pendingIntent);
 
 
 
@@ -57,7 +57,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 
 
-    private void showNotification(Context context, String title, String content) {
+    private void showNotification(Context context, String title, String content,PendingIntent pendingIntent) {
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.download);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANEL1")
                 .setSmallIcon(R.drawable.download)
@@ -65,7 +65,8 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .setContentTitle(title)
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         int notificationId = (int) System.currentTimeMillis();

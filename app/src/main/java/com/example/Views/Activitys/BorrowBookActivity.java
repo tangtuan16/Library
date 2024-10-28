@@ -208,8 +208,8 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
         Calendar borrowCal = Calendar.getInstance();
         borrowCal.setTime(borrowDate);
         borrowCal.add(Calendar.DAY_OF_YEAR, -1); // Trước 1 ngày
-        borrowCal.set(Calendar.HOUR_OF_DAY, 13);// Lên lịch thông báo trước ngày muon 1 ngày vào lúc 8 PM
-        borrowCal.set(Calendar.MINUTE, 35);
+        borrowCal.set(Calendar.HOUR_OF_DAY, 14);// Lên lịch thông báo trước ngày muon 1 ngày vào lúc 8 PM
+        borrowCal.set(Calendar.MINUTE, 29);
         borrowCal.set(Calendar.SECOND, 0);
         borrowCal.set(Calendar.MILLISECOND, 0);
 

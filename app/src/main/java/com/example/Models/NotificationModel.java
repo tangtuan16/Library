@@ -69,5 +69,14 @@ public class NotificationModel {
         dbManager.Close();
     }
 
+    public void setNotificationStatus2True()
+    {
+        dbManager.Open();
+        database = dbManager.getDatabase();
+        String sql = "Update notifications set status = 1 where status = 0";
+        database.execSQL(sql);
+        dbManager.Close();
+    }
+
 }
 
