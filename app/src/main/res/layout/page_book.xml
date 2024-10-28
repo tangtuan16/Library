@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@color/kindle_background"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutdong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btnDecreaseFontSize"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_custom"
+                android:text="a-" />
+
+            <Button
+                android:id="@+id/btnIncreaseFontSize"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_custom"
+                android:text="A+" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end">
+
+            <CheckBox
+                android:id="@+id/checkBoxVisibility"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/baseline_dehaze_24"
+                android:button="@null"
+                android:checked="false" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/bookname"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:layout_marginTop="20dp"
         android:text="Ten sach"
         android:textAlignment="center"
         android:textSize="12sp"
@@ -21,15 +71,11 @@
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btnIncreaseFontSize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="A+" />
 
-    <Button
-        android:id="@+id/btnDecreaseFontSize"
-        android:layout_width="wrap_content"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="A-" />
+        ads:adSize="FULL_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 </LinearLayout>

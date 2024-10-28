@@ -38,7 +38,6 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
     Button showPopupButton;
     ViewPager2 viewPager2;
     LinearLayout pageView;
-
     @Nullable
     @Override
     public void onResume() {

@@ -241,6 +241,7 @@ public class BookModel {
             isFavorite = cursor.getInt(cursor.getColumnIndexOrThrow("favorite"));
         }
         cursor.close();
+        dbManager.Close();
         return isFavorite;
     }
 

@@ -51,11 +51,12 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
         checkBox = findViewById(R.id.checkBox);
         int userId = SharedPreferencesUtil.getUserId(this);
 
-       int isFavorite = bookPresenter.checkFavoriteStatus(bookId);
-        if (isFavorite==1) {
+        int isFavorite = bookPresenter.checkFavoriteStatus(bookId);
+        if (isFavorite == 1) {
             checkBox.setChecked(true);
         } else {
-            checkBox.setChecked(false);}
+            checkBox.setChecked(false);
+        }
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -63,11 +64,9 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
                 if (isChecked) {
                     bookPresenter.updateFavoritesStatus(userId, bookId, 1);
                     Toast.makeText(BookDetailActivity.this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show();
-//                    Log.d("check boxx", "onCheckedChanged: 1");
                 } else {
                     bookPresenter.updateFavoritesStatus(userId, bookId, 0);
                     Toast.makeText(BookDetailActivity.this, "Đã xóa khỏi danh sách yêu thích", Toast.LENGTH_SHORT).show();
-//                    Log.d("check boxx", "onCheckedChanged: 0");
                 }
             }
         });

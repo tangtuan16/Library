@@ -78,8 +78,6 @@ public class BookPresenter implements BookContract.Presenter.HomePresenter {
     //detail book cua khoi
         public void loadDetailBook(int id) {
             List<Book> DetailBook = repository.getDetailBook(id);
-
-
             DetailBookView.displayBook(DetailBook);
         }
         public int checkFavoriteStatus(int id) {
