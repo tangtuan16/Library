@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             CharSequence name = "Library Notifications";
             String description = "Channel for Library notifications";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("YOUR_CHANNEL_ID", name, importance);
+            NotificationChannel channel = new NotificationChannel("CHANEL1", name, importance);
             channel.setDescription(description);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private void checkNotificationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Nếu quyền chưa được cấp, yêu cầu quyền
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.POST_NOTIFICATIONS},
                     100);

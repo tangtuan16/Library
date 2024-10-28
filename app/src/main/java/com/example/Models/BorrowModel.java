@@ -100,10 +100,10 @@ public class BorrowModel {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            e.printStackTrace(); // Xử lý lỗi nếu có
+            e.printStackTrace();
         } finally {
             if (cursor != null && !cursor.isClosed()) {
-                cursor.close(); // Đảm bảo Cursor được đóng sau khi sử dụng
+                cursor.close();
             }
         }
         dbManager.Close();

@@ -1,5 +1,4 @@
 package com.example.Models;
-
 public class CartItem {
     private int userId;
     private int bookId;
@@ -7,9 +6,6 @@ public class CartItem {
     private String title;
     private String genre;
     private int avt;
-
-
-
     public CartItem(int userId, int bookId, String title, String author, String genre, int avt) {
         this.userId = userId;
         this.bookId = bookId;
@@ -17,15 +13,10 @@ public class CartItem {
         this.author = author;
         this.genre = genre;
         this.avt = avt;
-
-
     }
-
-
     public int getUserId() {
         return userId;
     }
-
     public int getBookId() {
         return bookId;
     }
@@ -35,14 +26,10 @@ public class CartItem {
     public int getAvt(){
         return avt;
     }
-
     public String getAuthor() {
         return author;
     }
-
     public String getGenre() {
         return genre;
     }
-
-
 }

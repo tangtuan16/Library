@@ -1,7 +1,7 @@
 package com.example.Models;
 
 public class BookBorrow {
-    private int id;//concac
+    private int id;
     private int userId;
     private int bookId;
     private int bookTotal;

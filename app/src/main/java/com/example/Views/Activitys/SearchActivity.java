@@ -22,7 +22,7 @@ import com.example.Models.BookModel;
 import com.example.Presenters.SearchBookPresenter;
 import com.example.Views.Adapters.BookAdapter;
 import com.example.btl_libary.R;
-import com.google.android.material.textfield.TextInputEditText;
+
 
 import java.util.List;
 
@@ -30,8 +30,7 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
     private SearchBookPresenter presenter;
     private RecyclerView rcvSearchResuilt;
     private Button btnSearch;
-    private TextInputEditText edtTitle, edtAuthor;
-    private AutoCompleteTextView edtDesc;
+    private AutoCompleteTextView edtTitle, edtAuthor, edtDesc;
     private String edtTitleStr, edtAuthorStr, edtDescStr;
     private LinearLayout linearLayout;
     private ImageView hide;
@@ -42,9 +41,7 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
         presenter = new SearchBookPresenter(this, this);
-
         linearLayout = findViewById(R.id.linearSearch);
         rcvSearchResuilt = findViewById(R.id.rcvSearchResuilt);
         hide = findViewById(R.id.imgHide);
@@ -53,17 +50,21 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
         edtDesc = findViewById(R.id.edtDesc);
         btnSearch = findViewById(R.id.btnSearch);
 
-        AutoCompleteTextView autoCompleteTextView = findViewById(R.id.edtDesc);
-        String[] genres = getResources().getStringArray(R.array.literature_genres);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, genres);
-        autoCompleteTextView.setAdapter(adapter);
 
-        selectedAuthor = getIntent().getStringExtra("selectedAuthor");
-        presenter.searchBooksByAuthor(selectedAuthor);
-        showSearchBar = getIntent().getBooleanExtra("showSearchBar", true);
-        if (!showSearchBar) {
-            hideLinearSearch();
-        }
+        BookModel bookModel = new BookModel(this);
+
+
+        List<String> titles = bookModel.getAllBookTitles();
+        List<String> authors = bookModel.getAllAuthors();
+        List<String> genres = bookModel.getAllCategories();
+
+        ArrayAdapter<String> adapterTitles = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, titles);
+        ArrayAdapter<String> adapterAuthors = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, authors);
+        ArrayAdapter<String> adapterCategories = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, genres);
+
+        edtTitle.setAdapter(adapterTitles);
+        edtAuthor.setAdapter(adapterAuthors);
+        edtDesc.setAdapter(adapterCategories);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +72,10 @@ public class SearchActivity extends AppCompatActivity implements BookContract.Vi
                 edtTitleStr = edtTitle.getText().toString().trim();
                 edtAuthorStr = edtAuthor.getText().toString().trim();
                 edtDescStr = edtDesc.getText().toString().trim();
+                if (edtTitleStr.isEmpty() && edtAuthorStr.isEmpty() && edtDescStr.isEmpty()) {
+                    Toast.makeText(v.getContext(), "Vui lòng nhập thông tin để tìm kiếm!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 presenter.loadSearchBook(edtTitleStr, edtAuthorStr, edtDescStr);
                 presenter.NotifySearch(edtTitleStr, edtAuthorStr, edtDescStr);
             }

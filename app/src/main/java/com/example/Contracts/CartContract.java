@@ -15,11 +15,15 @@ public interface CartContract {
     interface Presenter {
         void loadCartItems(int userId);
         void removeCartItem(int userId, int bookId);
+        void addBookToCart(int userId, int bookId);
+        boolean checkBookInCart(int userId, int bookId);
     }
 
     interface Model {
         List<CartItem> getCartItems(int userId);
-        boolean deleteCartItem(int userId, int bookId);
-        public boolean addBookToCart(int userId, int bookId);
+        void deleteCartItem(int userId, int bookId);
+        void addBookToCart(int userId, int bookId);
+        boolean checkBookInCart(int userId, int bookId);
     }
+
 }
