@@ -125,8 +125,6 @@ public class BookDetailActivity extends AppCompatActivity implements BookContrac
         txtAuthor.setText("Tác giả: " + book.getAuthor());
         txtCategory.setText("Thể loại: " + book.getDesc()); // Assuming 'getDesc()' returns the category
         imgAvt.setImageResource(book.getAvt());
-
-
     }
 
 

@@ -298,7 +298,6 @@ public class BookModel {
     }
 
 
-
     public List<Book> getBooksByAuthor(String author) {
         List<Book> bookList = new ArrayList<>();
         dbManager.Open();
