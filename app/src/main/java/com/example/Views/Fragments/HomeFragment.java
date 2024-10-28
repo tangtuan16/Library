@@ -115,7 +115,6 @@ public class HomeFragment extends Fragment implements WeatherContract.View, Book
         return view;
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

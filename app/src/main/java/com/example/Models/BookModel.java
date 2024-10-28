@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.Untils.DBManager;
 import com.example.Untils.JsonUtils;
 import com.example.Untils.SharedPreferencesUtil;
@@ -45,6 +47,7 @@ public class BookModel {
     }
 
     //code của tùng(liên quan phần tìm kiếm)--start
+
     public List<String> getAllBookTitles() {
         List<String> bookTitles = new ArrayList<>();
         dbManager.Open();
@@ -93,7 +96,7 @@ public class BookModel {
         dbManager.Close();
         return categories;
     }
-    public List<Book> getSearchBooks(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
+    public List<Book> getSearchBooks(@NonNull String edtTitleStr, String edtAuthorStr, String edtDescStr) {
         List<Book> bookList = new ArrayList<>();
         dbManager.Open();
         database = dbManager.getDatabase();
@@ -172,6 +175,7 @@ public class BookModel {
         );
         return cursor;
     }
+
     //code của tùng(liên quan phần tìm kiếm)--end
 
     public List<Book> getPopularBooks() {
@@ -194,7 +198,8 @@ public class BookModel {
         dbManager.Close();
         return bookList;
     }
-    //code khoi 2 cai nay
+
+    //Code khoi 2 cai nay
     public List<Book> getFavoriteBooks() {
         List<Book> bookList = new ArrayList<>();
         dbManager.Open();

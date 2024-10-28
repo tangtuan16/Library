@@ -3,12 +3,14 @@ package com.example.Untils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
+
 public class SharedPreferencesUtil {
     private static final String PREF_NAME = "USER_PREF";
     private static final String KEY_USER_ID = "USER_ID";
     private static final String KEY_IS_LOGGED_IN = "IS_LOGGED_IN";
 
-    private static SharedPreferences getSharedPreferences(Context context) {
+    private static SharedPreferences getSharedPreferences(@NonNull Context context) {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
