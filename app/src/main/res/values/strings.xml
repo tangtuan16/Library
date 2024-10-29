@@ -6,8 +6,7 @@
     <string name="more">Thêm</string>
     <string name="mymap_api_key">AIzaSyBiV-PGYdm2hgC38MqOPzAIhygaX1SleAg</string>
     <string name="weather_api_key">dc2db71cba3442bba46114051242909</string>
-    <string name="ads">ca-app-pub-6804192350539469~6476054295</string>
+    <string name="ads">ca-app-pub-3940256099942544/1033173712</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="locatiton">HaNoi</string>
-
 </resources>
