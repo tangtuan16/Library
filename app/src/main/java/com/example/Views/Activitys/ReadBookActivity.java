@@ -57,7 +57,7 @@ public class ReadBookActivity extends AppCompatActivity {
         adView.loadAd(adRequest);
         //admob intiti gi do ko nho
         AdRequest adRequest2 = new AdRequest.Builder().build();
-        InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequest2,
+        InterstitialAd.load(this,String.valueOf(R.string.ads), adRequest2,
                 new InterstitialAdLoadCallback() {
                     @Override
                     public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
@@ -217,11 +217,4 @@ public class ReadBookActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
-
-
 }

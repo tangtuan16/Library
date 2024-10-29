@@ -2,74 +2,99 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:orientation="vertical">
 
 
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/tv" />
 
     <TextView
-        android:id="@+id/numberOfBorrowedBooks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Số lượng sách đã mượn:0/3 "
-        android:textSize="14sp"
-        android:layout_marginBottom="16dp"/>
-    <TextView
-        android:id="@+id/descriptionQuantityToBorrow"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/quicksand"
+        android:gravity="center"
+        android:text="Mượn sách"
+        android:textAllCaps="true"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" Nhập số lượng cần mượn"
-        android:textSize="14sp"
-        android:layout_marginBottom="16dp"/>
+        android:padding="16dp">
 
-    <EditText
-        android:id="@+id/quantityToBorrow"
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:minHeight="48dp" />
+        <TextView
+            android:id="@+id/numberOfBorrowedBooks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Số lượng sách đã mượn:0/3 "
+            android:textSize="14sp" />
 
-    <!-- Chọn ngày gửi -->
-    <TextView
-        android:id="@+id/textBorrowDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Borrow Date"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
+        <TextView
+            android:id="@+id/descriptionQuantityToBorrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text=" Nhập số lượng cần mượn"
+            android:textSize="14sp" />
 
-    <Button
-        android:id="@+id/buttonSelectBorrowDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chon ngay muon"
-        android:layout_marginBottom="16dp"/>
+        <EditText
+            android:id="@+id/quantityToBorrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:singleLine="true"
+            android:text="1" />
 
-    <!-- Chọn ngày trả -->
-    <TextView
-        android:id="@+id/textReturnDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Return Date"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
+        <!-- Chọn ngày gửi -->
+        <TextView
+            android:id="@+id/textBorrowDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Ngày mượn"
+            android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/buttonSelectReturnDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chon ngay tra"
-        android:layout_marginBottom="16dp"/>
+        <Button
+            android:id="@+id/buttonSelectBorrowDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Chọn ngày mượn" />
 
-    <!-- Nút mượn sách -->
-    <Button
-        android:id="@+id/buttonBorrow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Borrow Book"
-        android:background="@color/black"
-        android:textColor="@android:color/white"/>
+        <!-- Chọn ngày trả -->
+        <TextView
+            android:id="@+id/textReturnDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="Ngày trả"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/buttonSelectReturnDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Chọn ngày trả" />
+
+        <!-- Nút mượn sách -->
+        <Button
+            android:id="@+id/buttonBorrow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="Hẹn mượn sách"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
 
 </LinearLayout>

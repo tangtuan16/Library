@@ -139,7 +139,7 @@ public class BookModel {
         dbManager.Close();
         return bookList;
     }
-    public Cursor NotifySearch(String edtTitleStr, String edtAuthorStr, String edtDescStr) {
+    public Cursor NotifySearch(@NonNull String edtTitleStr, String edtAuthorStr, String edtDescStr) {
         dbManager.Open();
         database = dbManager.getDatabase();
         String selection = "";

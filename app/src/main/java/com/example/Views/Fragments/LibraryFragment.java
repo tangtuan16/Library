@@ -59,7 +59,6 @@ public class LibraryFragment extends Fragment implements BookContract.View.Libra
         presenter = new BookPresenter(getContext(), (BookContract.View.LibraryView) this);
         presenter.loadFavoriteBooks();
 
-
         return view;
     }
 

@@ -1,6 +1,7 @@
 package com.example.Views.Adapters;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.BookHolder> {
                         // Create an Intent to start the target activity
                         Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
                         intent.putExtra("id_book", bookId); // Pass the book ID as an extra
-                        intent.putExtra("title", txtTitle.getText().toString());
+                        intent.putExtra("title", txtTitle.getText().toString().trim());
                         intent.putExtra("author", txtAuthor.getText().toString());
                         v.getContext().startActivity(intent); // Start the activity
                     }

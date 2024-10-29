@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +35,7 @@ import java.util.List;
 
 public class BorrowBookActivity extends AppCompatActivity implements BookContract.View.BorrowBookView {
 
-    private TextView textBorrowDate, textReturnDate;
+    private TextView textBorrowDate, textReturnDate, title;
     private TextView numberOfBorrowedBooks;
     private EditText quantityToBorrow;
     private Button buttonSelectBorrowDate ;
@@ -62,7 +63,6 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
         buttonSelectBorrowDate = findViewById(R.id.buttonSelectBorrowDate);
         buttonSelectReturnDate = findViewById(R.id.buttonSelectReturnDate);
         buttonBorrow = findViewById(R.id.buttonBorrow);
-
         numberOfBorrowedBooks.setText("Số lượng sách đã mượn: " + borrowedCount + "/3");
         if (borrowedCount >= 3) {
             // Ẩn các thành phần nhập dữ liệu và hiển thị thông báo
@@ -171,7 +171,7 @@ public class BorrowBookActivity extends AppCompatActivity implements BookContrac
 
             }
             numberOfBorrowedBooks.setText("Số lượng sách đã mượn: " + borrowedCount + "/3");
-            Toast.makeText(this, "Book borrowed successfully!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Đăng kí mượn thành công !", Toast.LENGTH_SHORT).show();
 
             // Lên lịch thông báo
             scheduleNotifications(borrowDate, returnDate,quantity,getIntent().getStringExtra("title"));        }

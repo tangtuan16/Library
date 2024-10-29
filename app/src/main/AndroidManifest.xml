@@ -74,7 +74,7 @@
             android:exported="false" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-6804192350539469~6476054295"/>
+            android:value="@string/ads"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/mymap_api_key" />

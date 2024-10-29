@@ -44,10 +44,6 @@ android {
 
 
 dependencies {
-    implementation("com.google.android.gms:play-services-ads:23.3.0")
-    implementation ("androidx.work:work-runtime:2.7.1")
-    implementation ("androidx.cardview:cardview:1.0.0")
-    implementation ("com.google.android.material:material:1.3.0")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -57,13 +53,9 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
 
-    // Cập nhật thư viện core và core-ktx
     implementation("androidx.core:core:1.10.1")
     implementation("androidx.core:core-ktx:1.10.1")
-
-    // Thêm thư viện multidex
     implementation("androidx.multidex:multidex:2.0.1")
-
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -73,10 +65,12 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("androidx.work:work-runtime-ktx:2.7.1")
     implementation ("com.google.guava:guava:31.0.1-android")
-
     implementation ("com.sun.mail:android-mail:1.6.2")
     implementation ("com.sun.mail:android-activation:1.6.2")
-
+    implementation("androidx.work:work-runtime:2.7.1")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.google.android.material:material:1.3.0")
+    implementation("com.google.android.gms:play-services-ads:23.3.0")
 
     // Testing
     testImplementation(libs.junit)
